@@ -1,7 +1,7 @@
 ## File stuff
 SHELL		=/bin/zsh
 
-FNAMES 		=	cub3d.c
+FNAMES 		=	cub3d.c parsing.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 
@@ -17,7 +17,7 @@ MLX			= mlx/libmlx_Linux.a
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
-INCLUDES	= -I $(INCLUDE_DIR) -I libft/include
+INCLUDES	= -I $(INCLUDE_DIR) -I libft/include -I mlx
 LIBS		= -L libft -lft -L mlx -lmlx_Linux
 ## Other
 
@@ -84,5 +84,9 @@ vars:
 	@$(ECHO) "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
 	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
 	@$(ECHO) "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
+
+norm:
+	@-norminette src include libft | sed /OK!/s//`printf "\033[32mOK!\033[0m"`/ \
+		| sed /^Error/s//`printf "\033[33mError\033[0m"`/  | sed /Error!/s//`printf "\033[31mError!\033[0m"`/
 
 .PHONY: all clean fclean re
