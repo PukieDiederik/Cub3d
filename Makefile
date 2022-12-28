@@ -84,6 +84,5 @@ vars:
 	@$(ECHO) "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
 	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
 	@$(ECHO) "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
-	@$(ECHO) "$(GREEN)HEADERS: $(WHITE)$(HEADERS)$(RESET)"
 
 .PHONY: all clean fclean re
