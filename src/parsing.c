@@ -73,6 +73,72 @@ t_mlx_img *load_img(char *path, t_mlx_img *img)
 	return (img);
 }
 
+//Converts the string to a number
+int conv_col_num(char *start, char **end)
+{
+	int num;
+	char *new_end;
+
+	new_end = start;
+	if (!ft_isdigit(start[0]))
+		return -1;
+	num = start[0] - '0';
+	new_end = start + 1;
+	if (ft_isdigit(start[1]))
+	{
+		num = num * 10 + start[1] - '0';
+		new_end = start + 2;
+		if (ft_isdigit(start[2]))
+		{
+			num = num * 10 + start[2] - '0';
+			new_end = start + 3;
+		}
+	}
+	*end = new_end;
+	return (num);
+}
+
+int convert_color(char **s, t_tex_info *ti, int *is_init)
+{
+	int r;
+	int g;
+	int b;
+	char *end;
+	int err;
+
+	err = 0;
+	r = conv_col_num(s[1], &end);
+	if (*end != ',')
+		err = 1;
+	g = conv_col_num(end + 1, &end);
+	if (*end != ',')
+		err = 1;
+	b = conv_col_num(end + 1, &end);
+	if (*end != '\n')
+		err = 1;
+	if (err || r < 0 || g < 0 || b < 0)
+	{
+		ft_putstr_fd("Error: Could not convert color\n", 2);
+		return (0);
+	}
+	if (s[0][0] == 'C')
+	{
+		ti->ceiling_color = (r << 16) | (g << 8) | (b);
+		*is_init |= 1;
+	}
+	else if (s[0][0] == 'F')
+	{
+		ti->floor_color = (r << 16) | (g << 8) | (b);
+		*is_init |= 1 << 1;
+	}
+	else
+	{
+		ft_putstr_fd("Error: Could not convert color\n", 2);
+		return (0);
+	}
+	return (1);
+}
+
 //Will convert string to an image or color
 int convert_tex(char **s, t_tex_info *ti, int *is_init)
 {
@@ -106,7 +172,7 @@ int convert_tex(char **s, t_tex_info *ti, int *is_init)
 	free(ss);
 	if (!img->img)
 	{
-		ft_putstr_fd("Error: Could not find image\n", 2);
+		ft_putstr_fd("Error: Could not open image\n", 2);
 		return (0);
 	}
 	return (1);
@@ -117,7 +183,7 @@ int convert_tex(char **s, t_tex_info *ti, int *is_init)
 // is_initialized will be 00111111b if everything is initialized
 t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 {
-	int is_initialized = 3;
+	int is_initialized = 0;
 	int i = 0;
 	char **s_str;
 
@@ -126,19 +192,21 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 		s_str = ft_split((char *)f->content, ' ');
 		if (!s_str || !s_str[0] || !s_str[1] || s_str[2])
 		{
-			ft_putstr_fd("Error: while parsing texture info", 2);
+			ft_putstr_fd("Error: while parsing texture info\n", 2);
 			clear_split(s_str);
 			return (0);
 		}
-		printf("%s %s", s_str[0], s_str[1]);
-		if (s_str[1][1])
+//		printf("str: d: %d", s_strs_str[1][1]);
+		if (s_str[0][1])
 			convert_tex(s_str, ti, &is_initialized);
+		else
+			convert_color(s_str, ti, &is_initialized);
 		++i;
 		clear_split(s_str);
 		f = f->next;
 	}
 	if (is_initialized != 0b00111111)
-		ft_putstr_fd("Error: Not every part of the texture info is initialized", 2);
+		ft_putstr_fd("Error: Not every part of the texture info is initialized\n", 2);
 	return (f);
 };
 
@@ -152,8 +220,6 @@ t_map *parse_map(char *file, t_tex_info *ti)
 	if (fd < 0)
 		return (0);
 	l = read_map(fd);
-	printf("%s\n", (char *)l->content);
-	printf("%d\n", ft_lstsize(l));
 	ti->ceiling_color = 0;
 	set_texture_info(ti, l);
 	ft_lstclear(&l, free);
