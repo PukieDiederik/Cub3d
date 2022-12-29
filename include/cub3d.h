@@ -24,10 +24,10 @@
  */
 typedef struct s_mlx_img
 {
-	int width;
-	int height;
-	void *img;
-} t_mlx_img;
+	int		width;
+	int		height;
+	void	*img;
+}	t_mlx_img;
 
 /* struct s_map
  * All information that can be obtained from about a map
@@ -59,15 +59,16 @@ typedef struct s_map
  */
 typedef struct s_texture_info
 {
-	int	ceiling_color;
-	int	floor_color;
-	t_mlx_img tex_n;
-	t_mlx_img tex_s;
-	t_mlx_img tex_w;
-	t_mlx_img tex_e;
+	int			ceiling_color;
+	int			floor_color;
+	t_mlx_img	tex_n;
+	t_mlx_img	tex_s;
+	t_mlx_img	tex_w;
+	t_mlx_img	tex_e;
 }	t_tex_info;
 
 // FUNCTIONS
-t_map	*parse_map(t_tex_info *ti);
+t_map	*parse_map(char *file, t_tex_info *ti);
+void	**get_mlx_ptr(void);
 
 #endif

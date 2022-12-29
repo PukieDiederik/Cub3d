@@ -18,7 +18,7 @@ MLX			= mlx/libmlx_Linux.a
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
 INCLUDES	= -I $(INCLUDE_DIR) -I libft/include -I mlx
-LIBS		= -L libft -lft -L mlx -lmlx_Linux
+LIBS		= -L libft -lft -L mlx -lmlx_Linux -lXext -lX11 -lm -lz
 ## Other
 
 NAME		= cub3d
