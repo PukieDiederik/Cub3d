@@ -64,6 +64,11 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@$(ECHO) "$(GREEN)>>>>> Linking <<<<<$(RESET)"
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
+init:
+	@$(ECHO) "$(PURPLE)>>>>> Initializing this repository <<<<<$(RESET)"
+	@git submodule init
+	@git submodule update
+
 clean:
 	@$(ECHO) "$(GREEN)>>>>> Cleaning <<<<<$(RESET)"
 	$(RM) $(OBJS)
@@ -85,4 +90,4 @@ vars:
 	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
 	@$(ECHO) "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re init
