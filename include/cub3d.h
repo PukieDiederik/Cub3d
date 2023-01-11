@@ -52,6 +52,8 @@ typedef struct s_map
 /* struct s_texture_info
  * Information required for rendering the scene
  *
+ * is_initialized: Integer with each bit representing
+ *                 which variables have been initialized
  * ceiling/floor_color: the color of the ceiling/floor
  *                      already formatted as RGB
  * tex_n/s/w/e: images for each of the wall faces
@@ -59,6 +61,7 @@ typedef struct s_map
  */
 typedef struct s_texture_info
 {
+	int			is_initialized;
 	int			ceiling_color;
 	int			floor_color;
 	t_mlx_img	tex_n;

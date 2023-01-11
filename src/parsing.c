@@ -98,7 +98,7 @@ int conv_col_num(char *start, char **end)
 	return (num);
 }
 
-int convert_color(char **s, t_tex_info *ti, int *is_init)
+int convert_color(char **s, t_tex_info *ti)
 {
 	int r;
 	int g;
@@ -124,12 +124,12 @@ int convert_color(char **s, t_tex_info *ti, int *is_init)
 	if (s[0][0] == 'C')
 	{
 		ti->ceiling_color = (r << 16) | (g << 8) | (b);
-		*is_init |= 1;
+		ti->is_initialized |= 1;
 	}
 	else if (s[0][0] == 'F')
 	{
 		ti->floor_color = (r << 16) | (g << 8) | (b);
-		*is_init |= 1 << 1;
+		ti->is_initialized |= 1 << 1;
 	}
 	else
 	{
@@ -140,29 +140,29 @@ int convert_color(char **s, t_tex_info *ti, int *is_init)
 }
 
 //Will convert string to an image or color
-int convert_tex(char **s, t_tex_info *ti, int *is_init)
+int convert_tex(char **s, t_tex_info *ti)
 {
 	t_mlx_img *img;
 	char *ss;
 
 	if (!ft_strncmp(s[0], "NO", 3))
 	{
-		*is_init |= 1 << 5;
+		ti->is_initialized |= 1 << 5;
 		img = &ti->tex_n;
 	}
 	else if (!ft_strncmp(s[0], "SO", 3))
 	{
-		*is_init |= 1 << 4;
+		ti->is_initialized |= 1 << 4;
 		img = &ti->tex_s;
 	}
 	else if (!ft_strncmp(s[0], "WE", 3))
 	{
-		*is_init |= 1 << 3;
+		ti->is_initialized |= 1 << 3;
 		img = &ti->tex_w;
 	}
 	else if (!ft_strncmp(s[0], "EA", 3))
 	{
-		*is_init |= 1 << 2;
+		ti->is_initialized |= 1 << 2;
 		img = &ti->tex_e;
 	}
 	else
@@ -183,10 +183,10 @@ int convert_tex(char **s, t_tex_info *ti, int *is_init)
 // is_initialized will be 00111111b if everything is initialized
 t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 {
-	int is_initialized = 0;
 	int i = 0;
 	char **s_str;
 
+	ti->is_initialized = 0;
 	while (i < 6 && f)
 	{
 		s_str = ft_split((char *)f->content, ' ');
@@ -198,14 +198,14 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 		}
 //		printf("str: d: %d", s_strs_str[1][1]);
 		if (s_str[0][1])
-			convert_tex(s_str, ti, &is_initialized);
+			convert_tex(s_str, ti);
 		else
-			convert_color(s_str, ti, &is_initialized);
+			convert_color(s_str, ti);
 		++i;
 		clear_split(s_str);
 		f = f->next;
 	}
-	if (is_initialized != 0b00111111)
+	if (ti->is_initialized != 0b00111111)
 		ft_putstr_fd("Error: Not every part of the texture info is initialized\n", 2);
 	return (f);
 };
