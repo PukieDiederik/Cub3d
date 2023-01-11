@@ -98,6 +98,18 @@ int conv_col_num(char *start, char **end)
 	return (num);
 }
 
+// Initializes tex_info with empty values
+void init_tex_info(t_tex_info* t)
+{
+	t->is_initialized = 0;
+	t->ceiling_color = 0;
+	t->floor_color = 0;
+	t->tex_n.img = 0;
+	t->tex_s.img = 0;
+	t->tex_e.img = 0;
+	t->tex_w.img = 0;
+}
+
 int convert_color(char **s, t_tex_info *ti)
 {
 	int r;
@@ -186,7 +198,6 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 	int i = 0;
 	char **s_str;
 
-	ti->is_initialized = 0;
 	while (i < 6 && f)
 	{
 		s_str = ft_split((char *)f->content, ' ');
@@ -216,11 +227,11 @@ t_map *parse_map(char *file, t_tex_info *ti)
 	int fd;
 	t_list *l;
 
+	init_tex_info(ti);
 	fd = get_map_fd(file);
 	if (fd < 0)
 		return (0);
 	l = read_map(fd);
-	ti->ceiling_color = 0;
 	set_texture_info(ti, l);
 	ft_lstclear(&l, free);
 	close(fd);
