@@ -23,8 +23,5 @@ int main(int argc, char **argv)
 	*get_mlx_ptr() = mlx_init();
 	map = parse_map(argv[1], &tex_info);
 	printf("Welcome to cub3d!\n");
-	mlx_destroy_image(*get_mlx_ptr(), tex_info.tex_n.img);
-	mlx_destroy_image(*get_mlx_ptr(), tex_info.tex_s.img);
-	mlx_destroy_image(*get_mlx_ptr(), tex_info.tex_w.img);
-	mlx_destroy_image(*get_mlx_ptr(), tex_info.tex_e.img);
+	destroy_tex_info(&tex_info);
 }

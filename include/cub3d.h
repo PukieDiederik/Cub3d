@@ -74,4 +74,8 @@ typedef struct s_texture_info
 t_map	*parse_map(char *file, t_tex_info *ti);
 void	**get_mlx_ptr(void);
 
+// t_tex_info functions
+void	init_tex_info(t_tex_info* t);
+void	destroy_tex_info(t_tex_info* t);
+
 #endif

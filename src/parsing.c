@@ -98,17 +98,7 @@ int conv_col_num(char *start, char **end)
 	return (num);
 }
 
-// Initializes tex_info with empty values
-void init_tex_info(t_tex_info* t)
-{
-	t->is_initialized = 0;
-	t->ceiling_color = 0;
-	t->floor_color = 0;
-	t->tex_n.img = 0;
-	t->tex_s.img = 0;
-	t->tex_e.img = 0;
-	t->tex_w.img = 0;
-}
+
 
 int convert_color(char **s, t_tex_info *ti)
 {
