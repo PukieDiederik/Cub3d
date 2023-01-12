@@ -4,8 +4,9 @@ SHELL		=/bin/zsh
 FNAMES 		=	cub3d.c parsing.c tex_info.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
-
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.o)))
+
+DEPS		=	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.d)))
 
 INCLUDE_DIR	= include
 SRCS_DIR	= src
@@ -46,7 +47,7 @@ all: $(NAME)
 
 $(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
-	@gcc $(CFLAGS) -c $(INCLUDES) $< -o $@
+	@gcc $(CFLAGS) -MMD -MP -c $(INCLUDES) $< -o $@
 
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
@@ -66,7 +67,7 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 
 clean:
 	@$(ECHO) "$(GREEN)>>>>> Cleaning <<<<<$(RESET)"
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(DEPS)
 	@$(ECHO) "Cleaning libft"
 	@$(MAKE) -C libft clean
 
@@ -84,9 +85,12 @@ vars:
 	@$(ECHO) "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
 	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
 	@$(ECHO) "$(GREEN)OBJS: $(WHITE)$(OBJS)$(RESET)"
+	@$(ECHO) "$(GREEN)DEPS: $(WHITE)$(DEPS)$(RESET)"
 
 norm:
 	@-norminette src include libft | sed /OK!/s//`printf "\033[32mOK!\033[0m"`/ \
 		| sed /^Error/s//`printf "\033[33mError\033[0m"`/  | sed /Error!/s//`printf "\033[31mError!\033[0m"`/
 
 .PHONY: all clean fclean re
+
+-include $(DEPS)
