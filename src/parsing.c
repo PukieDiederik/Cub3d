@@ -116,9 +116,7 @@ int convert_color(char **s, t_tex_info *ti)
 	if (*end != ',')
 		err = 1;
 	b = conv_col_num(end + 1, &end);
-	if (*end != '\n')
-		err = 1;
-	if (err || r < 0 || g < 0 || b < 0)
+	if (err || r < 0 || g < 0 || b < 0 || *end != '\n')
 	{
 		ft_putstr_fd("Error: Could not convert color\n", 2);
 		return (0);
@@ -135,7 +133,7 @@ int convert_color(char **s, t_tex_info *ti)
 	}
 	else
 	{
-		ft_putstr_fd("Error: Could not convert color\n", 2);
+		ft_putstr_fd("Error: Invalid setting name\n", 2);
 		return (0);
 	}
 	return (1);
@@ -168,7 +166,10 @@ int convert_tex(char **s, t_tex_info *ti)
 		img = &ti->tex_e;
 	}
 	else
+	{
+		ft_putstr_fd("Error: Invalid setting name\n", 2);
 		return (0);
+	}
 	ss = ft_substr(s[1], 0, ft_strlen(s[1]) - 1);
 	load_img(ss, img);
 	free(ss);
@@ -199,9 +200,14 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 		}
 //		printf("str: d: %d", s_strs_str[1][1]);
 		if (s_str[0][1])
-			convert_tex(s_str, ti);
+		{
+			if (!convert_tex(s_str, ti))
+				return (0);
+		}
 		else
+		{
 			convert_color(s_str, ti);
+		}
 		++i;
 		clear_split(s_str);
 		f = f->next;
@@ -212,6 +218,7 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 };
 
 // This function will return a t_map (allocated) object with the correct with, height and map
+//minimum amount of lines required is 6 (settings) + 3(minimum map size) = 9
 t_map *parse_map(char *file, t_tex_info *ti)
 {
 	int fd;
@@ -222,7 +229,13 @@ t_map *parse_map(char *file, t_tex_info *ti)
 	if (fd < 0)
 		return (0);
 	l = read_map(fd);
-	set_texture_info(ti, l);
+	if (ft_lstsize(l) <= 9)
+	{
+		ft_lstclear(&l, free);
+		return (0);
+	}
+	if (!set_texture_info(ti, l))
+		return (0);
 	ft_lstclear(&l, free);
 	close(fd);
 	return (0);
