@@ -7,17 +7,21 @@
 #include <unistd.h>
 #include "mlx.h"
 
+// NOTE: read_map will only skip empty lines in the first
+//       6 have been loaded (should be the options)
 t_list *read_map(int fd)
 {
-	t_list *tmp;
-	t_list *ret;
-	char* line;
+	t_list	*tmp;
+	t_list	*ret;
+	char*	line;
+	int		i;
 
 	ret = 0;
+	i = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!line[0] || line[0] == '\n')
+		if (i < 6 && (!line[0] || line[0] == '\n'))
 		{
 			free(line);
 			line = get_next_line(fd);
@@ -31,8 +35,9 @@ t_list *read_map(int fd)
 		}
 		ft_lstadd_back(&ret, tmp);
 		line = get_next_line(fd);
+		++i;
 	}
-	return ret;
+	return (ret);
 }
 
 // will open a file descriptor or return -1 on error;
