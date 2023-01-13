@@ -1,20 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/13 17:32:26 by drobert-          #+#    #+#             */
+/*   Updated: 2023/01/13 17:32:29 by drobert-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 #include "libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_map(t_map* m)
+void	print_map(t_map *m)
 {
 	int	i;
 	int	s;
-	int pp;
+	int	pp;
 
 	printf("Map size: (%d,%d)\n", m->width, m->height);
-	printf("Player Position: (%d,%d)\n", m->player_spawn_x, m->player_spawn_y);
+	printf("Player Position: (%d,%d)\n",
+		m->player_spawn_x, m->player_spawn_y);
 	i = 0;
 	s = m->width * m->height;
 	pp = m->player_spawn_x + m->width * m->player_spawn_y;
-	while(i < s)
+	while (i < s)
 	{
 		if (i == pp)
 			printf("%c", m->player_facing);
@@ -26,15 +39,15 @@ void print_map(t_map* m)
 	}
 }
 
-static int is_valid_line (char *l, int *found_player)
+static int	is_valid_line(char *l, int *found_player)
 {
 	int	i;
 
 	i = 0;
-	while(l[i] && l[i] != '\n')
+	while (l[i] && l[i] != '\n')
 	{
-		if (l[i] != ' ' && l[i] != '0' && l[i] != '1' && l[i] != 'N' && l[i] != 'S'
-			&& l[i] != 'E' && l[i] != 'W')
+		if (l[i] != ' ' && l[i] != '0' && l[i] != '1'
+			&& l[i] != 'N' && l[i] != 'S' && l[i] != 'E' && l[i] != 'W')
 			return (-1);
 		if (l[i] == 'N' || l[i] == 'S' || l[i] == 'E' || l[i] == 'W')
 		{
@@ -47,7 +60,7 @@ static int is_valid_line (char *l, int *found_player)
 	return (i);
 }
 
-void destroy_map(t_map *m)
+void	destroy_map(t_map *m)
 {
 	free(m->map);
 	m->map = 0;
@@ -56,12 +69,12 @@ void destroy_map(t_map *m)
 }
 
 // Sets the map size and
-int set_map_size(t_map *m, t_list *l)
+int	set_map_size(t_map *m, t_list *l)
 {
-	int found_player;
-	int max_width;
-	int length;
-	int len;
+	int	found_player;
+	int	max_width;
+	int	length;
+	int	len;
 
 	found_player = 0;
 	length = 0;
@@ -83,35 +96,33 @@ int set_map_size(t_map *m, t_list *l)
 	return (1);
 }
 
-int pos_to_index (int width, int x, int y)
+int	pos_to_index(int width, int x, int y)
 {
 	return (y * width + x);
 }
 
-int is_map_enclosed(t_map *m)
+int	is_map_enclosed(t_map *m)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	//checks if the inner part is enclosed
 	while (++y < m->height - 1)
 	{
 		x = 0;
 		while (++x < m->width - 1)
 			if (m->map[pos_to_index(m->width, x, y)] == '0'
-				&& (m->map[pos_to_index(m->width, x - 1, y)] == ' '
-				|| m->map[pos_to_index(m->width, x - 1, y - 1)] == ' '
-				|| m->map[pos_to_index(m->width, x - 1, y + 1)] == ' '
-				|| m->map[pos_to_index(m->width, x + 1, y - 1)] == ' '
-				|| m->map[pos_to_index(m->width, x + 1, y)] == ' '
-				|| m->map[pos_to_index(m->width, x + 1, y + 1)] == ' '
-				|| m->map[pos_to_index(m->width, x, y + 1)] == ' '
-				|| m->map[pos_to_index(m->width, x, y - 1)] == ' '))
+					&& (m->map[pos_to_index(m->width, x - 1, y)] == ' '
+					|| m->map[pos_to_index(m->width, x - 1, y - 1)] == ' '
+					|| m->map[pos_to_index(m->width, x - 1, y + 1)] == ' '
+					|| m->map[pos_to_index(m->width, x + 1, y - 1)] == ' '
+					|| m->map[pos_to_index(m->width, x + 1, y)] == ' '
+					|| m->map[pos_to_index(m->width, x + 1, y + 1)] == ' '
+					|| m->map[pos_to_index(m->width, x, y + 1)] == ' '
+					|| m->map[pos_to_index(m->width, x, y - 1)] == ' '))
 				return (0);
 		++y;
 	}
-	//Check if out ring doesn't contain a '0'
 	x = -1;
 	while (++x < m->height)
 		if (m->map[pos_to_index(m->width, 0, x)] == '0'
@@ -122,7 +133,7 @@ int is_map_enclosed(t_map *m)
 	return (1);
 }
 
-t_map *get_map(t_list *l)
+t_map	*get_map(t_list *l)
 {
 	t_map	*m;
 	int		x;
