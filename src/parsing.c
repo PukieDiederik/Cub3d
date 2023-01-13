@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/13 23:31:19 by drobert-          #+#    #+#             */
+/*   Updated: 2023/01/13 23:31:20 by drobert-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 #include "libft.h"
 #include "get_next_line.h"
@@ -9,11 +21,11 @@
 
 // NOTE: read_map will only skip empty lines in the first
 //       6 have been loaded (should be the options)
-t_list *read_map(int fd)
+t_list	*read_map(int fd)
 {
 	t_list	*tmp;
 	t_list	*ret;
-	char*	line;
+	char	*line;
 	int		i;
 
 	ret = 0;
@@ -25,7 +37,7 @@ t_list *read_map(int fd)
 		{
 			free(line);
 			line = get_next_line(fd);
-			continue;
+			continue ;
 		}
 		tmp = ft_lstnew(line);
 		if (!tmp)
@@ -41,11 +53,11 @@ t_list *read_map(int fd)
 }
 
 // will open a file descriptor or return -1 on error;
-int get_map_fd(char *file)
+int	get_map_fd(char *file)
 {
-	size_t len;
+	size_t	len;
 
-	len= ft_strlen(file);
+	len = ft_strlen(file);
 	if (len < 4 || file[len - 1] != 'b' || file[len - 2] != 'u'
 		|| file[len - 3] != 'c' || file[len - 4] != '.')
 	{
@@ -71,22 +83,22 @@ void	clear_split(char **s)
 }
 
 //loads an image by path
-t_mlx_img *load_img(char *path, t_mlx_img *img)
+t_mlx_img	*load_img(char *path, t_mlx_img *img)
 {
 	img->img = mlx_xpm_file_to_image(*get_mlx_ptr(), path,
-		 	&img->width, &img->height);
+			&img->width, &img->height);
 	return (img);
 }
 
 //Converts the string to a number
-int conv_col_num(char *start, char **end)
+int	conv_col_num(char *start, char **end)
 {
-	int num;
-	char *new_end;
+	int		num;
+	char	*new_end;
 
 	new_end = start;
 	if (!ft_isdigit(start[0]))
-		return -1;
+		return (-1);
 	num = start[0] - '0';
 	new_end = start + 1;
 	if (ft_isdigit(start[1]))
@@ -103,15 +115,13 @@ int conv_col_num(char *start, char **end)
 	return (num);
 }
 
-
-
-int convert_color(char **s, t_tex_info *ti)
+int	convert_color(char **s, t_tex_info *ti)
 {
-	int r;
-	int g;
-	int b;
-	char *end;
-	int err;
+	int		r;
+	int		g;
+	int		b;
+	char	*end;
+	int		err;
 
 	err = 0;
 	r = conv_col_num(s[1], &end);
@@ -145,10 +155,10 @@ int convert_color(char **s, t_tex_info *ti)
 }
 
 //Will convert string to an image or color
-int convert_tex(char **s, t_tex_info *ti)
+int	convert_tex(char **s, t_tex_info *ti)
 {
-	t_mlx_img *img;
-	char *ss;
+	t_mlx_img	*img;
+	char		*ss;
 
 	if (!ft_strncmp(s[0], "NO", 3))
 	{
@@ -191,9 +201,10 @@ int convert_tex(char **s, t_tex_info *ti)
 // is_initialized will be 00111111b if everything is initialized
 t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 {
-	int i = 0;
-	char **s_str;
+	int		i;
+	char	**s_str;
 
+	i = 0;
 	while (i < 6 && f)
 	{
 		s_str = ft_split((char *)f->content, ' ');
@@ -217,17 +228,18 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 		f = f->next;
 	}
 	if (ti->is_initialized != 0b00111111)
-		ft_putstr_fd("Error: Not every part of the texture info is initialized\n", 2);
+		ft_putstr_fd("Error: Not all settings are configured\n", 2);
 	return (f);
-};
+}
 
-// This function will return a t_map (allocated) object with the correct with, height and map
-//minimum amount of lines required is 6 (settings) + 3(minimum map size) = 9
-t_map *parse_map(char *file, t_tex_info *ti)
+// This function will return a t_map (allocated)
+// object with the correct with, height and map.
+// minimum amount of lines required is 6 (settings) + 3(minimum map size) = 9
+t_map	*parse_map(char *file, t_tex_info *ti)
 {
-	int fd;
-	t_list *l;
-	t_map *m;
+	int		fd;
+	t_list	*l;
+	t_map	*m;
 
 	init_tex_info(ti);
 	fd = get_map_fd(file);
