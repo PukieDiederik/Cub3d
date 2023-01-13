@@ -141,9 +141,17 @@ t_map	*get_map(t_list *l)
 	int		read_line;
 
 	m = malloc(sizeof(t_map));
-	if (!set_map_size(m, l))
+	if (!m || !set_map_size(m, l) || m->width < 3 || m->height < 3)
+	{
+		free(m);
 		return (0);
+	}
 	m->map = malloc(m->width * m->height * sizeof(char));
+	if (!m->map)
+	{
+		free(m);
+		return(0);
+	}
 	y = 0;
 	while (y < m->height)
 	{
