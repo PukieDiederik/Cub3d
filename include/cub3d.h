@@ -81,6 +81,10 @@ void	destroy_tex_info(t_tex_info *t);
 void	destroy_map(t_map *m);
 int		set_map_size(t_map *m, t_list *l);
 t_map	*get_map(t_list *l);
+int		is_map_enclosed(t_map *m);
+
+// Utils
+int	is_player_char(char c);
 
 // Debug
 void	print_map(t_map *m);
