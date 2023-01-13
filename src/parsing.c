@@ -21,7 +21,7 @@ t_list *read_map(int fd)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (i < 6 && (!line[0] || line[0] == '\n'))
+		if (i < 7 && (!line[0] || line[0] == '\n'))
 		{
 			free(line);
 			line = get_next_line(fd);

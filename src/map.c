@@ -37,6 +37,7 @@ void	print_map(t_map *m)
 		if (!(i % m->width) && i < s - 1)
 			printf("\n");
 	}
+	printf("\n");
 }
 
 static int	is_valid_line(char *l, int *found_player)
@@ -159,7 +160,7 @@ t_map	*get_map(t_list *l)
 		x = 0;
 		while (x < m->width)
 		{
-			if (!*(char *)(l->content))
+			if (((char *)(l->content))[x] == '\0' || ((char *)(l->content))[x] == '\n')
 				read_line = 1;
 			if (!read_line && (((char *)(l->content))[x] == 'N'
 				|| ((char *)(l->content))[x] == 'S'
