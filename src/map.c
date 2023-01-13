@@ -83,6 +83,36 @@ int set_map_size(t_map *m, t_list *l)
 	return (1);
 }
 
+int pos_to_index (int width, int x, int y)
+{
+	return (y * width + x);
+}
+
+int is_map_enclosed(t_map *m)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (++y < m->height - 1)
+	{
+		x = 0;
+		while (++x < m->width - 1)
+			if (m->map[pos_to_index(m->width, x, y)] == '0'
+				&& (m->map[pos_to_index(m->width, x - 1, y)] == ' '
+				|| m->map[pos_to_index(m->width, x - 1, y - 1)] == ' '
+				|| m->map[pos_to_index(m->width, x - 1, y + 1)] == ' '
+				|| m->map[pos_to_index(m->width, x + 1, y - 1)] == ' '
+				|| m->map[pos_to_index(m->width, x + 1, y)] == ' '
+				|| m->map[pos_to_index(m->width, x + 1, y + 1)] == ' '
+				|| m->map[pos_to_index(m->width, x, y + 1)] == ' '
+				|| m->map[pos_to_index(m->width, x, y - 1)] == ' '))
+				return (0);
+		++y;
+	}
+	return (1);
+}
+
 t_map *get_map(t_list *l)
 {
 	t_map	*m;
@@ -121,6 +151,12 @@ t_map *get_map(t_list *l)
 		}
 		l = l->next;
 		y++;
+	}
+	if (!is_map_enclosed(m))
+	{
+		destroy_map(m);
+		free (m);
+		return (0);
 	}
 	return (m);
 }
