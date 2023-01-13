@@ -1,7 +1,7 @@
 ## File stuff
 SHELL		=/bin/zsh
 
-FNAMES 		=	cub3d.c parsing.c tex_info.c
+FNAMES 		=	cub3d.c parsing.c tex_info.c map.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.o)))

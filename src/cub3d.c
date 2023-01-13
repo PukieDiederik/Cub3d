@@ -22,6 +22,9 @@ int main(int argc, char **argv)
 	}
 	*get_mlx_ptr() = mlx_init();
 	map = parse_map(argv[1], &tex_info);
+	print_map(map);
 	printf("Welcome to cub3d!\n");
+	destroy_map(map);
+	free(map);
 	destroy_tex_info(&tex_info);
 }

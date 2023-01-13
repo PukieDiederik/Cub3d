@@ -198,7 +198,6 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 			clear_split(s_str);
 			return (0);
 		}
-//		printf("str: d: %d", s_strs_str[1][1]);
 		if (s_str[0][1])
 		{
 			if (!convert_tex(s_str, ti))
@@ -223,6 +222,7 @@ t_map *parse_map(char *file, t_tex_info *ti)
 {
 	int fd;
 	t_list *l;
+	t_map *m;
 
 	init_tex_info(ti);
 	fd = get_map_fd(file);
@@ -236,7 +236,8 @@ t_map *parse_map(char *file, t_tex_info *ti)
 	}
 	if (!set_texture_info(ti, l))
 		return (0);
+	m = get_map(l->next->next->next->next->next->next);
 	ft_lstclear(&l, free);
 	close(fd);
-	return (0);
+	return (m);
 }

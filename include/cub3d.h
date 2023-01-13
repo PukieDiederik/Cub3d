@@ -13,6 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include <libft.h>
 # include <mlx.h>
 
 // STRUCTURES
@@ -74,8 +75,14 @@ typedef struct s_texture_info
 t_map	*parse_map(char *file, t_tex_info *ti);
 void	**get_mlx_ptr(void);
 
-// t_tex_info functions
+// t_tex_info & t_map functions
 void	init_tex_info(t_tex_info* t);
 void	destroy_tex_info(t_tex_info* t);
+void	destroy_map(t_map *m);
+int		set_map_size(t_map *m, t_list *l);
+t_map	*get_map(t_list *l);
+
+// Debug
+void	print_map(t_map* m);
 
 #endif
