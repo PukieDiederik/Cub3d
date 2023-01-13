@@ -94,6 +94,7 @@ int is_map_enclosed(t_map *m)
 	int	y;
 
 	y = 0;
+	//checks if the inner part is enclosed
 	while (++y < m->height - 1)
 	{
 		x = 0;
@@ -110,6 +111,14 @@ int is_map_enclosed(t_map *m)
 				return (0);
 		++y;
 	}
+	//Check if out ring doesn't contain a '0'
+	x = -1;
+	while (++x < m->height)
+		if (m->map[pos_to_index(m->width, 0, x)] == '0'
+			|| m->map[pos_to_index(m->width, m->width - 1, x)] == '0'
+			|| m->map[pos_to_index(m->width, x, 0)] == '0'
+			|| m->map[pos_to_index(m->width, x, m->height - 1)] == '0')
+			return (0);
 	return (1);
 }
 
