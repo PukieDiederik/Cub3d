@@ -32,6 +32,7 @@ t_map	*parse_map(char *file, t_tex_info *ti)
 	l = read_map(fd);
 	if (ft_lstsize(l) <= 9)
 	{
+		ft_putstr_fd("Error: Invalid map", 2);
 		ft_lstclear(&l, free);
 		return (0);
 	}

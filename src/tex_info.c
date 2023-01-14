@@ -57,7 +57,7 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 		s_str = ft_split((char *)f->content, ' ');
 		if (!s_str || !s_str[0] || !s_str[1] || s_str[2])
 		{
-			ft_putstr_fd("Error: while parsing texture info\n", 2);
+			ft_putstr_fd("Error: while parsing settings\n", 2);
 			clear_split(s_str);
 			return (0);
 		}

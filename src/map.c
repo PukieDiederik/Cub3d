@@ -113,12 +113,14 @@ t_map	*get_map(t_list *l)
 	m->map = malloc(m->width * m->height * sizeof(char));
 	if (!m->map)
 	{
+		ft_putstr_fd("Error: couldn't allocate memory", 2);
 		free(m);
 		return (0);
 	}
 	populate_map(m, l);
 	if (!is_map_enclosed(m))
 	{
+		ft_putstr_fd("Error: map is not enclosed", 2);
 		destroy_map(m);
 		free (m);
 		return (0);
