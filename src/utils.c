@@ -24,9 +24,13 @@ void	print_map(t_map *m)
 	int	s;
 	int	pp;
 
-	printf("Map size: (%d,%d)\n", m->width, m->height);
-	printf("Player Position: (%d,%d)\n",
-		m->player_spawn_x, m->player_spawn_y);
+	if (!m)
+	{
+		printf("Map is not assigned\n");
+		return ;
+	}
+	printf("Map size: (%d,%d)\nPlayer Position: (%d,%d)\n",
+		m->width, m->height, m->player_spawn_x, m->player_spawn_y);
 	i = 0;
 	s = m->width * m->height;
 	pp = m->player_spawn_x + m->width * m->player_spawn_y;

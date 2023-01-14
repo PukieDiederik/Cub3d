@@ -37,7 +37,10 @@ t_map	*parse_map(char *file, t_tex_info *ti)
 		return (0);
 	}
 	if (!set_texture_info(ti, l))
+	{
+		ft_lstclear(&l, free);
 		return (0);
+	}
 	m = get_map(l->next->next->next->next->next->next);
 	ft_lstclear(&l, free);
 	close(fd);

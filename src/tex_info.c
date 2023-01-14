@@ -62,7 +62,10 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 			return (0);
 		}
 		if (s_str[0][1] && !convert_tex(s_str, ti))
+		{
+			clear_split(s_str);
 			return (0);
+		}
 		else if (!s_str[0][1])
 			convert_color(s_str, ti);
 		clear_split(s_str);

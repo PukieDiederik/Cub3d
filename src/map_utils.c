@@ -15,6 +15,8 @@
 
 void	destroy_map(t_map *m)
 {
+	if (!m)
+		return ;
 	free(m->map);
 	m->map = 0;
 	m->width = 0;
