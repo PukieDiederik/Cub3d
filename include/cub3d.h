@@ -83,8 +83,16 @@ int		set_map_size(t_map *m, t_list *l);
 t_map	*get_map(t_list *l);
 int		is_map_enclosed(t_map *m);
 
+int		get_map_fd(char *file);
+t_list	*read_map(int fd);
+
+int		convert_color(char **s, t_tex_info *ti);
+int		convert_tex(char **s, t_tex_info *ti);
+t_list	*set_texture_info(t_tex_info *ti, t_list *f);
+
 // Utils
-int	is_player_char(char c);
+int		is_player_char(char c);
+void	clear_split(char **s);
 
 // Debug
 void	print_map(t_map *m);

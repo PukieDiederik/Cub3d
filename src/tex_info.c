@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tex_info.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/14 00:12:48 by drobert-          #+#    #+#             */
+/*   Updated: 2023/01/14 00:12:51 by drobert-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 #include "mlx.h"
 #include <stdio.h>
 
 // Initializes tex_info with empty values
-void init_tex_info(t_tex_info* t)
+void	init_tex_info(t_tex_info *t)
 {
 	t->is_initialized = 0;
 	t->ceiling_color = 0;
@@ -14,7 +26,7 @@ void init_tex_info(t_tex_info* t)
 	t->tex_w.img = 0;
 }
 
-void destroy_tex_info(t_tex_info* t)
+void	destroy_tex_info(t_tex_info *t)
 {
 	if ((t->is_initialized >> 5) & 1 && t->tex_n.img)
 		mlx_destroy_image(*get_mlx_ptr(), t->tex_n.img);
@@ -29,4 +41,34 @@ void destroy_tex_info(t_tex_info* t)
 	t->tex_e.img = 0;
 	t->tex_w.img = 0;
 	t->is_initialized = 0;
+}
+
+// Will return the start of the map on success
+// Will return NULL if there was an issue
+// is_initialized will be 00111111b if everything is initialized
+t_list	*set_texture_info(t_tex_info *ti, t_list *f)
+{
+	int		i;
+	char	**s_str;
+
+	i = -1;
+	while (++i < 6 && f)
+	{
+		s_str = ft_split((char *)f->content, ' ');
+		if (!s_str || !s_str[0] || !s_str[1] || s_str[2])
+		{
+			ft_putstr_fd("Error: while parsing texture info\n", 2);
+			clear_split(s_str);
+			return (0);
+		}
+		if (s_str[0][1] && !convert_tex(s_str, ti))
+			return (0);
+		else if (!s_str[0][1])
+			convert_color(s_str, ti);
+		clear_split(s_str);
+		f = f->next;
+	}
+	if (ti->is_initialized != 0b00111111)
+		ft_putstr_fd("Error: Not all settings are configured\n", 2);
+	return (f);
 }

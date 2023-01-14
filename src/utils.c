@@ -42,3 +42,18 @@ void	print_map(t_map *m)
 	}
 	printf("\n");
 }
+
+void	clear_split(char **s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		free(s[i]);
+		++i;
+	}
+	free(s);
+}

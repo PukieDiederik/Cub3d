@@ -1,19 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
+/*   Updated: 2023/01/14 00:14:16 by drobert-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mlx.h"
 #include "cub3d.h"
 #include "libft.h"
 #include <stdio.h>
 
-void **get_mlx_ptr(void)
+void	**get_mlx_ptr(void)
 {
-	static void *mlx = 0;
+	static void	*mlx = 0;
+
 	return (&mlx);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_map		*map;
 	t_tex_info	tex_info;
-	(void)map;
 
 	if (argc != 2)
 	{
