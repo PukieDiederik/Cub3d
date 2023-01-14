@@ -48,6 +48,7 @@ t_list	*read_map(int fd)
 int	get_map_fd(char *file)
 {
 	size_t	len;
+	int		fd;
 
 	len = ft_strlen(file);
 	if (len < 4 || file[len - 1] != 'b' || file[len - 2] != 'u'
@@ -56,5 +57,8 @@ int	get_map_fd(char *file)
 		ft_putstr_fd("Error: Invalid map name\n", 2);
 		return (-1);
 	}
-	return (open(file, O_RDONLY));
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		ft_putstr_fd("Error: Could not open file\n", 2);
+	return (fd);
 }

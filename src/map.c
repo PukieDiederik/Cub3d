@@ -28,7 +28,10 @@ static int	is_valid_line(char *l, int *found_player)
 		if (l[i] == 'N' || l[i] == 'S' || l[i] == 'E' || l[i] == 'W')
 		{
 			if (*found_player)
+			{
+				ft_putstr_fd("Error: Multiple players\n", 2);
 				return (-1);
+			}
 			*found_player = 1;
 		}
 		++i;
@@ -58,7 +61,10 @@ int	set_map_size(t_map *m, t_list *l)
 		++length;
 	}
 	if (!found_player)
+	{
+		ft_putstr_fd("Error: No player found\n", 2);
 		return (0);
+	}
 	m->width = max_width;
 	m->height = length;
 	return (1);
@@ -87,7 +93,7 @@ void	populate_map(t_map *m, t_list *l)
 		x = -1;
 		while (++x < m->width)
 		{
-			if (line[x] == '\0' || line[x] == '\n')
+			if (!read_line && (line[x] == '\0' || line[x] == '\n'))
 				read_line = 1;
 			if (!read_line && is_player_char(line[x]))
 				set_player(m, x, y, line[x]);
@@ -113,14 +119,14 @@ t_map	*get_map(t_list *l)
 	m->map = malloc(m->width * m->height * sizeof(char));
 	if (!m->map)
 	{
-		ft_putstr_fd("Error: couldn't allocate memory", 2);
+		ft_putstr_fd("Error: couldn't allocate memory\n", 2);
 		free(m);
 		return (0);
 	}
 	populate_map(m, l);
 	if (!is_map_enclosed(m))
 	{
-		ft_putstr_fd("Error: map is not enclosed", 2);
+		ft_putstr_fd("Error: map is not enclosed\n", 2);
 		destroy_map(m);
 		free (m);
 		return (0);

@@ -33,9 +33,9 @@ int	conv_col_num(char *start, char **end)
 			new_end = start + 3;
 		}
 	}
+	*end = new_end;
 	if (num > 255)
 		return (-1);
-	*end = new_end;
 	return (num);
 }
 
@@ -69,13 +69,17 @@ int	convert_color(char **s, t_tex_info *ti)
 
 	err = 0;
 	r = conv_col_num(s[1], &end);
-	if (*end != ',')
+	if (r < 0 || *end != ',')
 		err = 1;
-	g = conv_col_num(end + 1, &end);
-	if (*end != ',')
-		err = 1;
-	b = conv_col_num(end + 1, &end);
-	if (err || r < 0 || g < 0 || b < 0 || *end != '\n')
+	if (!err)
+	{
+		g = conv_col_num(end + 1, &end);
+		if (g < 0 || *end != ',')
+			err = 1;
+		else
+			b = conv_col_num(end + 1, &end);
+	}
+	if (err || b < 0 || *end != '\n')
 	{
 		ft_putstr_fd("Error: Could not convert color\n", 2);
 		return (0);

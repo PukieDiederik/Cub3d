@@ -42,6 +42,7 @@ GRAY		= \033[0;37m
 WHITE		= \033[0;38m
 RESET		= \033[0m
 
+ERR_TEST_FILES = $(wildcard maps/err_*)
 
 ## Targets
 all: $(NAME)
@@ -80,6 +81,9 @@ fclean: clean
 
 re: fclean all
 
+err_tests: $(NAME)
+	@$(foreach cmd,$(ERR_TEST_FILES),echo -n "$(GREEN)$(notdir $(cmd))$(RESET) | ";./$(NAME) $(cmd);)
+
 vars:
 	@$(ECHO) "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
 	@$(ECHO) "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
@@ -92,6 +96,6 @@ norm:
 	@-norminette src include libft | sed /OK!/s//`printf "\033[32mOK!\033[0m"`/ \
 		| sed /^Error/s//`printf "\033[33mError\033[0m"`/  | sed /Error!/s//`printf "\033[31mError!\033[0m"`/
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re vars err_tests
 
 -include $(DEPS)

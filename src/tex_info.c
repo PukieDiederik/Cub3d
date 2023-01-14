@@ -32,10 +32,10 @@ void	destroy_tex_info(t_tex_info *t)
 		mlx_destroy_image(*get_mlx_ptr(), t->tex_n.img);
 	if ((t->is_initialized >> 4) & 1 && t->tex_s.img)
 		mlx_destroy_image(*get_mlx_ptr(), t->tex_s.img);
-	if ((t->is_initialized >> 3) & 1 && t->tex_e.img)
-		mlx_destroy_image(*get_mlx_ptr(), t->tex_e.img);
-	if ((t->is_initialized >> 2) & 1 && t->tex_w.img)
+	if ((t->is_initialized >> 3) & 1 && t->tex_w.img)
 		mlx_destroy_image(*get_mlx_ptr(), t->tex_w.img);
+	if ((t->is_initialized >> 2) & 1 && t->tex_e.img)
+		mlx_destroy_image(*get_mlx_ptr(), t->tex_e.img);
 	t->tex_n.img = 0;
 	t->tex_s.img = 0;
 	t->tex_e.img = 0;
@@ -66,12 +66,13 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 			clear_split(s_str);
 			return (0);
 		}
-		else if (!s_str[0][1])
-			convert_color(s_str, ti);
+		else if (!s_str[0][1] && !convert_color(s_str, ti))
+		{
+			clear_split(s_str);
+			return (0);
+		}
 		clear_split(s_str);
 		f = f->next;
 	}
-	if (ti->is_initialized != 0b00111111)
-		ft_putstr_fd("Error: Not all settings are configured\n", 2);
 	return (f);
 }
