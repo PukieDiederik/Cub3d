@@ -15,6 +15,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int		is_map_enclosed(t_map *m);
+
 // Checks if a line contains invalid characters,
 // and sets if a player has been found
 static int	is_valid_line(char *l, int *found_player)

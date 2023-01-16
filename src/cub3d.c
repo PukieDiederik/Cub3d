@@ -32,9 +32,14 @@ int	main(int argc, char **argv)
 		write(2, "Wrong amount of args\n", ft_strlen("Wrong amount of args\n"));
 		return (1);
 	}
+	// Initializes our MLX
 	*get_mlx_ptr() = mlx_init();
+	// map will be a valid pointer on success, if any error this will be NULL
 	map = parse_map(argv[1], &tex_info);
-//	print_map(map);
+
+	//TODO: Raycasting & setting up MLX (hooks, window, etc...)
+
+	// These are cleanup functions.
 	destroy_map(map);
 	free(map);
 	destroy_tex_info(&tex_info);

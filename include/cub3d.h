@@ -79,17 +79,14 @@ void	**get_mlx_ptr(void);
 void	init_tex_info(t_tex_info *t);
 void	destroy_tex_info(t_tex_info *t);
 
-t_map	*get_map(t_list *l);
-void	destroy_map(t_map *m);
-
-int		is_map_enclosed(t_map *m);
-
-int		get_map_fd(char *file);
-t_list	*read_map(int fd);
-
 int		convert_color(char **s, t_tex_info *ti);
 int		convert_tex(char **s, t_tex_info *ti);
 t_list	*set_texture_info(t_tex_info *ti, t_list *f);
+
+t_map	*get_map(t_list *l);
+void	destroy_map(t_map *m);
+int		get_map_fd(char *file);
+t_list	*read_map(int fd);
 
 // Utils
 int		is_player_char(char c);
