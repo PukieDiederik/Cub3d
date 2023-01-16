@@ -16,9 +16,14 @@
 #include <unistd.h>
 #include "mlx.h"
 
-// This function will return a t_map (allocated)
-// object with the correct with, height and map.
-// minimum amount of lines required is 6 (settings) + 3(minimum map size) = 9
+/* parse_map
+ *
+ * Reads a file and parses it to a map
+ * Returns t_map (allocated) on success, NULL on failure
+ *
+ * file - The map file to open
+ * ti - Where to store texture info
+ * */
 t_map	*parse_map(char *file, t_tex_info *ti)
 {
 	int		fd;

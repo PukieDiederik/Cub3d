@@ -15,6 +15,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Checks if a line contains invalid characters,
+// and sets if a player has been found
 static int	is_valid_line(char *l, int *found_player)
 {
 	int	i;
@@ -23,9 +25,9 @@ static int	is_valid_line(char *l, int *found_player)
 	while (l[i] && l[i] != '\n')
 	{
 		if (l[i] != ' ' && l[i] != '0' && l[i] != '1'
-			&& l[i] != 'N' && l[i] != 'S' && l[i] != 'E' && l[i] != 'W')
+			&& !is_player_char(l[i]))
 			return (-1);
-		if (l[i] == 'N' || l[i] == 'S' || l[i] == 'E' || l[i] == 'W')
+		if (is_player_char(l[i]))
 		{
 			if (*found_player)
 			{
@@ -39,8 +41,8 @@ static int	is_valid_line(char *l, int *found_player)
 	return (i);
 }
 
-// Sets the map size and
-int	set_map_size(t_map *m, t_list *l, int found_player)
+// Sets the map size and checks if there are invalid characters
+static int	set_map_size(t_map *m, t_list *l, int found_player)
 {
 	int	max_width;
 	int	length;
@@ -69,6 +71,7 @@ int	set_map_size(t_map *m, t_list *l, int found_player)
 	return (1);
 }
 
+// Sets the player when its found
 void	set_player(t_map *m, int x, int y, char f)
 {
 	m->map[y * m->width + x] = '0';
@@ -77,7 +80,8 @@ void	set_player(t_map *m, int x, int y, char f)
 	m->player_facing = f;
 }
 
-void	populate_map(t_map *m, t_list *l)
+// Writes the list of strings into the map
+static void	populate_map(t_map *m, t_list *l)
 {
 	char	*line;
 	int		read_line;
@@ -105,6 +109,13 @@ void	populate_map(t_map *m, t_list *l)
 	}
 }
 
+/* get_map
+ *
+ * Creates a map object from a list of strings
+ * Returns a t_map* if it is a valid map, NULL on an invalid map
+ *
+ * l - the list of strings
+ */
 t_map	*get_map(t_list *l)
 {
 	t_map	*m;

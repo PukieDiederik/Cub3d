@@ -14,8 +14,15 @@
 #include "get_next_line.h"
 #include <fcntl.h>
 
-// NOTE: read_map will only skip empty lines in the first
-//       6 have been loaded (should be the options)
+/* read_map
+ *
+ * Will read the map and store it in a linked list of strings
+ *
+ * fd - the file descriptor to read from
+ *
+ * NOTE: It will skip empty lines for the first 6 lines. This will make it
+ * so the first 6 lines will always be the settings
+ */
 t_list	*read_map(int fd)
 {
 	t_list	*tmp;
@@ -44,7 +51,7 @@ t_list	*read_map(int fd)
 	return (ret);
 }
 
-// will open a file descriptor or return -1 on error;
+// will open a map file or return -1 on error;
 int	get_map_fd(char *file)
 {
 	size_t	len;

@@ -12,14 +12,15 @@
 
 #include "cub3d.h"
 
-//loads an image by path
-t_mlx_img	*load_img(char *path, t_mlx_img *img)
+// Loads an image by path
+static t_mlx_img	*load_img(char *path, t_mlx_img *img)
 {
 	img->img = mlx_xpm_file_to_image(*get_mlx_ptr(), path,
 			&img->width, &img->height);
 	return (img);
 }
 
+// Gets a pointer to the image to update, 0 if incorrect identifier
 static t_mlx_img	*get_img_p(char *s, t_tex_info *ti)
 {
 	if (!ft_strncmp(s, "NO", 3))
@@ -45,7 +46,15 @@ static t_mlx_img	*get_img_p(char *s, t_tex_info *ti)
 	return (0);
 }
 
-//Will convert string to an image or color
+/* convert_tex
+ *
+ * Converts a split string to an image and loads it
+ * Returns 1 on success, 0 on failure
+ *
+ * s - The split string
+ *     (s[0] should be the identifier, s[1] should be the value)
+ * ti - The texture info to store it in
+ */
 int	convert_tex(char **s, t_tex_info *ti)
 {
 	t_mlx_img	*img;

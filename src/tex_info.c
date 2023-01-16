@@ -14,6 +14,7 @@
 #include "mlx.h"
 #include <stdio.h>
 
+// Frees up a split string, returns 0 for easy returns
 static void	*clear_split(char **s)
 {
 	int	i;
@@ -42,6 +43,7 @@ void	init_tex_info(t_tex_info *t)
 	t->tex_w.img = 0;
 }
 
+// Will clean up memory for t_tex_info
 void	destroy_tex_info(t_tex_info *t)
 {
 	if ((t->is_initialized >> 5) & 1 && t->tex_n.img)
@@ -59,9 +61,15 @@ void	destroy_tex_info(t_tex_info *t)
 	t->is_initialized = 0;
 }
 
-// Will return the start of the map on success
-// Will return NULL if there was an issue
-// is_initialized will be 00111111b if everything is initialized
+/* set_texture_info
+ *
+ * Will read all the settings from a list
+ * Returns the 6th element in 'f' on success, NULL on failure
+ *
+ * ti - The texture info to store it in
+ * f - The list of strings to read from
+ * NOTE: is_initialized will be 0b00111111 if everything is initialized
+ */
 t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 {
 	int		i;

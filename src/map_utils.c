@@ -13,6 +13,7 @@
 #include "cub3d.h"
 #include <stdlib.h>
 
+// Frees up memory used by map, does not actually free map itself
 void	destroy_map(t_map *m)
 {
 	if (!m)

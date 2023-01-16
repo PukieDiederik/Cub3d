@@ -13,11 +13,13 @@
 #include "cub3d.h"
 #include <stdio.h>
 
+// Checks if a character is a player
 int	is_player_char(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
+// Prints the map, useful for debugging
 void	print_map(t_map *m)
 {
 	int	i;

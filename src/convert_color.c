@@ -13,8 +13,8 @@
 #include "cub3d.h"
 #include "libft.h"
 
-//Converts the string to a number
-int	conv_col_num(char *start, char **end)
+// Converts the string to a number
+static int	conv_col_num(char *start, char **end)
 {
 	int		num;
 	char	*new_end;
@@ -39,7 +39,8 @@ int	conv_col_num(char *start, char **end)
 	return (num);
 }
 
-int	set_col(char **s, t_tex_info *ti, int col)
+// Sets the correct color in t_tex_info
+static int	set_col(char **s, t_tex_info *ti, int col)
 {
 	if (s[0][0] == 'C')
 	{
@@ -59,6 +60,15 @@ int	set_col(char **s, t_tex_info *ti, int col)
 	return (1);
 }
 
+/* convert_color
+ *
+ * Converts a split string into a color formatted inside an int
+ * Returns 1 on success, 0 on failure
+ *
+ * s - The split string
+ *     (s[0] should be the identifier, s[1] should be the value)
+ * ti - The place all texture info is stored
+ */
 int	convert_color(char **s, t_tex_info *ti)
 {
 	int		r;

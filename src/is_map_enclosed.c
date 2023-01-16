@@ -12,11 +12,13 @@
 
 #include "cub3d.h"
 
+// Function to convert a x,y to an index
 static int	pos_to_index(int width, int x, int y)
 {
 	return (y * width + x);
 }
 
+// Checks 8 squares a point to see it any are spaces
 static int	check_around(t_map *m, int x, int y)
 {
 	return (m->map[pos_to_index(m->width, x - 1, y)] == ' '
@@ -29,6 +31,14 @@ static int	check_around(t_map *m, int x, int y)
 		|| m->map[pos_to_index(m->width, x, y - 1)] == ' ');
 }
 
+/* is_map_enclosed
+ *
+ * Checks if the map is enclosed. Meaning that there are
+ * walls around all floors
+ * Returns 1 if it is enclosed, 0 if not
+ *
+ * t_map *m - the map to check
+ * */
 int	is_map_enclosed(t_map *m)
 {
 	int	x;
