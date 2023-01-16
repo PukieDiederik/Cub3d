@@ -40,9 +40,8 @@ static int	is_valid_line(char *l, int *found_player)
 }
 
 // Sets the map size and
-int	set_map_size(t_map *m, t_list *l)
+int	set_map_size(t_map *m, t_list *l, int found_player)
 {
-	int	found_player;
 	int	max_width;
 	int	length;
 	int	len;
@@ -111,7 +110,7 @@ t_map	*get_map(t_list *l)
 	t_map	*m;
 
 	m = malloc(sizeof(t_map));
-	if (!m || !set_map_size(m, l) || m->width < 3 || m->height < 3)
+	if (!m || !set_map_size(m, l, 0) || m->width < 3 || m->height < 3)
 	{
 		free(m);
 		return (0);

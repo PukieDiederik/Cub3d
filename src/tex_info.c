@@ -14,6 +14,22 @@
 #include "mlx.h"
 #include <stdio.h>
 
+static void	*clear_split(char **s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+	{
+		free(s[i]);
+		++i;
+	}
+	free(s);
+	return (0);
+}
+
 // Initializes tex_info with empty values
 void	init_tex_info(t_tex_info *t)
 {
@@ -58,19 +74,11 @@ t_list	*set_texture_info(t_tex_info *ti, t_list *f)
 		if (!s_str || !s_str[0] || !s_str[1] || s_str[2])
 		{
 			ft_putstr_fd("Error: while parsing settings\n", 2);
-			clear_split(s_str);
-			return (0);
+			return (clear_split(s_str));
 		}
-		if (s_str[0][1] && !convert_tex(s_str, ti))
-		{
-			clear_split(s_str);
-			return (0);
-		}
-		else if (!s_str[0][1] && !convert_color(s_str, ti))
-		{
-			clear_split(s_str);
-			return (0);
-		}
+		if ((s_str[0][1] && !convert_tex(s_str, ti))
+			|| (!s_str[0][1] && !convert_color(s_str, ti)))
+			return (clear_split(s_str));
 		clear_split(s_str);
 		f = f->next;
 	}
