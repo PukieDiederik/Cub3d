@@ -58,8 +58,8 @@ int	get_map_fd(char *file)
 	int		fd;
 
 	len = ft_strlen(file);
-	if (len < 4 || file[len - 1] != 'b' || file[len - 2] != 'u'
-		|| file[len - 3] != 'c' || file[len - 4] != '.')
+	if (len < 5 || file[len - 1] != 'b' || file[len - 2] != 'u'
+		|| file[len - 3] != 'c' || file[len - 4] != '.' || file[len - 5] == '/')
 	{
 		ft_putstr_fd("Error: Invalid map name\n", 2);
 		return (-1);
