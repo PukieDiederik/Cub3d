@@ -52,7 +52,6 @@ int	is_map_enclosed(t_map *m)
 			if (m->map[pos_to_index(m->width, x, y)] == '0'
 				&& check_around(m, x, y))
 				return (0);
-		++y;
 	}
 	x = -1;
 	while (++x < m->height)
