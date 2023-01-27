@@ -1,11 +1,12 @@
 #ignore build files
 *.o
-objs/*.o
+obj
 
 # bin files
 cub3d
 
 #ignore editor files
+.code
 .vscode
 .idea
 *.swp
