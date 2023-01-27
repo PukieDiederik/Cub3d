@@ -4,7 +4,7 @@ A project for 42Lisboa about raycasting. In this project we make a simplified ve
 ## How to set up
 Initialize the repository
 ```shell
-git submodule init && git submodule update
+make init
 ```
 
 Make the program, this will compile the program and the required libraries.

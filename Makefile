@@ -67,6 +67,11 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@$(ECHO) "$(GREEN)>>>>> Linking <<<<<$(RESET)"
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
+init:
+	@$(ECHO) "$(PURPLE)>>>>> Initializing this repository <<<<<$(RESET)"
+	@git submodule init
+	@git submodule update
+
 clean:
 	@$(ECHO) "$(GREEN)>>>>> Cleaning <<<<<$(RESET)"
 	$(RM) $(OBJS) $(DEPS)
