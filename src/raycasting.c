@@ -1,0 +1,1 @@
+// index of coordinate = desired y * width + desired x - in indexed starting from 0

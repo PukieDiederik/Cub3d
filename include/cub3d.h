@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drobert- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2022/12/28 14:07:07 by drobert-         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:32:53 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 
 # include <libft.h>
 # include <mlx.h>
+
+enum {
+	ON_KEYDOWN = 2,
+	ON_DESTROY = 17,
+	WIN_HEIGHT = 720,
+	WIN_WIDTH = 1280
+};
 
 // STRUCTURES
 /* struct s_mlx_img
@@ -28,8 +35,18 @@ typedef struct s_mlx_img
 	int		width;
 	int		height;
 	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 }	t_mlx_img;
 
+
+typedef struct s_vect
+{
+	double	terminal_x_y[2];
+	double	direction;	
+}	t_vect;
 /* struct s_map
  * All information that can be obtained from about a map
  *
@@ -70,6 +87,16 @@ typedef struct s_texture_info
 	t_mlx_img	tex_w;
 	t_mlx_img	tex_e;
 }	t_tex_info;
+
+
+typedef struct s_vars {
+	void		*mlx;
+	void		*win;
+	t_mlx_img	render_buffer;
+	t_tex_info	tex_info;
+	t_map		*map;
+}	t_vars;
+
 
 // FUNCTIONS
 t_map	*parse_map(char *file, t_tex_info *ti);
