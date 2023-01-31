@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/01/30 17:32:53 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/01/31 16:53:56 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <libft.h>
 # include <mlx.h>
+# include <math.h>
 
 enum {
 	ON_KEYDOWN = 2,
@@ -41,12 +42,20 @@ typedef struct s_mlx_img
 	int		endian;
 }	t_mlx_img;
 
+# define FOV_DEG 90
 
-typedef struct s_vect
+# define DEG_TO_RAD (M_PI / 180.0)
+
+# define FOV (FOV_DEG * DEG_TO_RAD)
+
+typedef double t_vec[2];
+
+typedef	struct	s_pos_vect
 {
-	double	terminal_x_y[2];
-	double	direction;	
-}	t_vect;
+	t_vec	p_pos;
+	t_vec	p_dir;
+}	t_pos_v;
+
 /* struct s_map
  * All information that can be obtained from about a map
  *
@@ -95,13 +104,16 @@ typedef struct s_vars {
 	t_mlx_img	render_buffer;
 	t_tex_info	tex_info;
 	t_map		*map;
+	t_pos_v		p_vec;
 }	t_vars;
 
 
 // FUNCTIONS
 t_map	*parse_map(char *file, t_tex_info *ti);
 void	**get_mlx_ptr(void);
-
+int		cast_rays(void);
+void	set_starting_pdata(t_pos_v *pos, t_vars *vars);
+t_vec	*get_screen_vector(t_pos_v pos);
 // t_tex_info & t_map functions
 void	init_tex_info(t_tex_info *t);
 void	destroy_tex_info(t_tex_info *t);
@@ -117,6 +129,10 @@ t_list	*read_map(int fd);
 
 // Utils
 int		is_player_char(char c);
+t_vars	**get_vars(void);
+void	**get_mlx_ptr(void);
+int		b_putstr_fd(char *str, int fd);
+
 
 // Debug
 void	print_map(t_map *m);

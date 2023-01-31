@@ -6,38 +6,74 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/01/30 17:41:48 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/01/31 17:04:20 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <math.h>
+#include <stdio.h>
 
 //DIRECTION IS A NORMALIZED VECTOR 
 //TO MOVE MOVE FORWARD ADD DIRECTION VECTOR * SCALER TO PLAYER VECTOR
 //POSITION VECTOR IS A VECTOR FROM MAPS (0, 0)
 //ALL OTHER VECTORS HAVE POS VECTOR AS INITIAL POSITION
-double	get_v_magnitude(t_vect *vect)
+double	get_v_magnitude(t_vec *vect, t_vec *init_vect)
 {
 	return (sqrt(
-		powl((fabs(vect->terminal_x_y[0] - vect->initial_x_y[0])), 2) +
-		powl((fabs(vect->terminal_x_y[1] - vect->initial_x_y[1])), 2)
+		powl((fabs((*vect)[0] - (*init_vect)[0])), 2) +
+		powl((fabs((*vect)[1] - (*init_vect)[1])), 2)
 		));
 }
 
-double	get_v_direction(t_vect *vect)
+void	add_vect(t_vec *sum_vect, t_vec vect_to_add)
 {
-
+	(*sum_vect)[0] = (*sum_vect[0]) * vect_to_add[0];
+	(*sum_vect)[1] = (*sum_vect[1]) * vect_to_add[1];
 }
 
-t_vect	*scale_vect(t_vect *vect, double scale)
+void	sub_vect(t_vec *sub_vect, t_vec vect_to_sub)
 {
-	t_vect	*vecto;
+	(*sub_vect)[0] = (*sub_vect)[0] - vect_to_sub[0];
+	(*sub_vect)[1] = (*sub_vect)[1] - vect_to_sub[1];
+}
+
+void	rotate_vec(t_vec *vec, double angle)
+{
+	double	x;
+	double	y;
+	angle += 180;
+	angle *= DEG_TO_RAD;
+	x = ((*vec)[0] * cos(angle)) + ((*vec)[1] * sin(angle));
+	y = ((*vec)[0] * -sin(angle)) + ((*vec)[1] * cos(angle));
+	(*vec)[0] = x;
+	(*vec)[1] = y;
+}
+
+// t_vec	*return_rot_vec(t_vec *vec, double angle)
+// {
+// 	double	hyp
+// }
+void	scale_vect(t_vec *vect, double scale)
+{
+	(*vect)[0] *= scale;
+	(*vect)[1] *= scale;
+}
+
+t_vec	*get_screen_vector(t_pos_v pos)
+{
+	t_vec	*screen;
 	
-	if (!vecto)
+	screen = malloc(sizeof(t_vec));
+	if (!screen)
 		return (0);
-	vecto->terminal_x_y[0] = scale * vect->terminal_x_y[0];
-	vecto->terminal_x_y[1] = scale * vect->terminal_x_y[1];
 
-	
+	(*screen)[0] = pos.p_dir[0];
+	(*screen)[1] = pos.p_dir[1];
+	printf("before rotate = (%lf, %lf)\n", (*screen)[0], (*screen)[1]);
+	rotate_vec(screen, 90);
+	printf("after rotate = (%lf, %lf)\n", (*screen)[0], (*screen)[1]);
+	scale_vect(screen, tan(FOV / 2));
+	return (screen);
 }
+

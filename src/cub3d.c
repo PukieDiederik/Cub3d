@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/01/30 16:46:19 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/01/31 15:33:49 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,15 @@ int	init_window()
 {
 	(*get_vars())->win = mlx_new_window((*get_vars())->mlx,
 		WIN_WIDTH, WIN_HEIGHT, "Cub3d");
-	mlx_hook((*get_vars())->win, ON_DESTROY, 0, &clear_exit, get_vars());
 	(*get_vars())->render_buffer.img = mlx_new_image((*get_vars())->mlx, WIN_HEIGHT, WIN_WIDTH);
 	(*get_vars())->render_buffer.addr = mlx_get_data_addr((*get_vars())->render_buffer.img,
 	&(*get_vars())->render_buffer.bits_per_pixel, &(*get_vars())->render_buffer.line_length,
 	&(*get_vars())->render_buffer.endian);
 	mlx_put_image_to_window((*get_vars())->mlx, (*get_vars())->win, (*get_vars())->render_buffer.img, 0, 0);
+	set_starting_pdata(&(*get_vars())->p_vec, 0);
+	
+	mlx_hook((*get_vars())->win, ON_DESTROY, 0, &clear_exit, get_vars());
+	mlx_loop_hook((*get_vars())->mlx, cast_rays, 0);
 	mlx_loop((*get_vars())->mlx);
 	return (1);
 
