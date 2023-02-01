@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/01/31 15:33:49 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/01/31 21:26:29 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	init_window()
 	set_starting_pdata(&(*get_vars())->p_vec, 0);
 	
 	mlx_hook((*get_vars())->win, ON_DESTROY, 0, &clear_exit, get_vars());
-	mlx_loop_hook((*get_vars())->mlx, cast_rays, 0);
+	mlx_loop_hook((*get_vars())->mlx, cast_rays, *get_vars());
 	mlx_loop((*get_vars())->mlx);
 	return (1);
 

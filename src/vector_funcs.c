@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/01/31 17:04:20 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/01/31 22:21:32 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 //TO MOVE MOVE FORWARD ADD DIRECTION VECTOR * SCALER TO PLAYER VECTOR
 //POSITION VECTOR IS A VECTOR FROM MAPS (0, 0)
 //ALL OTHER VECTORS HAVE POS VECTOR AS INITIAL POSITION
-double	get_v_magnitude(t_vec *vect, t_vec *init_vect)
+double	get_v_magnitude(t_vec vect)
 {
 	return (sqrt(
-		powl((fabs((*vect)[0] - (*init_vect)[0])), 2) +
-		powl((fabs((*vect)[1] - (*init_vect)[1])), 2)
+		powl(fabs(vect[0]), 2) +
+		powl(fabs(vect[1]), 2)
 		));
 }
 
@@ -60,20 +60,13 @@ void	scale_vect(t_vec *vect, double scale)
 	(*vect)[1] *= scale;
 }
 
-t_vec	*get_screen_vector(t_pos_v pos)
+void	set_screen_vect(t_pos_v *pos)
 {
-	t_vec	*screen;
-	
-	screen = malloc(sizeof(t_vec));
-	if (!screen)
-		return (0);
-
-	(*screen)[0] = pos.p_dir[0];
-	(*screen)[1] = pos.p_dir[1];
-	printf("before rotate = (%lf, %lf)\n", (*screen)[0], (*screen)[1]);
-	rotate_vec(screen, 90);
-	printf("after rotate = (%lf, %lf)\n", (*screen)[0], (*screen)[1]);
-	scale_vect(screen, tan(FOV / 2));
-	return (screen);
+	pos->screen[0] = pos->p_dir[0];
+	pos->screen[1] = pos->p_dir[1];
+	printf("before rotate = (%lf, %lf)\n", pos->screen[0], pos->screen[1]);
+	rotate_vec(&pos->screen, 90);
+	printf("after rotate = (%lf, %lf)\n", pos->screen[0], pos->screen[1]);
+	scale_vect(&pos->screen, tan(FOV / 2));
 }
 
