@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/01 17:54:59 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/01 21:19:54 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct	s_ray_vs
 	int		steping[2]; //DDA algo steping angle, either 1 or -1 in x and y
 	int		hit_;
 	int		side; // 0 = top/bottom 1 = side
-	int		face; //1 = bottom 2 = left 3 = top 4 = right
+	int		face; //1 = S 2 = W 3 = N 4 = E
 }	t_ray_vecs;
 
 typedef	struct	s_pos_vect
@@ -129,21 +129,21 @@ typedef struct s_vars {
 	t_mlx_img	render_buffer;
 	t_tex_info	tex_info;
 	t_map		*map;
-	t_pos_v		p_vec;
+	t_pos_v		*p_vec;
 }	t_vars;
 
 
 // FUNCTIONS
 t_map	*parse_map(char *file, t_tex_info *ti);
 void	**get_mlx_ptr(void);
-int		cast_rays(t_vars *vars);
-void	set_starting_pdata(t_pos_v *pos, t_vars *vars);
-void	set_screen_vect(t_pos_v *pos);
+int		cast_rays(t_vars **vars);
+void	set_screen_vect(t_pos_v **pos);
+int		set_starting_pdata(t_vars **vars);
 void	add_vect(t_vec *sum_vect, t_vec vect_to_add);
 void	scale_vect(t_vec *vect, double scale);
 double	get_v_magnitude(t_vec vect);
 void	rotate_vec(t_vec *vec, double angle);
-int	compate_vectors(t_vec *vect1, t_vec *vect2);
+int		compate_vectors(t_vec *vect1, t_vec *vect2);
 void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get);
 // t_tex_info & t_map functions
 void	init_tex_info(t_tex_info *t);

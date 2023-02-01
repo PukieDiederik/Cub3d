@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/01 17:55:57 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/01 22:07:30 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ void	rotate_vec(t_vec *vec, double angle)
 {
 	double	x;
 	double	y;
-	angle += 180;
+	//printf("rotate vector called on vector %lfx %lfy\n", (*vec)[0], (*vec)[1]);
+//	angle += 180;
 	angle *= DEG_TO_RAD;
 	x = ((*vec)[0] * cos(angle)) + ((*vec)[1] * sin(angle));
 	y = ((*vec)[0] * -sin(angle)) + ((*vec)[1] * cos(angle));
 	(*vec)[0] = x;
 	(*vec)[1] = y;
+	//printf("after rotate vector called on vector %lfx %lfy\n", *(vec)[0], (*vec)[1]);
+
 }
 
 // t_vec	*return_rot_vec(t_vec *vec, double angle)
@@ -72,13 +75,12 @@ void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get)
 
 }
 
-void	set_screen_vect(t_pos_v *pos)
+void	set_screen_vect(t_pos_v **pos)
 {
-	pos->screen[0] = pos->p_dir[0];
-	pos->screen[1] = pos->p_dir[1];
-	printf("before rotate = (%lf, %lf)\n", pos->screen[0], pos->screen[1]);
-	rotate_vec(&pos->screen, 90);
-	printf("after rotate = (%lf, %lf)\n", pos->screen[0], pos->screen[1]);
-	scale_vect(&pos->screen, tan(FOV / 2));
+	set_vect_to_vect(&(*pos)->screen, &(*pos)->p_dir);
+//	printf("before rotate = (%lf, %lf)\n", pos->screen[0], pos->screen[1]);
+	rotate_vec(&(*pos)->screen, 270);
+//	printf("after rotate = (%lf, %lf)\n", pos->screen[0], pos->screen[1]);
+	scale_vect(&(*pos)->screen, tan(FOV / 2));
 }
 
