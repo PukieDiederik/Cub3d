@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/01 14:55:54 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:55:57 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,18 @@ void	scale_vect(t_vec *vect, double scale)
 {
 	(*vect)[0] *= scale;
 	(*vect)[1] *= scale;
+}
+
+int	compate_vectors(t_vec *vect1, t_vec *vect2)
+{
+	return ((*vect1)[0] != (*vect2)[0] || (*vect1)[1] != (*vect2)[1]);
+}
+
+void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get)
+{
+	(*vect_to_set)[0] = (*vect_to_get)[0];
+	(*vect_to_set)[1] = (*vect_to_get)[1];
+
 }
 
 void	set_screen_vect(t_pos_v *pos)

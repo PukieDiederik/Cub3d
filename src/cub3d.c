@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/01 16:05:49 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/01 18:01:56 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@ int	clear_exit()
 
 }
 
+int	kb_interaction(int keycode, t_vars *vars)
+{
+	// if (keycode == L_ARROW)
+	// 	rotate_vec(&vars->p_vec.p_dir, 360 - 0.5);
+	// if (keycode == R_ARROW)
+	// 	rotate_vec(&vars->p_vec.p_dir, 0.5);
+	(void)vars;
+	printf("keycode = %d\n", keycode);
+	return (0);
+}
+
 int	init_window()
 {
 	(*get_vars())->win = mlx_new_window((*get_vars())->mlx,
@@ -59,6 +70,8 @@ int	init_window()
 	
 	mlx_hook((*get_vars())->win, ON_DESTROY, 0, &clear_exit, get_vars());
 	mlx_loop_hook((*get_vars())->mlx, cast_rays, *get_vars());
+	mlx_key_hook((*get_vars()), &kb_interaction, *get_vars());
+	mlx_do_key_autorepeaton((*get_vars())->mlx);
 	mlx_loop((*get_vars())->mlx);
 	return (1);
 

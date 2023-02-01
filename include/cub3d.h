@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/01 16:43:55 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:54:59 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ enum {
 	ON_DESTROY = 17,
 	WIN_HEIGHT = 720,
 	WIN_WIDTH = 1280
+};
+
+enum {
+
+        L_ARROW = 65361,
+        R_ARROW = 65363,
+        ESC = 65307
 };
 
 // STRUCTURES
@@ -135,6 +142,9 @@ void	set_screen_vect(t_pos_v *pos);
 void	add_vect(t_vec *sum_vect, t_vec vect_to_add);
 void	scale_vect(t_vec *vect, double scale);
 double	get_v_magnitude(t_vec vect);
+void	rotate_vec(t_vec *vec, double angle);
+int	compate_vectors(t_vec *vect1, t_vec *vect2);
+void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get);
 // t_tex_info & t_map functions
 void	init_tex_info(t_tex_info *t);
 void	destroy_tex_info(t_tex_info *t);
