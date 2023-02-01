@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/01/31 21:26:29 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:05:49 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	init_window()
 {
 	(*get_vars())->win = mlx_new_window((*get_vars())->mlx,
 		WIN_WIDTH, WIN_HEIGHT, "Cub3d");
-	(*get_vars())->render_buffer.img = mlx_new_image((*get_vars())->mlx, WIN_HEIGHT, WIN_WIDTH);
+	(*get_vars())->render_buffer.img = mlx_new_image((*get_vars())->mlx, WIN_WIDTH, WIN_HEIGHT);
 	(*get_vars())->render_buffer.addr = mlx_get_data_addr((*get_vars())->render_buffer.img,
 	&(*get_vars())->render_buffer.bits_per_pixel, &(*get_vars())->render_buffer.line_length,
 	&(*get_vars())->render_buffer.endian);

@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/01/31 23:40:46 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:43:55 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef	struct	s_pos_vect
 	t_ray_vecs	ray;
 	t_vec		screen;
 	double		camera_x;
+	int			line_height;
 }	t_pos_v;
 
 /* struct s_map
