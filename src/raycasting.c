@@ -6,13 +6,14 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/01 22:18:05 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:15:16 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // index of coordinate = desired y * width + desired x - in indexed starting from 0
 #include "cub3d.h"
 #include <stdio.h>
+#include <time.h>
 
 void	set_starting_rdata(t_vars **vars)
 {
@@ -133,17 +134,15 @@ int	cast_rays(t_vars **vars)
 	int				x_coord;
 	static t_vec	last_pos;
 	static t_vec	last_dir;
-	static int		in;
-	static int		i;
-
+	int	exec = 0;
+	double time_spent = 0.0;
+    clock_t begin = clock();
 	//if (!init && ++init)
 	//	set_starting_pdata(vars);
 	x_coord = -1;
 	//printf("played dir vector on initial cast_rays = %lfx %lfy\n", (*vars)->p_vec.p_dir[0], (*vars)->p_vec.p_dir[1]);
 	while (exec_loop_contition(&x_coord, &last_pos, &last_dir, *vars))//)
 	{
-		if (in == i++)
-			printf("got in loop\n");
 		set_screen_vect(&(*vars)->p_vec);
 		(*vars)->p_vec->ray.hit_ = 0;
 		(*vars)->p_vec->map_pos[0] = (int)(*vars)->p_vec->p_pos[0];
@@ -189,7 +188,7 @@ int	cast_rays(t_vars **vars)
 			(*vars)->p_vec->ray.wall_dist = (*vars)->p_vec->ray.side_dist[1] -
 				(*vars)->p_vec->ray.delta_dist[1];
 
-			(*vars)->p_vec->ray.face = 1;
+		(*vars)->p_vec->ray.face = 1;
 			if ((*vars)->p_vec->map_pos[1] > (*vars)->p_vec->p_pos[1])
 				(*vars)->p_vec->ray.face = 3;
 
@@ -198,8 +197,14 @@ int	cast_rays(t_vars **vars)
 		//printf("line_height at %d = %d / %lf = %d\n", x_coord,WIN_HEIGHT,  (*vars)->p_vec->ray.wall_dist, (*vars)->p_vec->line_height);
 		//(*vars)->p_vec->line_height = 380;
 		draw_line(*vars, x_coord);
+		exec = 1;
 	}
-	in = i;
+	if (exec)
+	{
+		clock_t end = clock();
+		time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   		printf("The time per frame was = %f - fps = %d\n", time_spent, (int)(1/time_spent));
+	}
 	// printf("exited at x = %d\n", x_coord);
 	set_vect_to_vect(&last_dir, &(*vars)->p_vec->p_dir);
 	set_vect_to_vect(&last_pos, &(*vars)->p_vec->p_pos);

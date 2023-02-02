@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/01 22:09:48 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:25:49 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,42 @@ int	clear_exit()
 
 int	kb_interaction(int keycode, t_vars **vars)
 {
+	t_vec	scaled_dir_vec;
+	double	move_speed;
+
+	move_speed = 0.1;
+	set_vect_to_vect(&scaled_dir_vec, &(*vars)->p_vec->p_dir);
+	scale_vect(&scaled_dir_vec, move_speed);
 	if (keycode == L_ARROW)
 		rotate_vec(&((*vars)->p_vec->p_dir), 2);
-	if (keycode == R_ARROW)
+	else if (keycode == R_ARROW)
 		rotate_vec(&((*vars)->p_vec->p_dir), -2);
 	if (keycode == ESC)
 		clear_exit();
+	if (keycode == 119)
+	{
+		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
+			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
+	}
+	else if (keycode == 97)
+	{
+		rotate_vec(&scaled_dir_vec, 90);
+		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
+			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
+	}
+	else if (keycode == 115)
+	{
+		rotate_vec(&scaled_dir_vec, 180);
+		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
+			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
+	}
+	else if (keycode == 100)
+	{
+		rotate_vec(&scaled_dir_vec, 270);
+		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
+			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
+	}
+	
 	printf("keycode = %d\n", keycode);
 	return (0);
 }
