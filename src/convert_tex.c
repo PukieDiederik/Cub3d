@@ -74,5 +74,7 @@ int	convert_tex(char **s, t_tex_info *ti)
 		ft_putstr_fd("Error: Could not open image\n", 2);
 		return (0);
 	}
+	mlx_get_data_addr(img->img, &img->bits_per_pixel,
+		&img->line_length, &img->endian);
 	return (1);
 }

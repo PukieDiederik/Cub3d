@@ -28,6 +28,10 @@ typedef struct s_mlx_img
 	int		width;
 	int		height;
 	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 }	t_mlx_img;
 
 /* struct s_map
