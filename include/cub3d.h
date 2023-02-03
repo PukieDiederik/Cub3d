@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/03 17:04:52 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:37:15 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_mlx_img
 	int		endian;
 }	t_mlx_img;
 
-# define FOV_DEG 90
+# define FOV_DEG 130
 
 # define DEG_TO_RAD (M_PI / 180.0)
 
