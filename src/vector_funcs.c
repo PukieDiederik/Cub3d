@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/03 18:41:15 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:47:20 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int	check_collision(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 	i = 0;
 	set_vect_to_vect(&dec_vec, mov_vec);
 	scale_vect(&dec_vec, 0.25);
-	while (++i < 20)
+	add_vect(mov_vec, dec_vec);
+	while (++i < 5)
 	{
 		sub_vect(mov_vec, dec_vec);
 		set_vect_to_vect(&new_pos, pos);
@@ -113,7 +114,7 @@ int	is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 	set_vect_to_vect(&transf_vec, &check_mov_vector);
 	set_vect_to_vect(&check_mov_vector, mov_vec);
 	set_vect_to_vect(&width_dir, &(*vars)->p_vec->p_dir);
-	scale_vect(&width_dir, 0.25);
+	scale_vect(&width_dir, 0.20);
 	rotate_vec(&width_dir, 45);
 	set_vect_to_vect(&width_pos, &(*vars)->p_vec->p_pos);
 	add_vect(&width_pos, width_dir);
@@ -122,7 +123,7 @@ int	is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 	if (result)
 		return (1);
 	set_vect_to_vect(&width_dir, &(*vars)->p_vec->p_dir);
-	scale_vect(&width_dir, 0.25);
+	scale_vect(&width_dir, 0.20);
 	rotate_vec(&width_dir, -45);
 	set_vect_to_vect(&width_pos, &(*vars)->p_vec->p_pos);
 	add_vect(&width_pos, width_dir);
