@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/02 17:12:52 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/03 17:04:52 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_mlx_img
 	int		endian;
 }	t_mlx_img;
 
-# define FOV_DEG 130
+# define FOV_DEG 90
 
 # define DEG_TO_RAD (M_PI / 180.0)
 
@@ -146,6 +146,11 @@ void	rotate_vec(t_vec *vec, double angle);
 int		compate_vectors(t_vec *vect1, t_vec *vect2);
 void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get);
 int		is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
+void	normalize_vector(t_vec	*vec);
+void	rotate_vec_90(t_vec *vec);
+void	rotate_vec_180(t_vec *vec);
+void	rotate_vec_270(t_vec *vec);
+
 // t_tex_info & t_map functions
 void	init_tex_info(t_tex_info *t);
 void	destroy_tex_info(t_tex_info *t);

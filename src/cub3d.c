@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/02 16:25:49 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/03 16:54:29 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	kb_interaction(int keycode, t_vars **vars)
 	move_speed = 0.1;
 	set_vect_to_vect(&scaled_dir_vec, &(*vars)->p_vec->p_dir);
 	scale_vect(&scaled_dir_vec, move_speed);
+	printf("direction vector in kb interation = %lfx %lfy - scaled %lfx %lfx\n",
+		 (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1], scaled_dir_vec[0], scaled_dir_vec[1]);
 	if (keycode == L_ARROW)
 		rotate_vec(&((*vars)->p_vec->p_dir), 2);
 	else if (keycode == R_ARROW)
@@ -85,8 +87,11 @@ int	kb_interaction(int keycode, t_vars **vars)
 		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
 			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
 	}
-	
-	printf("keycode = %d\n", keycode);
+	printf("rotated scaled to add %lfx %lfx\n", scaled_dir_vec[0], scaled_dir_vec[1]);
+	printf("final position vector in kb interaction %lfx %lfx\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
+
+	cast_rays(vars);
+	printf("keycode = %d\n\n", keycode);
 	return (0);
 }
 
@@ -100,11 +105,13 @@ int	init_window()
 	&(*get_vars())->render_buffer.bits_per_pixel, &(*get_vars())->render_buffer.line_length,
 	&(*get_vars())->render_buffer.endian);
 	//mlx_put_image_to_window((*get_vars())->mlx, (*get_vars())->win, (*get_vars())->render_buffer.img, 0, 0);
-	if (!set_starting_pdata(get_vars()))
+	if (!set_starting_pdata(get_vars())
+		&& printf("Error in init data or FOV outside of range 1-179\n"))
 		return (0);
+	cast_rays(get_vars());
 	mlx_hook((*get_vars())->win, ON_DESTROY, 0, &clear_exit, 0);
+	//mlx_loop_hook((*get_vars())->mlx, cast_rays, vars);
 	mlx_hook((*get_vars())->win, ON_KEYDOWN, (1L << 0), &kb_interaction, vars);
-	mlx_loop_hook((*get_vars())->mlx, cast_rays, vars);
 	mlx_loop((*get_vars())->mlx);
 	return (1);
 

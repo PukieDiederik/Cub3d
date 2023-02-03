@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/02 16:15:16 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/03 17:34:25 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,12 @@ void	set_starting_rdata(t_vars **vars)
 }
 
 int	set_starting_pdata(t_vars **vars)
-{
-	printf("size of t_pos_v = %ld\n", sizeof(t_pos_v));
+{	
 	(*vars)->p_vec = malloc(sizeof(t_pos_v));
-	if (!(*vars)->p_vec)
+	if (!(*vars)->p_vec || FOV_DEG > 179 || FOV_DEG < 1)
 		return (0);
 	(*vars)->p_vec->p_pos[0] = (*vars)->map->player_spawn_x + 0.5;
 	(*vars)->p_vec->p_pos[1] = (*vars)->map->player_spawn_y + 0.5;
-	(*vars)->p_vec->map_pos[0] = (int)(*vars)->p_vec->p_pos[0];
-	(*vars)->p_vec->map_pos[1] = (int)(*vars)->p_vec->p_pos[1];
 	if ((*vars)->map->player_facing == 'N' ||	(*vars)->map->player_facing == 'S')
 	{
 		(*vars)->p_vec->p_dir[1] = 1;
@@ -65,18 +62,34 @@ void	calc_side_delta_dist(t_pos_v **pos)
 		(*pos)->ray.steping[1] = -1;
 	//printf("ray stepping = %dx %dy\n", (*pos)->ray.steping[0], (*pos)->ray.steping[1]);
 	//set ray distance from edge of current position square to next x and y edge
-	(*pos)->ray.delta_dist[0] = fabs(1 / (*pos)->ray.ray_dir[0]);
-	(*pos)->ray.delta_dist[1] = fabs(1 / (*pos)->ray.ray_dir[1]);
+	//printf("(*pos)->ray.ray_dir[0] = %lf (*pos)->ray.ray_dir[1] = %lf\n", (*pos)->ray.ray_dir[0], (*pos)->ray.ray_dir[1]);
+	
+	if ((*pos)->ray.ray_dir[0] == 0 && printf("x zero condition\n"))
+		(*pos)->ray.delta_dist[0] = 1000000000000000019884624838656.00;
+	else
+		(*pos)->ray.delta_dist[0] = fabs(1 / (*pos)->ray.ray_dir[0]);
+
+
+
+	if ((*pos)->ray.ray_dir[1] == 0 && printf("y zero condition\n"))
+		(*pos)->ray.delta_dist[1] = 1000000000000000019884624838656.00;
+	else
+		(*pos)->ray.delta_dist[1] = fabs(1 / (*pos)->ray.ray_dir[1]);
+
 	//printf("ray desta distances = %lfx %lfy\n", (*pos)->ray.delta_dist[0], (*pos)->ray.delta_dist[1]);
 	//calculate distance from current position to edge of square in x direction
 	(*pos)->ray.side_d_nd[0] = (*pos)->p_pos[0] - (*pos)->map_pos[0];
 	if ((*pos)->ray.steping[0] > 0)
 		(*pos)->ray.side_d_nd[0] = (*pos)->map_pos[0] + 1 - (*pos)->p_pos[0];
+
 	(*pos)->ray.side_dist[0] = (*pos)->ray.side_d_nd[0] * (*pos)->ray.delta_dist[0];
+
+
 	//calculate distance from current position to edge of square in y direction
 	(*pos)->ray.side_d_nd[1] = (*pos)->p_pos[1] - (*pos)->map_pos[1];
-	if ((*pos)->ray.steping[1] > 1)
+	if ((*pos)->ray.steping[1] > 0)
 		(*pos)->ray.side_d_nd[1] = (*pos)->map_pos[1] + 1 - (*pos)->p_pos[1];
+
 	(*pos)->ray.side_dist[1] = (*pos)->ray.side_d_nd[1] * (*pos)->ray.delta_dist[1];
 }
 void    my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color)
@@ -87,6 +100,13 @@ void    my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color)
         *(unsigned int *)dst = color;
 }
 
+int	get_img_color(t_mlx_img *img, int x, int y)
+{
+	char	*dst_b;
+
+	dst_b = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	return (*dst_b);
+}
 void	draw_line(t_vars *vars, int x)
 {
 	int	i;
@@ -97,8 +117,6 @@ void	draw_line(t_vars *vars, int x)
 
 	if (vars->p_vec->line_height > WIN_HEIGHT)
 		vars->p_vec->line_height = WIN_HEIGHT;
-	if (vars->p_vec->line_height < 0)
-		vars->p_vec->line_height = 0;
 	if (vars->p_vec->ray.face == 1)
 		wall_color = 0xFF8A00;
 	if (vars->p_vec->ray.face == 2)
@@ -139,19 +157,22 @@ int	cast_rays(t_vars **vars)
     clock_t begin = clock();
 	//if (!init && ++init)
 	//	set_starting_pdata(vars);
+	set_screen_vect(&(*vars)->p_vec);
 	x_coord = -1;
-	//printf("played dir vector on initial cast_rays = %lfx %lfy\n", (*vars)->p_vec.p_dir[0], (*vars)->p_vec.p_dir[1]);
-	while (exec_loop_contition(&x_coord, &last_pos, &last_dir, *vars))//)
+	printf("played dir vector on initial cast_rays = %lfx %lfy\n", (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1]);
+	printf("current payer position = %lfx %lfy\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
+	printf("current screen vector data + %lfx %lfy\n",(*vars)->p_vec->screen[0], (*vars)->p_vec->screen[1]);
+	while (++x_coord < WIN_WIDTH)
 	{
-		set_screen_vect(&(*vars)->p_vec);
 		(*vars)->p_vec->ray.hit_ = 0;
 		(*vars)->p_vec->map_pos[0] = (int)(*vars)->p_vec->p_pos[0];
 		(*vars)->p_vec->map_pos[1] = (int)(*vars)->p_vec->p_pos[1];
-		(*vars)->p_vec->camera_x = 2.0 * x_coord / (double)WIN_WIDTH - 1;
+		(*vars)->p_vec->camera_x = (2.0 * x_coord / (double)WIN_WIDTH) - 1;
 		(*vars)->p_vec->ray.ray_dir[0] = (*vars)->p_vec->p_dir[0] +
-			(*vars)->p_vec->screen[0] * (*vars)->p_vec->camera_x;
+			-(*vars)->p_vec->screen[0] * (*vars)->p_vec->camera_x;
 		(*vars)->p_vec->ray.ray_dir[1] = (*vars)->p_vec->p_dir[1] +
-			(*vars)->p_vec->screen[1] * (*vars)->p_vec->camera_x;
+			-(*vars)->p_vec->screen[1] * (*vars)->p_vec->camera_x;
+		//normalize_vector(&(*vars)->p_vec->ray.ray_dir);
 		//printf("ray direction = %lfx %lfy\n", (*vars)->p_vec->ray.ray_dir[0], (*vars)->p_vec->ray.ray_dir[1]);
 		calc_side_delta_dist(&(*vars)->p_vec);
 		while (!(*vars)->p_vec->ray.hit_)
@@ -173,6 +194,7 @@ int	cast_rays(t_vars **vars)
 			if ((*vars)->map->map[((*vars)->p_vec->map_pos[1] * (*vars)->map->width) +
 				(*vars)->p_vec->map_pos[0]] == '1')
 				(*vars)->p_vec->ray.hit_ = 1;
+
 		}
 	//	printf("side = %d\n", (*vars)->p_vec->ray.side);
 		if (!(*vars)->p_vec->ray.side)
