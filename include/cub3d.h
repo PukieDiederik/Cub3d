@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/04 03:04:12 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:37:17 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@
 
 enum {
 	ON_KEYDOWN = 2,
-	ON_DESTROY = 17,
-	WIN_HEIGHT = 720,
-	WIN_WIDTH = 1280
+	ON_DESTROY = 17
 };
 
 enum {
@@ -49,7 +47,23 @@ typedef struct s_mlx_img
 	int		endian;
 }	t_mlx_img;
 
-# define MOUSE_AIM_STEPS (int)((int)WIN_WIDTH / 40)
+//Constants
+
+#define MLX_SYNC_IMAGE_WRITABLE		1
+
+#define MLX_SYNC_WIN_FLUSH_CMD		2
+
+#define MLX_SYNC_WIN_CMD_COMPLETED	3
+
+# define W_H 720
+
+# define W_W 1280
+
+# define MM_WIDTH (int)(W_W / 8.0)
+
+# define MM_HEIGHT (int)(W_W / 8.0)
+
+# define MOUSE_AIM_STEPS (int)((int)W_W / 66)
 
 # define VERY_BIG_N 1000000000000000019884624838656.00
 
@@ -59,7 +73,7 @@ typedef struct s_mlx_img
 
 # define FOV (FOV_DEG * DEG_TO_RAD)
 
-# define MOUSE_SENS 1.0
+# define MOUSE_SENS 1
 
 typedef double	t_vec[2];
 
@@ -153,9 +167,7 @@ int		compate_vectors(t_vec *vect1, t_vec *vect2);
 void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get);
 int		is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
 void	normalize_vector(t_vec	*vec);
-void	rotate_vec_90(t_vec *vec);
-void	rotate_vec_180(t_vec *vec);
-void	rotate_vec_270(t_vec *vec);
+void    my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color);
 
 // t_tex_info & t_map functions
 void	init_tex_info(t_tex_info *t);
