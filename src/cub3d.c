@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/04 16:22:14 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:05:58 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,11 @@ int	init_window()
 	(*vars)->render_buffer.addr = mlx_get_data_addr((*vars)->render_buffer.img,
 	&(*vars)->render_buffer.bits_per_pixel, &(*vars)->render_buffer.line_length,
 	&(*vars)->render_buffer.endian);
-	//mlx_put_image_to_window((*vars)->mlx, (*vars)->win, (*vars)->render_buffer.img, 0, 0);
 	if (!set_starting_pdata(get_vars())
 		&& printf("Error in init data or FOV outside of range 1-179\n"))
 		return (0);
 	cast_rays(get_vars());
+	mlx_put_image_to_window((*vars)->mlx, (*vars)->win, (*vars)->tex_info.tex_n.img, 0, 0);
 	//draw_minimap(get_vars());
 	mlx_hook((*vars)->win, ON_DESTROY, 0, &clear_exit, vars);
 	mlx_hook((*vars)->win, 6, (1L<<6) ,&mouse_aim, vars);

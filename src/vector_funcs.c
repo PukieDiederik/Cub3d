@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/04 00:45:09 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:31:00 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 //TO MOVE MOVE FORWARD ADD DIRECTION VECTOR * SCALER TO PLAYER VECTOR
 //POSITION VECTOR IS A VECTOR FROM MAPS (0, 0)
 //ALL OTHER VECTORS HAVE POS VECTOR AS INITIAL POSITION
+
+
+//Gets magnite of vector and returns it
 double	get_v_magnitude(t_vec vect)
 {
 	return (sqrt(
@@ -26,18 +29,20 @@ double	get_v_magnitude(t_vec vect)
 		));
 }
 
+//Sums values of both vectors into sum_vect - !changes vector values!
 void	add_vect(t_vec *sum_vect, t_vec vect_to_add)
 {
 	(*sum_vect)[0] += vect_to_add[0];
 	(*sum_vect)[1] += vect_to_add[1];
 }
-
+//Subtracts values of both vectors into sub_vect - !changes vector values!
 void	sub_vect(t_vec *sub_vect, t_vec vect_to_sub)
 {
 	(*sub_vect)[0] = (*sub_vect)[0] - vect_to_sub[0];
 	(*sub_vect)[1] = (*sub_vect)[1] - vect_to_sub[1];
 }
 
+//Rotates vector in place - !changes vector values!
 void	rotate_vec(t_vec *vec, double angle)
 {
 	double	x;
@@ -52,21 +57,24 @@ void	rotate_vec(t_vec *vec, double angle)
 	//printf("after rotate vector called on vector %lfx %lfy\n", *(vec)[0], (*vec)[1]);
 
 }
-// t_vec	*return_rot_vec(t_vec *vec, double angle)
-// {
-// 	double	hyp
-// }
+//Scales vector in place - !changes vector values!
 void	scale_vect(t_vec *vect, double scale)
 {
 	(*vect)[0] *= scale;
 	(*vect)[1] *= scale;
 }
 
+//Compares 2 vectors to 0.00001 precision
+//
+//Returns 0 if equal or 1 if different
 int	compate_vectors(t_vec *vect1, t_vec *vect2)
 {
 	return ((int)(*vect1)[0] * 10000 > (int)(*vect2)[0] * 10000 || (int)(*vect1)[1] * 10000 > (int)(*vect2)[1] * 10000);
 }
 
+//Sets values of vect_to_set to values of vect_to_get
+//
+//!Changes vector values!
 void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get)
 {
 	(*vect_to_set)[0] = (*vect_to_get)[0];
@@ -136,6 +144,7 @@ int	is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 
 }
 
+//Normalizes vector to magnitude of 1 - !changes vector values!
 void	normalize_vector(t_vec	*vec)
 {
 	double	m = get_v_magnitude(*vec);

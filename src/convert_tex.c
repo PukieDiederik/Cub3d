@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert_tex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drobert- <drobert-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:29:10 by drobert-          #+#    #+#             */
-/*   Updated: 2023/01/14 00:29:12 by drobert-         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:08:22 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ int	convert_tex(char **s, t_tex_info *ti)
 		ft_putstr_fd("Error: Could not open image\n", 2);
 		return (0);
 	}
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, 
+			&img->line_length, &img->endian);
 	return (1);
 }

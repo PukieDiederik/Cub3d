@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/04 17:37:17 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 19:06:34 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,10 @@
 
 enum {
 	ON_KEYDOWN = 2,
-	ON_DESTROY = 17
-};
-
-enum {
-
-        L_ARROW = 65361,
-        R_ARROW = 65363,
-        ESC = 65307
+	ON_DESTROY = 17,
+	L_ARROW = 65361,
+	R_ARROW = 65363,
+	ESC = 65307
 };
 
 // STRUCTURES
@@ -48,13 +44,6 @@ typedef struct s_mlx_img
 }	t_mlx_img;
 
 //Constants
-
-#define MLX_SYNC_IMAGE_WRITABLE		1
-
-#define MLX_SYNC_WIN_FLUSH_CMD		2
-
-#define MLX_SYNC_WIN_CMD_COMPLETED	3
-
 # define W_H 720
 
 # define W_W 1280
@@ -81,11 +70,12 @@ typedef struct	s_ray_vs
 {
 	t_vec	ray_dir;
 	t_vec	side_dist;
-	double	side_d_nd[2];
 	t_vec	delta_dist;
+	double	side_d_nd[2];
 	double	wall_dist;
 	int		steping[2]; //DDA algo steping angle, either 1 or -1 in x and y
 	int		hit_;
+	t_vec	hit_pos;
 	int		side; // 0 = top/bottom 1 = side
 	int		face; //1 = S 2 = W 3 = N 4 = E
 }	t_ray_vecs;

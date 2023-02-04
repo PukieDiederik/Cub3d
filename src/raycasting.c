@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/04 17:36:18 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 19:10:48 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,44 +92,39 @@ void	my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color)
 
 int	get_img_color(t_mlx_img *img, int x, int y)
 {
-	char	*dst_b;
+	int dst_b;
 
-	printf("asked x = %dx asked y =%dy\n", x , y);
-	dst_b = img->addr + (y * img->line_length
-			+ x * (img->bits_per_pixel / 8));
-	printf("image color =%d\n", *dst_b);
-	return (*dst_b);
+	dst_b = *(img->addr + (y * img->line_length
+			+ x * (img->bits_per_pixel / 8)));
+	return (dst_b);
 }
-void	draw_line(t_vars *vars, int x)
+
+void	draw_line(t_vars *vars, int x, double hit_x)
 {
 	int	i;
 	int	ceiling_index;
 	int	floor_index;
+	int	x_integral;
 	//int	wall_color;
 
 	if (vars->p_vec->line_height > W_H)
 		vars->p_vec->line_height = W_H;
-	// if (vars->p_vec->ray.face == 1)
-	// 	wall_color = 0xFF8A00;
-	// if (vars->p_vec->ray.face == 2)
-	// 	wall_color = 0xA000CB;
-	// if (vars->p_vec->ray.face == 3)
-	// 	wall_color = 0x00B7B2;
-	// if (vars->p_vec->ray.face == 4)
-	// 	wall_color = 0xCCCCCC;
 	ceiling_index = (W_H - vars->p_vec->line_height) / 2;
 	floor_index = W_H - ceiling_index;
-	//printf("floor index  = %d, ceiling index = %d\n", floor_index, ceiling_index);
 	i = -1;
 	while (++i < ceiling_index)
 		my_mlx_pixel_put(&vars->render_buffer, x, i,
 			vars->tex_info.ceiling_color);
 	i--;
 	while(++i < floor_index)
-		my_mlx_pixel_put(&vars->render_buffer, x, i, 0xFFFFFF);
-			// get_img_color(&vars->tex_info.tex_n,
-			// x % vars->tex_info.tex_n.width,
-			// (i - ceiling_index) % vars->tex_info.tex_n.height));
+	{
+		x_integral = (int)hit_x;
+		hit_x -= x_integral;
+		//printf("scaled x = %lf\n", vars->p_vec->ray.hit_x);
+		my_mlx_pixel_put(&vars->render_buffer, x, i,
+			get_img_color(&vars->tex_info.tex_n, hit_x * vars->tex_info.tex_n.width,
+			(i - ceiling_index) % vars->tex_info.tex_n.height));
+	}
 	i--;
 	while(++i < W_H)
 		my_mlx_pixel_put(&vars->render_buffer, x, i,
@@ -197,6 +192,9 @@ void	calc_rayds_to_face(t_vars **vars)
 		if ((*vars)->p_vec->map_pos[1] > (*vars)->p_vec->p_pos[1])
 			(*vars)->p_vec->ray.face = 3;
 	}
+	set_vect_to_vect(&(*vars)->p_vec->ray.hit_pos, &(*vars)->p_vec->p_pos);
+	add_vect(&(*vars)->p_vec->ray.hit_pos, (*vars)->p_vec->ray.side_dist);
+	printf("hit on %lfx %lfy\n",(*vars)->p_vec->ray.hit_pos[0], (*vars)->p_vec->ray.hit_pos[1]);
 	(*vars)->p_vec->line_height = (int)(W_H / (*vars)->p_vec->ray.wall_dist);
 }
 
@@ -222,7 +220,7 @@ int	cast_rays(t_vars **vars)
 			(*vars)->p_vec->ray.hit_ = did_ray_hit(vars);
 		}
 		calc_rayds_to_face(vars);
-		draw_line(*vars, x_coord);
+		draw_line(*vars, x_coord, (*vars)->p_vec->ray.hit_pos[1]);
 		exec = 1;
 	}
 	if (exec)
@@ -231,9 +229,8 @@ int	cast_rays(t_vars **vars)
 		time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
    		printf("The time per frame was = %f - fps = %d\n", time_spent, (int)(1/time_spent));
 	}
-	printf("exited at x = %d\n", x_coord);
+	mlx_do_sync((*vars)->mlx);
 	mlx_put_image_to_window((*vars)->mlx, (*vars)->win,
 		(*vars)->render_buffer.img, 0, 0);
-	mlx_do_sync((*vars)->mlx);
 	return (1);
 }
