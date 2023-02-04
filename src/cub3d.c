@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/03 16:54:29 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 00:49:26 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	kb_interaction(int keycode, t_vars **vars)
 	move_speed = 0.1;
 	set_vect_to_vect(&scaled_dir_vec, &(*vars)->p_vec->p_dir);
 	scale_vect(&scaled_dir_vec, move_speed);
-	printf("direction vector in kb interation = %lfx %lfy - scaled %lfx %lfx\n",
-		 (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1], scaled_dir_vec[0], scaled_dir_vec[1]);
+	// printf("direction vector in kb interation = %lfx %lfy - scaled %lfx %lfx\n",
+		//  (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1], scaled_dir_vec[0], scaled_dir_vec[1]);
 	if (keycode == L_ARROW)
 		rotate_vec(&((*vars)->p_vec->p_dir), 2);
 	else if (keycode == R_ARROW)
@@ -87,12 +87,30 @@ int	kb_interaction(int keycode, t_vars **vars)
 		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
 			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
 	}
-	printf("rotated scaled to add %lfx %lfx\n", scaled_dir_vec[0], scaled_dir_vec[1]);
-	printf("final position vector in kb interaction %lfx %lfx\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
+	// printf("rotated scaled to add %lfx %lfx\n", scaled_dir_vec[0], scaled_dir_vec[1]);
+	// printf("final position vector in kb interaction %lfx %lfx\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
 
 	cast_rays(vars);
 	printf("keycode = %d\n\n", keycode);
 	return (0);
+}
+
+int	mouse_aim(int x, int y, t_vars **vars)
+{
+	static int	prev_mouse_x;
+	double		move_ammount;
+
+	(void)y;
+	if (!prev_mouse_x)
+		prev_mouse_x = x;
+	if (x - prev_mouse_x < 0)
+		move_ammount = 1;
+	else
+		move_ammount = -1;
+	rotate_vec(&(*vars)->p_vec->p_dir, move_ammount * MOUSE_SENS);
+	cast_rays(vars);
+	prev_mouse_x = x;
+	return (1);
 }
 
 int	init_window()
@@ -109,8 +127,8 @@ int	init_window()
 		&& printf("Error in init data or FOV outside of range 1-179\n"))
 		return (0);
 	cast_rays(get_vars());
-	mlx_hook((*get_vars())->win, ON_DESTROY, 0, &clear_exit, 0);
-	//mlx_loop_hook((*get_vars())->mlx, cast_rays, vars);
+	mlx_hook((*get_vars())->win, ON_DESTROY, 0, &clear_exit, vars);
+	mlx_hook((*get_vars())->win, 6, (1L<<6) ,&mouse_aim, vars);
 	mlx_hook((*get_vars())->win, ON_KEYDOWN, (1L << 0), &kb_interaction, vars);
 	mlx_loop((*get_vars())->mlx);
 	return (1);

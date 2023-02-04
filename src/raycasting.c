@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/03 17:34:25 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 00:47:32 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ int	cast_rays(t_vars **vars)
     clock_t begin = clock();
 	//if (!init && ++init)
 	//	set_starting_pdata(vars);
+	if (!exec)
+		set_vect_to_vect(&last_dir, &(*vars)->p_vec->p_dir);
 	set_screen_vect(&(*vars)->p_vec);
 	x_coord = -1;
 	printf("played dir vector on initial cast_rays = %lfx %lfy\n", (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1]);
@@ -164,6 +166,8 @@ int	cast_rays(t_vars **vars)
 	printf("current screen vector data + %lfx %lfy\n",(*vars)->p_vec->screen[0], (*vars)->p_vec->screen[1]);
 	while (++x_coord < WIN_WIDTH)
 	{
+		if (compate_vectors(&last_dir, &(*vars)->p_vec->p_dir))
+			break ;
 		(*vars)->p_vec->ray.hit_ = 0;
 		(*vars)->p_vec->map_pos[0] = (int)(*vars)->p_vec->p_pos[0];
 		(*vars)->p_vec->map_pos[1] = (int)(*vars)->p_vec->p_pos[1];

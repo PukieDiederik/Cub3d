@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/03 18:37:15 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 00:48:01 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_mlx_img
 # define DEG_TO_RAD (M_PI / 180.0)
 
 # define FOV (FOV_DEG * DEG_TO_RAD)
+
+# define MOUSE_SENS 2.0
 
 typedef double	t_vec[2];
 

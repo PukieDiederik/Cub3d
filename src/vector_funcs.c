@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/03 18:47:20 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 00:45:09 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	scale_vect(t_vec *vect, double scale)
 
 int	compate_vectors(t_vec *vect1, t_vec *vect2)
 {
-	return ((*vect1)[0] != (*vect2)[0] || (*vect1)[1] != (*vect2)[1]);
+	return ((int)(*vect1)[0] * 10000 > (int)(*vect2)[0] * 10000 || (int)(*vect1)[1] * 10000 > (int)(*vect2)[1] * 10000);
 }
 
 void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get)
