@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/04 00:49:26 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 02:59:24 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,24 +91,33 @@ int	kb_interaction(int keycode, t_vars **vars)
 	// printf("final position vector in kb interaction %lfx %lfx\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
 
 	cast_rays(vars);
-	printf("keycode = %d\n\n", keycode);
+	//printf("keycode = %d\n\n", keycode);
 	return (0);
 }
 
 int	mouse_aim(int x, int y, t_vars **vars)
 {
 	static int	prev_mouse_x;
+	static int	step_checker;
 	double		move_ammount;
 
 	(void)y;
 	if (!prev_mouse_x)
+	{
 		prev_mouse_x = x;
-	if (x - prev_mouse_x < 0)
-		move_ammount = 1;
-	else
-		move_ammount = -1;
-	rotate_vec(&(*vars)->p_vec->p_dir, move_ammount * MOUSE_SENS);
-	cast_rays(vars);
+		step_checker = x;
+	}
+	if (prev_mouse_x - step_checker > MOUSE_AIM_STEPS
+		|| prev_mouse_x - step_checker < -MOUSE_AIM_STEPS)
+	{
+		step_checker = prev_mouse_x;
+		if (prev_mouse_x - x < 0)
+			move_ammount = -5;
+		else
+			move_ammount = 5;
+		rotate_vec(&(*vars)->p_vec->p_dir, move_ammount * MOUSE_SENS);	
+		cast_rays(vars);
+	}
 	prev_mouse_x = x;
 	return (1);
 }

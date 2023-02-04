@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/04 00:47:32 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 03:07:39 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ void	calc_side_delta_dist(t_pos_v **pos)
 	//printf("(*pos)->ray.ray_dir[0] = %lf (*pos)->ray.ray_dir[1] = %lf\n", (*pos)->ray.ray_dir[0], (*pos)->ray.ray_dir[1]);
 	
 	if ((*pos)->ray.ray_dir[0] == 0 && printf("x zero condition\n"))
-		(*pos)->ray.delta_dist[0] = 1000000000000000019884624838656.00;
+		(*pos)->ray.delta_dist[0] = VERY_BIG_N;
 	else
 		(*pos)->ray.delta_dist[0] = fabs(1 / (*pos)->ray.ray_dir[0]);
 
 
 
 	if ((*pos)->ray.ray_dir[1] == 0 && printf("y zero condition\n"))
-		(*pos)->ray.delta_dist[1] = 1000000000000000019884624838656.00;
+		(*pos)->ray.delta_dist[1] = VERY_BIG_N;
 	else
 		(*pos)->ray.delta_dist[1] = fabs(1 / (*pos)->ray.ray_dir[1]);
 
@@ -150,24 +150,17 @@ int	exec_loop_contition(int	*x_coord, t_vec *last_pos, t_vec *last_dir, t_vars *
 int	cast_rays(t_vars **vars)
 {
 	int				x_coord;
-	static t_vec	last_pos;
-	static t_vec	last_dir;
 	int	exec = 0;
 	double time_spent = 0.0;
     clock_t begin = clock();
-	//if (!init && ++init)
-	//	set_starting_pdata(vars);
-	if (!exec)
-		set_vect_to_vect(&last_dir, &(*vars)->p_vec->p_dir);
+	
 	set_screen_vect(&(*vars)->p_vec);
 	x_coord = -1;
-	printf("played dir vector on initial cast_rays = %lfx %lfy\n", (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1]);
-	printf("current payer position = %lfx %lfy\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
-	printf("current screen vector data + %lfx %lfy\n",(*vars)->p_vec->screen[0], (*vars)->p_vec->screen[1]);
+	// printf("played dir vector on initial cast_rays = %lfx %lfy\n", (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1]);
+	// printf("current payer position = %lfx %lfy\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
+	// printf("current screen vector data + %lfx %lfy\n",(*vars)->p_vec->screen[0], (*vars)->p_vec->screen[1]);
 	while (++x_coord < WIN_WIDTH)
 	{
-		if (compate_vectors(&last_dir, &(*vars)->p_vec->p_dir))
-			break ;
 		(*vars)->p_vec->ray.hit_ = 0;
 		(*vars)->p_vec->map_pos[0] = (int)(*vars)->p_vec->p_pos[0];
 		(*vars)->p_vec->map_pos[1] = (int)(*vars)->p_vec->p_pos[1];
@@ -232,8 +225,6 @@ int	cast_rays(t_vars **vars)
    		printf("The time per frame was = %f - fps = %d\n", time_spent, (int)(1/time_spent));
 	}
 	// printf("exited at x = %d\n", x_coord);
-	set_vect_to_vect(&last_dir, &(*vars)->p_vec->p_dir);
-	set_vect_to_vect(&last_pos, &(*vars)->p_vec->p_pos);
 	mlx_put_image_to_window((*vars)->mlx, (*vars)->win, (*vars)->render_buffer.img, 0, 0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/04 00:48:01 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/04 03:04:12 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,17 @@ typedef struct s_mlx_img
 	int		endian;
 }	t_mlx_img;
 
-# define FOV_DEG 130
+# define MOUSE_AIM_STEPS (int)((int)WIN_WIDTH / 40)
+
+# define VERY_BIG_N 1000000000000000019884624838656.00
+
+# define FOV_DEG 90
 
 # define DEG_TO_RAD (M_PI / 180.0)
 
 # define FOV (FOV_DEG * DEG_TO_RAD)
 
-# define MOUSE_SENS 2.0
+# define MOUSE_SENS 1.0
 
 typedef double	t_vec[2];
 
