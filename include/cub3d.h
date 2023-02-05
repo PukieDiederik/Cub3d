@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/04 19:06:34 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/05 16:20:54 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_mlx_img
 
 # define VERY_BIG_N 1000000000000000019884624838656.00
 
-# define FOV_DEG 90
+# define FOV_DEG 65
 
 # define DEG_TO_RAD (M_PI / 180.0)
 
@@ -75,7 +75,7 @@ typedef struct	s_ray_vs
 	double	wall_dist;
 	int		steping[2]; //DDA algo steping angle, either 1 or -1 in x and y
 	int		hit_;
-	t_vec	hit_pos;
+	double	hit_pos;
 	int		side; // 0 = top/bottom 1 = side
 	int		face; //1 = S 2 = W 3 = N 4 = E
 }	t_ray_vecs;

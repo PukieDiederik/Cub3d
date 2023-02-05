@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/04 19:10:48 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/05 16:29:44 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ void	my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int	get_img_color(t_mlx_img *img, int x, int y)
+unsigned int	get_img_color(t_mlx_img *img, int x, int y)
 {
-	int dst_b;
+	char *dst_b;
 
-	dst_b = *(img->addr + (y * img->line_length
+	dst_b = (img->addr + (y * img->line_length
 			+ x * (img->bits_per_pixel / 8)));
-	return (dst_b);
+	return (*dst_b);
 }
 
 void	draw_line(t_vars *vars, int x, double hit_x)
@@ -104,12 +104,17 @@ void	draw_line(t_vars *vars, int x, double hit_x)
 	int	i;
 	int	ceiling_index;
 	int	floor_index;
-	int	x_integral;
-	//int	wall_color;
+	double	img_y;
+	int	img_init_i;
 
-	if (vars->p_vec->line_height > W_H)
-		vars->p_vec->line_height = W_H;
 	ceiling_index = (W_H - vars->p_vec->line_height) / 2;
+	img_init_i = 0;
+	if (vars->p_vec->line_height > W_H)
+	{
+		img_init_i = (vars->p_vec->line_height - W_H) / 2;
+		ceiling_index = 0;
+	}
+	
 	floor_index = W_H - ceiling_index;
 	i = -1;
 	while (++i < ceiling_index)
@@ -118,12 +123,12 @@ void	draw_line(t_vars *vars, int x, double hit_x)
 	i--;
 	while(++i < floor_index)
 	{
-		x_integral = (int)hit_x;
-		hit_x -= x_integral;
+		hit_x -= (int)hit_x;
+		img_y = ((double)(i - ceiling_index + img_init_i) / vars->p_vec->line_height);
 		//printf("scaled x = %lf\n", vars->p_vec->ray.hit_x);
 		my_mlx_pixel_put(&vars->render_buffer, x, i,
 			get_img_color(&vars->tex_info.tex_n, hit_x * vars->tex_info.tex_n.width,
-			(i - ceiling_index) % vars->tex_info.tex_n.height));
+			img_y * vars->tex_info.tex_n.height));
 	}
 	i--;
 	while(++i < W_H)
@@ -174,6 +179,8 @@ int	did_ray_hit(t_vars **vars)
 		* (*vars)->map->width) + (*vars)->p_vec->map_pos[0]] == '1');
 }
 
+//side wall distances are calculated with xvalue because ray is cast from perpendicluar to me, the screen
+//side hit position is calculated with ray dir Y and pos Y because to my view it is a side, meaning the y is the image x	
 void	calc_rayds_to_face(t_vars **vars)
 {
 	if (!(*vars)->p_vec->ray.side)
@@ -183,6 +190,7 @@ void	calc_rayds_to_face(t_vars **vars)
 		(*vars)->p_vec->ray.face = 2;
 		if ((*vars)->p_vec->map_pos[0] < (*vars)->p_vec->p_pos[0])
 			(*vars)->p_vec->ray.face = 4;
+		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[1] + (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[1];
 	}
 	else
 	{
@@ -191,10 +199,9 @@ void	calc_rayds_to_face(t_vars **vars)
 		(*vars)->p_vec->ray.face = 1;
 		if ((*vars)->p_vec->map_pos[1] > (*vars)->p_vec->p_pos[1])
 			(*vars)->p_vec->ray.face = 3;
+		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[0] + (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[0];
+
 	}
-	set_vect_to_vect(&(*vars)->p_vec->ray.hit_pos, &(*vars)->p_vec->p_pos);
-	add_vect(&(*vars)->p_vec->ray.hit_pos, (*vars)->p_vec->ray.side_dist);
-	printf("hit on %lfx %lfy\n",(*vars)->p_vec->ray.hit_pos[0], (*vars)->p_vec->ray.hit_pos[1]);
 	(*vars)->p_vec->line_height = (int)(W_H / (*vars)->p_vec->ray.wall_dist);
 }
 
@@ -220,7 +227,7 @@ int	cast_rays(t_vars **vars)
 			(*vars)->p_vec->ray.hit_ = did_ray_hit(vars);
 		}
 		calc_rayds_to_face(vars);
-		draw_line(*vars, x_coord, (*vars)->p_vec->ray.hit_pos[1]);
+		draw_line(*vars, x_coord, (*vars)->p_vec->ray.hit_pos);
 		exec = 1;
 	}
 	if (exec)

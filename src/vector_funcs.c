@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/04 18:31:00 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/05 16:04:59 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ int	check_collision(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 		set_vect_to_vect(&new_pos, pos);
 		add_vect(&new_pos, *mov_vec);
 		if ((*vars)->map->map[(int)new_pos[1] * (*vars)->map->width
-			+ (int)new_pos[0]] == '1')
-			printf("movement will collide\n");
-		else if (printf("movement valid\n")){}
+			+ (int)new_pos[0]] != '1')
 			break ;
 	}
 	return ((*vars)->map->map[(int)new_pos[1] * (*vars)->map->width
