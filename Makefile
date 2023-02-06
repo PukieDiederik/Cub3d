@@ -2,7 +2,7 @@
 SHELL		=/bin/zsh
 
 FNAMES 		=	cub3d.c parsing.c tex_info.c map.c is_map_enclosed.c utils.c map_utils.c read_map.c\
-				convert_color.c convert_tex.c raycasting.c vector_funcs.c
+				convert_color.c convert_tex.c raycasting.c vector_funcs.c	crosshair.c
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.o)))
@@ -18,8 +18,8 @@ MLX			= mlx/libmlx_Linux.a
 ## Compilation
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
-O_FLAGS		= -O3 -march=native -ffast-math -funsafe-math-optimizations
+CFLAGS		= -Wall -Werror -Wextra #-g -fsanitize=address
+O_FLAGS		= -O3 -march=native -ffast-math -funsafe-math-optimizations -ffinite-math-only 
 LO_FLAGS	= -flto
 INCLUDES	= -I $(INCLUDE_DIR) -I libft/include -I mlx
 LIBS		= -L libft -lft -L mlx -lmlx_Linux -lXext -lX11 -lm -lz

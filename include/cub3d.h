@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/06 17:07:52 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:02:56 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,23 @@ typedef struct s_mlx_img
 
 # define VERY_BIG_N 1000000000000000019884624838656.00
 
-# define FOV_DEG 65
+# define FOV_DEG 80
 
 # define DEG_TO_RAD (M_PI / 180.0)
 
 # define FOV (FOV_DEG * DEG_TO_RAD)
 
 # define MOUSE_SENS 1
+
+# define CH_SIZE 1.0
+
+# define CH_GAP 0.8
+
+# define CH_TYPE 1 // 0 - Just color 1 - Outlined 2 - Cross shape
+
+# define CH_COLOR 0xDD3333
+
+# define CH_OCOLOR 0x000000
 
 typedef double	t_vec[2];
 
@@ -85,7 +95,7 @@ typedef struct	s_ray_vs
 	int		hit_;
 	double	hit_pos;
 	int		side; // 0 = top/bottom 1 = side
-	int		face; //1 = S 2 = W 3 = N 4 = E
+	int		face; //0 = S 1 = W 2 = N 3 = E
 }	t_ray_vecs;
 
 typedef	struct	s_pos_vect
@@ -152,8 +162,10 @@ typedef struct s_vars {
 t_map	*parse_map(char *file, t_tex_info *ti);
 void	**get_mlx_ptr(void);
 int		cast_rays(t_vars **vars);
-void	set_screen_vect(t_pos_v **pos);
 int		set_starting_pdata(t_vars **vars);
+void	draw_crosshair(t_mlx_img *img);
+//vector functions
+
 void	add_vect(t_vec *sum_vect, t_vec vect_to_add);
 void	scale_vect(t_vec *vect, double scale);
 double	get_v_magnitude(t_vec vect);
@@ -162,16 +174,16 @@ int		compate_vectors(t_vec *vect1, t_vec *vect2);
 void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get);
 int		is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
 void	normalize_vector(t_vec	*vec);
-void    my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color);
+void	set_screen_vect(t_pos_v **pos);
 
 // t_tex_info & t_map functions
 void	init_tex_info(t_tex_info *t);
 void	destroy_tex_info(t_tex_info *t);
-
 int		convert_color(char **s, t_tex_info *ti);
 int		convert_tex(char **s, t_tex_info *ti);
 t_list	*set_texture_info(t_tex_info *ti, t_list *f);
 
+// map functions
 t_map	*get_map(t_list *l);
 void	destroy_map(t_map *m);
 int		get_map_fd(char *file);
@@ -182,6 +194,7 @@ int		is_player_char(char c);
 t_vars	**get_vars(void);
 void	**get_mlx_ptr(void);
 int		b_putstr_fd(char *str, int fd);
+void    my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color);
 
 
 // Debug

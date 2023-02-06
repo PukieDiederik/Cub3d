@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 17:25:38 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:03:57 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,8 @@ int	did_ray_hit(t_vars **vars)
 }
 
 //side wall distances are calculated with xvalue because ray is cast from perpendicluar to me, the screen
+//it is not a side when x increases not because of that,
+//but because if y hit first and only after x also hit it was a side before x hit
 //side hit position is calculated with ray dir Y and pos Y because to my view it is a side, meaning the y is the image x	
 void	calc_rayds_to_face(t_vars **vars)
 {
@@ -231,6 +233,7 @@ int	cast_rays(t_vars **vars)
 		draw_line(*vars, x_coord, (*vars)->p_vec->ray.hit_pos);
 		exec = 1;
 	}
+	draw_crosshair(&(*vars)->render_buffer);
 	if (exec)
 	{
 		clock_t end = clock();
