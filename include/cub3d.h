@@ -25,6 +25,14 @@ enum {
 	ESC = 65307
 };
 
+enum
+{
+	SOUTH = 0,
+	WEST = 1,
+	NORTH = 2,
+	EAST = 3
+};
+
 // STRUCTURES
 /* struct s_mlx_img
  * All information required to work with an mlx image
@@ -126,10 +134,7 @@ typedef struct s_texture_info
 	int			is_initialized;
 	int			ceiling_color;
 	int			floor_color;
-	t_mlx_img	tex_n;
-	t_mlx_img	tex_s;
-	t_mlx_img	tex_w;
-	t_mlx_img	tex_e;
+	t_mlx_img	textures[4];
 }	t_tex_info;
 
 
