@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 17:19:56 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:25:38 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,18 +188,18 @@ void	calc_rayds_to_face(t_vars **vars)
 	{
 		(*vars)->p_vec->ray.wall_dist = (*vars)->p_vec->ray.side_dist[0] -
 			(*vars)->p_vec->ray.delta_dist[0];
-		(*vars)->p_vec->ray.face = 2;
+		(*vars)->p_vec->ray.face = 1;
 		if ((*vars)->p_vec->map_pos[0] < (*vars)->p_vec->p_pos[0])
-			(*vars)->p_vec->ray.face = 4;
+			(*vars)->p_vec->ray.face = 3;
 		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[1] + (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[1];
 	}
 	else
 	{
 		(*vars)->p_vec->ray.wall_dist = (*vars)->p_vec->ray.side_dist[1] -
 			(*vars)->p_vec->ray.delta_dist[1];
-		(*vars)->p_vec->ray.face = 1;
+		(*vars)->p_vec->ray.face = 0;
 		if ((*vars)->p_vec->map_pos[1] > (*vars)->p_vec->p_pos[1])
-			(*vars)->p_vec->ray.face = 3;
+			(*vars)->p_vec->ray.face = 2;
 		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[0] + (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[0];
 
 	}
