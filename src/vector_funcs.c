@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/05 16:04:59 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 04:01:21 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 	set_vect_to_vect(&transf_vec, &check_mov_vector);
 	set_vect_to_vect(&check_mov_vector, mov_vec);
 	set_vect_to_vect(&width_dir, &(*vars)->p_vec->p_dir);
-	scale_vect(&width_dir, 0.20);
+	scale_vect(&width_dir, 0.166);
 	rotate_vec(&width_dir, 45);
 	set_vect_to_vect(&width_pos, &(*vars)->p_vec->p_pos);
 	add_vect(&width_pos, width_dir);
@@ -129,7 +129,7 @@ int	is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 	if (result)
 		return (1);
 	set_vect_to_vect(&width_dir, &(*vars)->p_vec->p_dir);
-	scale_vect(&width_dir, 0.20);
+	scale_vect(&width_dir, 0.166);
 	rotate_vec(&width_dir, -45);
 	set_vect_to_vect(&width_pos, &(*vars)->p_vec->p_pos);
 	add_vect(&width_pos, width_dir);

@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/05 16:29:44 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 03:59:37 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ void	my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-unsigned int	get_img_color(t_mlx_img *img, int x, int y)
+unsigned int	*get_img_color(t_mlx_img *img, int x, int y)
 {
 	char *dst_b;
 
-	dst_b = (img->addr + (y * img->line_length
-			+ x * (img->bits_per_pixel / 8)));
-	return (*dst_b);
+	dst_b = img->addr + (y * img->line_length
+			+ x * (img->bits_per_pixel / 8));
+	return ((unsigned int *)(dst_b));
 }
 
 void	draw_line(t_vars *vars, int x, double hit_x)
@@ -106,6 +106,7 @@ void	draw_line(t_vars *vars, int x, double hit_x)
 	int	floor_index;
 	double	img_y;
 	int	img_init_i;
+	t_mlx_img	*img;
 
 	ceiling_index = (W_H - vars->p_vec->line_height) / 2;
 	img_init_i = 0;
@@ -114,24 +115,30 @@ void	draw_line(t_vars *vars, int x, double hit_x)
 		img_init_i = (vars->p_vec->line_height - W_H) / 2;
 		ceiling_index = 0;
 	}
-	
 	floor_index = W_H - ceiling_index;
+	hit_x -= (int)hit_x;
+	if (vars->p_vec->ray.face == 1)
+		img = &vars->tex_info.tex_s;
+	if (vars->p_vec->ray.face == 2)
+		img = &vars->tex_info.tex_w;
+	if (vars->p_vec->ray.face == 3)
+		img = &vars->tex_info.tex_n;
+	if (vars->p_vec->ray.face == 4)
+		img = &vars->tex_info.tex_e;
 	i = -1;
 	while (++i < ceiling_index)
 		my_mlx_pixel_put(&vars->render_buffer, x, i,
 			vars->tex_info.ceiling_color);
-	i--;
+	i --;
 	while(++i < floor_index)
 	{
-		hit_x -= (int)hit_x;
 		img_y = ((double)(i - ceiling_index + img_init_i) / vars->p_vec->line_height);
-		//printf("scaled x = %lf\n", vars->p_vec->ray.hit_x);
 		my_mlx_pixel_put(&vars->render_buffer, x, i,
-			get_img_color(&vars->tex_info.tex_n, hit_x * vars->tex_info.tex_n.width,
+			*get_img_color(img, hit_x * vars->tex_info.tex_n.width,
 			img_y * vars->tex_info.tex_n.height));
 	}
-	i--;
-	while(++i < W_H)
+	i -= 2;
+	while(++i < W_H && vars->p_vec->line_height < W_H)
 		my_mlx_pixel_put(&vars->render_buffer, x, i,
 			vars->tex_info.floor_color);
 }
@@ -214,9 +221,7 @@ int	cast_rays(t_vars **vars)
 	
 	set_screen_vect(&(*vars)->p_vec);
 	x_coord = -1;
-	// printf("played dir vector on initial cast_rays = %lfx %lfy\n", (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1]);
-	// printf("current payer position = %lfx %lfy\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
-	// printf("current screen vector data + %lfx %lfy\n",(*vars)->p_vec->screen[0], (*vars)->p_vec->screen[1]);
+
 	while (++x_coord < W_W)
 	{
 		set_initial_x_rayd(vars, x_coord);

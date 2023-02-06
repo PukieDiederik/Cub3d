@@ -1,10 +1,10 @@
-NO maps/images/yoshi.xpm
-SO maps/images/yoshi.xpm
-WE maps/images/yoshi.xpm
-EA maps/images/yoshi.xpm
+NO maps/images/GrasswallL_1.xpm
+SO maps/images/BrownbrickD.xpm
+WE maps/images/BrownbrickD.xpm
+EA maps/images/BrownbrickL.xpm
 
-F 255,255,128
-C 0,128,64
+F 74,74,74
+C 178,49,43
 
   111111111111111111111111111
  1100010000100001000010000101
