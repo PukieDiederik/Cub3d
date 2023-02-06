@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/06 17:14:10 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:20:03 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ int	init_window()
 		return (0);
 	mlx_mouse_hide((*vars)->mlx, (*vars)->win);
 	cast_rays(get_vars());
-	mlx_put_image_to_window((*vars)->mlx, (*vars)->win, (*vars)->tex_info.tex_n.img, 0, 0);
 	//draw_minimap(get_vars());
 	mlx_hook((*vars)->win, 6, (1L<<6) ,&mouse_aim, vars);
 	mlx_hook((*vars)->win, ON_DESTROY, 0, &clear_exit, vars);

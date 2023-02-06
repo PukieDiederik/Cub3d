@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 17:09:46 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:19:56 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	draw_line(t_vars *vars, int x, double hit_x)
 	int	floor_index;
 	double	img_y;
 	int	img_init_i;
-	t_mlx_img	*img;
 
 	ceiling_index = (W_H - vars->p_vec->line_height) / 2;
 	img_init_i = 0;
@@ -119,14 +118,6 @@ void	draw_line(t_vars *vars, int x, double hit_x)
 	}
 	floor_index = W_H - ceiling_index;
 	hit_x -= (int)hit_x;
-	if (vars->p_vec->ray.face == 1)
-		img = &vars->tex_info.tex_s;
-	else if (vars->p_vec->ray.face == 2)
-		img = &vars->tex_info.tex_w;
-	else if (vars->p_vec->ray.face == 3)
-		img = &vars->tex_info.tex_n;
-	else
-		img = &vars->tex_info.tex_e;
 	i = -1;
 	while (++i < ceiling_index)
 		my_mlx_pixel_put(&vars->render_buffer, x, i,
@@ -136,8 +127,9 @@ void	draw_line(t_vars *vars, int x, double hit_x)
 	{
 		img_y = ((double)(i - ceiling_index + img_init_i) / vars->p_vec->line_height);
 		my_mlx_pixel_put(&vars->render_buffer, x, i,
-			*get_img_color(img, hit_x * vars->tex_info.tex_n.width,
-			img_y * vars->tex_info.tex_n.height));
+			*get_img_color(&vars->tex_info.textures[vars->p_vec->ray.face],
+			hit_x * vars->tex_info.textures[vars->p_vec->ray.face].width,
+			img_y * vars->tex_info.textures[vars->p_vec->ray.face].height));
 	}
 	i -= 2;
 	while(++i < W_H && vars->p_vec->line_height < W_H)
