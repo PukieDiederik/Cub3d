@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 16:34:29 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:09:46 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ unsigned int	*get_img_color(t_mlx_img *img, int x, int y)
 {
 	char *dst_b;
 
+	if (!img)
+		return (0);
 	dst_b = img->addr + (y * img->line_length
 			+ x * (img->bits_per_pixel / 8));
 	return ((unsigned int *)(dst_b));
@@ -119,11 +121,11 @@ void	draw_line(t_vars *vars, int x, double hit_x)
 	hit_x -= (int)hit_x;
 	if (vars->p_vec->ray.face == 1)
 		img = &vars->tex_info.tex_s;
-	if (vars->p_vec->ray.face == 2)
+	else if (vars->p_vec->ray.face == 2)
 		img = &vars->tex_info.tex_w;
-	if (vars->p_vec->ray.face == 3)
+	else if (vars->p_vec->ray.face == 3)
 		img = &vars->tex_info.tex_n;
-	if (vars->p_vec->ray.face == 4)
+	else
 		img = &vars->tex_info.tex_e;
 	i = -1;
 	while (++i < ceiling_index)
@@ -216,6 +218,8 @@ int	cast_rays(t_vars **vars)
 {
 	int	x_coord;
 	int	exec = 0;
+	static int	times_rendered;
+	static int		total_f;
 	double time_spent = 0.0;
     clock_t begin = clock();
 	
@@ -239,7 +243,9 @@ int	cast_rays(t_vars **vars)
 	{
 		clock_t end = clock();
 		time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-   		printf("The time per frame was = %f - fps = %d\n", time_spent, (int)(1/time_spent));
+		total_f += (int)(1/time_spent);
+		times_rendered++;
+   		printf("The time per frame was = %f - avg fps = %d\n", time_spent, total_f / times_rendered);
 	}
 	mlx_do_sync((*vars)->mlx);
 	mlx_put_image_to_window((*vars)->mlx, (*vars)->win,

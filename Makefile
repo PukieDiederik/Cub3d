@@ -18,7 +18,9 @@ MLX			= mlx/libmlx_Linux.a
 ## Compilation
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra #-g #-fsanitize=address
+O_FLAGS		= -O3 -march=native -ffast-math -funsafe-math-optimizations
+LO_FLAGS	= -flto
 INCLUDES	= -I $(INCLUDE_DIR) -I libft/include -I mlx
 LIBS		= -L libft -lft -L mlx -lmlx_Linux -lXext -lX11 -lm -lz
 ## Other
@@ -49,7 +51,7 @@ all: $(NAME)
 
 $(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
-	@gcc $(CFLAGS) -MMD -MP -c $(INCLUDES) $< -o $@
+	@gcc $(CFLAGS) $(O_FLAGS) -MMD -MP -c $(INCLUDES) $< -o $@
 
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
@@ -65,7 +67,7 @@ $(MLX):
 # regular targets
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@$(ECHO) "$(GREEN)>>>>> Linking <<<<<$(RESET)"
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(O_FLAGS) $(LO_FLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
 init:
 	@$(ECHO) "$(PURPLE)>>>>> Initializing this repository <<<<<$(RESET)"

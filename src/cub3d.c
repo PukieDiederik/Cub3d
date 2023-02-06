@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/06 16:42:49 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:10:16 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	mouse_aim(int x, int y, t_vars **vars)
 	if (x - W_W / 2 > MOUSE_AIM_STEPS
 		|| x - W_W / 2  < -MOUSE_AIM_STEPS)
 	{
-		move_ammount = -2 * MOUSE_SENS;
+		move_ammount = -3 * MOUSE_SENS;
 		if (x - W_W / 2 < 0)
 			move_ammount = -move_ammount;
 		rotate_vec(&(*vars)->p_vec->p_dir, move_ammount * MOUSE_SENS);	
