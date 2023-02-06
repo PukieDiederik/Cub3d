@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 03:59:37 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 16:34:29 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ void	calc_rayds_to_face(t_vars **vars)
 
 int	cast_rays(t_vars **vars)
 {
-	int				x_coord;
+	int	x_coord;
 	int	exec = 0;
 	double time_spent = 0.0;
     clock_t begin = clock();

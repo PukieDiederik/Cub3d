@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/05 16:20:54 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 16:36:28 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_mlx_img
 
 # define MM_HEIGHT (int)(W_W / 8.0)
 
-# define MOUSE_AIM_STEPS (int)((int)W_W / 66)
+# define MOUSE_AIM_STEPS (int)((int)W_W / 25)
 
 # define VERY_BIG_N 1000000000000000019884624838656.00
 

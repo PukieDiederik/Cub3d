@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/04 18:05:58 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 16:42:49 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,27 +122,19 @@ int	kb_interaction(int keycode, t_vars **vars)
 
 int	mouse_aim(int x, int y, t_vars **vars)
 {
-	static int	prev_mouse_x;
-	static int	step_checker;
 	double		move_ammount;
 
 	(void)y;
-	if (!prev_mouse_x)
+	if (x - W_W / 2 > MOUSE_AIM_STEPS
+		|| x - W_W / 2  < -MOUSE_AIM_STEPS)
 	{
-		prev_mouse_x = x;
-		step_checker = x;
-	}
-	if (prev_mouse_x - step_checker > MOUSE_AIM_STEPS
-		|| prev_mouse_x - step_checker < -MOUSE_AIM_STEPS)
-	{
-		step_checker = prev_mouse_x;
-		move_ammount = 5 * MOUSE_SENS;
-		if (prev_mouse_x - x < 0)
+		move_ammount = -2 * MOUSE_SENS;
+		if (x - W_W / 2 < 0)
 			move_ammount = -move_ammount;
 		rotate_vec(&(*vars)->p_vec->p_dir, move_ammount * MOUSE_SENS);	
 		cast_rays(vars);
+		mlx_mouse_move((*vars)->mlx, (*vars)->win, W_W / 2, W_H / 2);
 	}
-	prev_mouse_x = x;
 	return (1);
 }
 
@@ -159,11 +151,12 @@ int	init_window()
 	if (!set_starting_pdata(get_vars())
 		&& printf("Error in init data or FOV outside of range 1-179\n"))
 		return (0);
+	mlx_mouse_hide((*vars)->mlx, (*vars)->win);
 	cast_rays(get_vars());
 	mlx_put_image_to_window((*vars)->mlx, (*vars)->win, (*vars)->tex_info.tex_n.img, 0, 0);
 	//draw_minimap(get_vars());
-	mlx_hook((*vars)->win, ON_DESTROY, 0, &clear_exit, vars);
 	mlx_hook((*vars)->win, 6, (1L<<6) ,&mouse_aim, vars);
+	mlx_hook((*vars)->win, ON_DESTROY, 0, &clear_exit, vars);
 	mlx_hook((*vars)->win, ON_KEYDOWN, (1L << 0), &kb_interaction, vars);
 	mlx_loop((*vars)->mlx);
 	return (1);
