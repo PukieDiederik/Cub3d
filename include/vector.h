@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:18:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/07 17:21:16 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:57:50 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 //Type defs
 typedef double	t_vec[2];
-
-//Constants
-# define DEG_TO_RAD (M_PI / 180.0)
 
 //Functions
 void	add_vect(t_vec *sum_vect, t_vec vect_to_add);

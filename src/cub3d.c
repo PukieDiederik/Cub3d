@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/07 16:02:39 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:51:54 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int	mouse_aim(int x, int y, t_vars **vars)
 	double		move_ammount;
 
 	(void)y;
-	if (x - W_W / 2 > MOUSE_AIM_STEPS
-		|| x - W_W / 2  < -MOUSE_AIM_STEPS)
+	if (x - W_W / 2 > (int)((int)W_W / 50)
+		|| x - W_W / 2  < -(int)((int)W_W / 50))
 	{
 		move_ammount = -2 * MOUSE_SENS;
 		if (x - W_W / 2 < 0)
@@ -115,8 +115,8 @@ int	mouse_aim(int x, int y, t_vars **vars)
 
 int	are_options_valid()
 {
-	if (MM_W + MM_B_W * 2 + MM_SPACER > W_W || MM_W + MM_B_W * 2+ MM_SPACER < 0
-	|| MM_H + MM_B_H * 2+ MM_SPACER > W_W || MM_H + MM_B_H * 2 + MM_SPACER < 0)
+	if (mm_s() + mm_b_s() * 2 + mm_spacer() > W_W || mm_s() + mm_b_s() * 2+ mm_spacer() < 0
+	|| mm_s() + mm_b_s() * 2+ mm_spacer() > W_W || mm_s() + mm_b_s() * 2 + mm_spacer() < 0)
 		return (0);
 	if (MOUSE_SENS < 0 || CH_TYPE < 0 || CH_TYPE > 2
 		|| W_W / 2 - ((double)(CH_SIZE * 10) / W_W * W_W) - (CH_GAP * 5) - 1 < 0
