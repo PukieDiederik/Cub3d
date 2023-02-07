@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/06 22:02:56 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:57:44 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,23 @@ typedef struct s_mlx_img
 }	t_mlx_img;
 
 //Constants
-# define W_H 720
+# define W_H 1280
 
-# define W_W 1280
+# define W_W 1600
 
-# define MM_WIDTH (int)(W_W / 8.0)
+# define MM_W (int)(W_W / 7.0)
 
-# define MM_HEIGHT (int)(W_W / 8.0)
+# define MM_H (int)(W_W / 7.0)
+
+# define MM_B_H (double)MM_H / 20
+
+# define MM_B_W (double)MM_W / 20
+
+# define MM_WALL_C 0x775144
+
+# define MM_SPACER_SCALE 20
+
+# define MM_SPACER (double)MM_W  / MM_SPACER_SCALE / W_W * W_W
 
 # define MOUSE_AIM_STEPS (int)((int)W_W / 50)
 
@@ -175,6 +185,7 @@ void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get);
 int		is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
 void	normalize_vector(t_vec	*vec);
 void	set_screen_vect(t_pos_v **pos);
+double	get_angle_between_vec(t_vec	*vec1, t_vec *vec2);
 
 // t_tex_info & t_map functions
 void	init_tex_info(t_tex_info *t);

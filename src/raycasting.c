@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 22:03:57 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 00:01:24 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,95 @@ void	calc_rayds_to_face(t_vars **vars)
 	(*vars)->p_vec->line_height = (int)(W_H / (*vars)->p_vec->ray.wall_dist);
 }
 
+void	draw_minimap_border(t_mlx_img *img)
+{
+	int	i;
+	int	k;
+
+	i = -1;
+	while (++i < MM_W + MM_B_W + MM_SPACER)
+	{
+		k = -1;
+		while (++k < MM_H + MM_B_H + MM_SPACER)
+			if ((i < MM_B_W || i > MM_W) || (k < MM_B_H || k > MM_H))
+				my_mlx_pixel_put(img, i + MM_SPACER, k + MM_SPACER, 0x222222);
+	}
+}
+
+void	draw_player_position(t_mlx_img *img, t_vars *vars)
+{
+	double	abs_player_x;
+	double	abs_player_y;
+	//int		angle;
+	t_vec	c;
+	double	i;
+	int		r;
+
+	abs_player_x = vars->p_vec->p_pos[0] / vars->map->width;
+	abs_player_x -= (int)abs_player_x;
+	abs_player_x *= MM_W;
+	abs_player_y = vars->p_vec->p_pos[1] / vars->map->height;
+	abs_player_y -= (int)abs_player_y;
+	abs_player_y *= MM_H;
+
+	i = 0;
+	r = 4;
+	while (i < 360.0)
+	{
+		c[0] = r * cos(i * DEG_TO_RAD);
+		c[1] = r * sin(i * DEG_TO_RAD);
+		printf("angle between vectors = %lf\n", get_angle_between_vec(&vars->p_vec->p_dir, &c));
+		if (get_angle_between_vec(&vars->p_vec->p_dir, &c) < 30
+				&& get_angle_between_vec(&vars->p_vec->p_dir, &c) > -30)
+			r = 8;
+		while (--r > -1)
+		{
+			c[0] = r * cos(i * DEG_TO_RAD);
+			c[1] = r * sin(i * DEG_TO_RAD);
+			my_mlx_pixel_put(img, (int)(abs_player_x + MM_SPACER + MM_B_W + c[0]),
+			(int)(abs_player_y + MM_SPACER + MM_B_H + c[1]), CH_COLOR );
+		}
+		r = 4;
+		i = i + 0.5;
+	}
+
+	
+}
+
+void	draw_minimap(t_mlx_img *img, t_vars	*vars)
+{
+	int	i;
+	int	k;
+	double	map_i;
+	double	map_k;
+
+	draw_minimap_border(img);
+	i = -1;
+	while(++i < MM_W)
+	{
+		map_i = (double)i / MM_W;
+		map_i -= (int)map_i;
+		map_i = (int)(map_i * vars->map->width);
+		k = -1;
+		while (++k < MM_H)
+		{
+			map_k = (double)k / MM_H;
+			map_k -= (int)map_k;
+			map_k = (int)(map_k * vars->map->height);
+			if (vars->map->map[(int)(map_k * vars->map->width + map_i)] == '1')
+				my_mlx_pixel_put(img,
+					i + MM_B_W + MM_SPACER, k + MM_B_H + MM_SPACER, MM_WALL_C);
+			else if ((vars->map->map[(int)(map_k * vars->map->width + map_i)] == '0'))
+				my_mlx_pixel_put(img,
+					i + MM_B_W + MM_SPACER, k + MM_B_H + MM_SPACER, vars->tex_info.floor_color);
+			else
+				my_mlx_pixel_put(img,
+					i + MM_B_W + MM_SPACER, k + MM_B_H + MM_SPACER, 0x222222);
+		}
+	}
+	draw_player_position(img, vars);
+}
+
 int	cast_rays(t_vars **vars)
 {
 	int	x_coord;
@@ -234,6 +323,7 @@ int	cast_rays(t_vars **vars)
 		exec = 1;
 	}
 	draw_crosshair(&(*vars)->render_buffer);
+	draw_minimap(&(*vars)->render_buffer, *vars);
 	if (exec)
 	{
 		clock_t end = clock();

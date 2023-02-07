@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 04:01:21 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 23:53:34 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ void	scale_vect(t_vec *vect, double scale)
 	(*vect)[1] *= scale;
 }
 
+int	get_dot_prod(t_vec *vec1, t_vec *vec2)
+{
+	return ((*vec1)[0] * (*vec2)[0] + (*vec1)[1] * (*vec2)[1]);
+}
 //Compares 2 vectors to 0.00001 precision
 //
 //Returns 0 if equal or 1 if different
@@ -79,6 +83,16 @@ void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get)
 {
 	(*vect_to_set)[0] = (*vect_to_get)[0];
 	(*vect_to_set)[1] = (*vect_to_get)[1];
+
+}
+
+double		get_angle_between_vec(t_vec	*vec1, t_vec *vec2)
+{
+	double	angle;
+
+	angle = acos(get_dot_prod(vec1, vec2)
+		/ (get_v_magnitude(*vec1) * get_v_magnitude(*vec2)));
+	return (angle / DEG_TO_RAD);
 
 }
 

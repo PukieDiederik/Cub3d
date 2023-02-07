@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/06 17:20:03 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:08:08 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,31 +46,6 @@ int	clear_exit()
 	free((*get_vars()));
 	exit(0);
 
-}
-
-void	draw_minimap(t_vars **vars)
-{
-	int	x;
-	int	y;
-	// double xf;
-	// double yf;
-
-	x = -1;
-	(void)vars;
-	while (++x < MM_HEIGHT)
-	{
-		y = -1;
-		while (++y < MM_HEIGHT)
-		{
-			// yf = y;
-			// xf = x;
-			// yf = (yf / MM_HEIGHT) * (((*vars)->map->height - 1)) * (*vars)->map->width;
-			// xf = (xf / MM_WIDTH) * ((*vars)->map->width);
-			// printf("map size = %lu\n %d y %d x\n", ft_strlen((*vars)->map->map), (int)yf, (int)xf);
-			if ((*vars)->map->map[4] == '1')
-				my_mlx_pixel_put(&(*vars)->render_buffer, x + 10, y + 10, 0xFFFFFF);
-		}
-	}
 }
 
 int	kb_interaction(int keycode, t_vars **vars)
