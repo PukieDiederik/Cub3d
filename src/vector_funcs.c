@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/07 17:54:59 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:03:31 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,7 @@ void	normalize_vector(t_vec	*vec)
 void	set_screen_vect(t_pos_v **pos)
 {
 	set_vect_to_vect(&(*pos)->screen, &(*pos)->p_dir);
-//	printf("before rotate = (%lf, %lf)\n", pos->screen[0], pos->screen[1]);
 	rotate_vec(&(*pos)->screen, 90);
-//	printf("after rotate = (%lf, %lf)\n", pos->screen[0], pos->screen[1]);
 	scale_vect(&(*pos)->screen, tan(fov() / 2));
 }
 

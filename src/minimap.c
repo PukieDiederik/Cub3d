@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:55:16 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/07 17:54:59 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:02:39 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static void	draw_minimap_border(t_mlx_img *img)
 		k = -1;
 		while (++k < mm_s() + mm_b_s() + mm_spacer())
 			if ((i < mm_b_s() || i > mm_s()) || (k < mm_b_s() || k > mm_s()))
-				my_mlx_pixel_put(img, i + mm_spacer(), k + mm_spacer(), 0x222222);
+				my_mlx_pixel_put(img, i + mm_spacer(),
+					k + mm_spacer(), 0x222222);
 	}
 }
 
