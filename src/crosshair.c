@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 21:37:52 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 22:02:30 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:16:36 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static void	draw_ch_outline_ends(t_mlx_img *img, int i, int color)
 	my_mlx_pixel_put(img, W_W / 2 + (CH_GAP * 5) + i, W_H / 2 + 1, color);
 	my_mlx_pixel_put(img, W_W / 2 + (CH_GAP * 5) + i + 1, W_H / 2, color);
 	my_mlx_pixel_put(img, W_W / 2 + 1, W_H / 2 - (CH_GAP * 5) - i, color);
-	my_mlx_pixel_put(img, W_W / 2, 	   W_H / 2 - (CH_GAP * 5) - i, color);
+	my_mlx_pixel_put(img, W_W / 2, W_H / 2 - (CH_GAP * 5) - i, color);
 	my_mlx_pixel_put(img, W_W / 2 - 1, W_H / 2 - (CH_GAP * 5) - i, color);
-	my_mlx_pixel_put(img, W_W / 2,     W_H / 2 - (CH_GAP * 5) - i - 1, color);
-	my_mlx_pixel_put(img, W_W / 2,     W_H / 2 + (CH_GAP * 5) + i, color);
+	my_mlx_pixel_put(img, W_W / 2, W_H / 2 - (CH_GAP * 5) - i - 1, color);
+	my_mlx_pixel_put(img, W_W / 2, W_H / 2 + (CH_GAP * 5) + i, color);
 	my_mlx_pixel_put(img, W_W / 2 + 1, W_H / 2 + (CH_GAP * 5) + i, color);
 	my_mlx_pixel_put(img, W_W / 2 - 1, W_H / 2 + (CH_GAP * 5) + i, color);
-	my_mlx_pixel_put(img, W_W / 2,     W_H / 2 + (CH_GAP * 5) + i + 1, color);
+	my_mlx_pixel_put(img, W_W / 2, W_H / 2 + (CH_GAP * 5) + i + 1, color);
 }
 
 void	draw_crosshair(t_mlx_img *img)
