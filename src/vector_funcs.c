@@ -19,14 +19,10 @@
 //POSITION VECTOR IS A VECTOR FROM MAPS (0, 0)
 //ALL OTHER VECTORS HAVE POS VECTOR AS INITIAL POSITION
 
-
 //Gets magnite of vector and returns it
 double	get_v_magnitude(t_vec vect)
 {
-	return (sqrt(
-		powl(fabs(vect[0]), 2) +
-		powl(fabs(vect[1]), 2)
-		));
+	return (sqrt(powl(fabs(vect[0]), 2) + powl(fabs(vect[1]), 2)));
 }
 
 //Sums values of both vectors into sum_vect - !changes vector values!
@@ -35,6 +31,7 @@ void	add_vect(t_vec *sum_vect, t_vec vect_to_add)
 	(*sum_vect)[0] += vect_to_add[0];
 	(*sum_vect)[1] += vect_to_add[1];
 }
+
 //Subtracts values of both vectors into sub_vect - !changes vector values!
 void	sub_vect(t_vec *sub_vect, t_vec vect_to_sub)
 {
@@ -47,15 +44,15 @@ void	rotate_vec(t_vec *vec, double angle)
 {
 	double	x;
 	double	y;
-	//printf("rotate vector called on vector %lfx %lfy\n", (*vec)[0], (*vec)[1]);
+
 	angle *= d_to_r();
 	x = ((*vec)[0] * cos(angle)) + ((*vec)[1] * sin(angle));
 	y = ((*vec)[0] * -sin(angle)) + ((*vec)[1] * cos(angle));
 	(*vec)[0] = x;
 	(*vec)[1] = y;
-	//printf("after rotate vector called on vector %lfx %lfy\n", *(vec)[0], (*vec)[1]);
 
 }
+
 //Scales vector in place - !changes vector values!
 void	scale_vect(t_vec *vect, double scale)
 {
@@ -67,12 +64,14 @@ int	get_dot_prod(t_vec *vec1, t_vec *vec2)
 {
 	return ((*vec1)[0] * (*vec2)[0] + (*vec1)[1] * (*vec2)[1]);
 }
+
 //Compares 2 vectors to 0.00001 precision
 //
 //Returns 0 if equal or 1 if different
 int	compate_vectors(t_vec *vect1, t_vec *vect2)
 {
-	return ((int)(*vect1)[0] * 10000 > (int)(*vect2)[0] * 10000 || (int)(*vect1)[1] * 10000 > (int)(*vect2)[1] * 10000);
+	return ((int)(*vect1)[0] * 10000 > (int)(*vect2)[0] * 10000
+			|| (int)(*vect1)[1] * 10000 > (int)(*vect2)[1] * 10000);
 }
 
 //Sets values of vect_to_set to values of vect_to_get
@@ -82,17 +81,15 @@ void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get)
 {
 	(*vect_to_set)[0] = (*vect_to_get)[0];
 	(*vect_to_set)[1] = (*vect_to_get)[1];
-
 }
 
-double		get_angle_between_vec(t_vec	*vec1, t_vec *vec2)
+double	get_angle_between_vec(t_vec	*vec1, t_vec *vec2)
 {
 	double	angle;
 
 	angle = acos(get_dot_prod(vec1, vec2)
-		/ (get_v_magnitude(*vec1) * get_v_magnitude(*vec2)));
+			/ (get_v_magnitude(*vec1) * get_v_magnitude(*vec2)));
 	return (angle / d_to_r());
-
 }
 
 int	check_collision(t_vec *pos, t_vec *mov_vec, t_vars **vars)
@@ -100,7 +97,7 @@ int	check_collision(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 	t_vec	new_pos;
 	t_vec	dec_vec;
 	int		i;
-	
+
 	i = 0;
 	set_vect_to_vect(&dec_vec, mov_vec);
 	scale_vect(&dec_vec, 0.25);
@@ -111,11 +108,11 @@ int	check_collision(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 		set_vect_to_vect(&new_pos, pos);
 		add_vect(&new_pos, *mov_vec);
 		if ((*vars)->map->map[(int)new_pos[1] * (*vars)->map->width
-			+ (int)new_pos[0]] != '1')
+				+ (int)new_pos[0]] != '1')
 			break ;
 	}
 	return ((*vars)->map->map[(int)new_pos[1] * (*vars)->map->width
-		+ (int)new_pos[0]] == '1');
+			+ (int)new_pos[0]] == '1');
 }
 
 int	is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars)
@@ -125,7 +122,7 @@ int	is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 	t_vec	transf_vec;
 	t_vec	width_pos;
 	t_vec	width_dir;
-	
+
 	set_vect_to_vect(&check_mov_vector, mov_vec);
 	result = check_collision(pos, &check_mov_vector, vars);
 	if (result)
@@ -152,13 +149,14 @@ int	is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars)
 		return (1);
 	set_vect_to_vect(mov_vec, &transf_vec);
 	return (0);
-
 }
 
 //Normalizes vector to magnitude of 1 - !changes vector values!
 void	normalize_vector(t_vec	*vec)
 {
-	double	m = get_v_magnitude(*vec);
+	double	m;
+
+	m = get_v_magnitude(*vec);
 	(*vec)[0] = (*vec)[0] / m;
 	(*vec)[1] = (*vec)[1] / m;
 }
@@ -169,4 +167,3 @@ void	set_screen_vect(t_pos_v **pos)
 	rotate_vec(&(*pos)->screen, 90);
 	scale_vect(&(*pos)->screen, tan(fov() / 2));
 }
-

@@ -17,7 +17,9 @@
 
 int	b_putstr_fd(char *str, int fd)
 {
-	write(fd, str, ft_strlen(str));
+	int	d;
+	d = write(fd, str, ft_strlen(str));
+	(void)d;
 	return (0);
 }
 

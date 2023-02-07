@@ -75,6 +75,6 @@ int	convert_tex(char **s, t_tex_info *ti)
 		return (0);
 	}
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
-		&img->line_length, &img->endian);
+			&img->line_length, &img->endian);
 	return (1);
 }

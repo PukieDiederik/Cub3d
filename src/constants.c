@@ -14,7 +14,7 @@
 
 inline double	mm_spacer(void)
 {
-	return ((double)mm_s()  / ((double)MM_SPACER_SCALE / W_W * W_W));
+	return ((double)mm_s() / ((double)MM_SPACER_SCALE / W_W * W_W));
 }
 
 inline double	mm_b_s(void)
