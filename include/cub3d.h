@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/07 16:56:31 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:24:47 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <libft.h>
 # include <mlx.h>
 # include <math.h>
+# include "vector.h"
+# include "options.h"
 
 enum {
 	ON_KEYDOWN = 2,
@@ -52,47 +54,13 @@ typedef struct s_mlx_img
 }	t_mlx_img;
 
 //Constants
-# define W_H 720
-
-# define W_W 1280
-
-# define MM_W (int)(W_W / 8)
-
-# define MM_H (int)(W_W / 8)
 
 # define MM_B_H (double)MM_H / 20
-
 # define MM_B_W (double)MM_W / 20
-
-# define MM_WALL_C 0x856548
-
-# define MM_SPACER_SCALE 20
-
 # define MM_SPACER ((double)MM_W  / ((double)MM_SPACER_SCALE / W_W * W_W))
-
 # define MOUSE_AIM_STEPS (int)((int)W_W / 50)
-
 # define VERY_BIG_N 1000000000000000019884624838656.00
-
-# define FOV_DEG 80
-
-# define DEG_TO_RAD (M_PI / 180.0)
-
 # define FOV (FOV_DEG * DEG_TO_RAD)
-
-# define MOUSE_SENS 1.5
-
-# define CH_SIZE 1
-
-# define CH_GAP 1
-
-# define CH_TYPE 1 // 0 - Just color 1 - Outlined 2 - Cross shape
-
-# define CH_COLOR 0xDD3333
-
-# define CH_OCOLOR 0x000000
-
-typedef double	t_vec[2];
 
 typedef struct	s_ray_vs
 {
@@ -175,18 +143,8 @@ int		cast_rays(t_vars **vars);
 int		set_starting_pdata(t_vars **vars);
 void	draw_crosshair(t_mlx_img *img);
 void	draw_minimap(t_mlx_img *img, t_vars	*vars);
-
-//vector functions
-void	add_vect(t_vec *sum_vect, t_vec vect_to_add);
-void	scale_vect(t_vec *vect, double scale);
-double	get_v_magnitude(t_vec vect);
-void	rotate_vec(t_vec *vec, double angle);
-int		compate_vectors(t_vec *vect1, t_vec *vect2);
-void	set_vect_to_vect(t_vec *vect_to_set, t_vec *vect_to_get);
-int		is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
-void	normalize_vector(t_vec	*vec);
 void	set_screen_vect(t_pos_v **pos);
-double	get_angle_between_vec(t_vec	*vec1, t_vec *vec2);
+int		is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
 
 // t_tex_info & t_map functions
 void	init_tex_info(t_tex_info *t);
