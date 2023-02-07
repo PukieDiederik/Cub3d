@@ -18,15 +18,16 @@
 int	b_putstr_fd(char *str, int fd)
 {
 	int	d;
+
 	d = write(fd, str, ft_strlen(str));
 	(void)d;
 	return (0);
 }
 
-t_vars **get_vars(void)
+t_vars	**get_vars(void)
 {
 	static t_vars	*vars;
-	
+
 	return (&vars);
 }
 
@@ -35,7 +36,7 @@ void	**get_mlx_ptr(void)
 	return (&(*get_vars())->mlx);
 }
 
-int	clear_exit()
+int	clear_exit(void)
 {
 	destroy_map((*get_vars())->map);
 	free((*get_vars())->map);
@@ -47,7 +48,6 @@ int	clear_exit()
 	free((*get_vars())->p_vec);
 	free((*get_vars()));
 	exit(0);
-
 }
 
 int	kb_interaction(int keycode, t_vars **vars)
@@ -58,8 +58,6 @@ int	kb_interaction(int keycode, t_vars **vars)
 	move_speed = 0.1;
 	set_vect_to_vect(&scaled_dir_vec, &(*vars)->p_vec->p_dir);
 	scale_vect(&scaled_dir_vec, move_speed);
-	// printf("direction vector in kb interation = %lfx %lfy - scaled %lfx %lfx\n",
-		//  (*vars)->p_vec->p_dir[0], (*vars)->p_vec->p_dir[1], scaled_dir_vec[0], scaled_dir_vec[1]);
 	if (keycode == L_ARROW)
 		rotate_vec(&((*vars)->p_vec->p_dir), 2);
 	else if (keycode == R_ARROW)
@@ -68,57 +66,58 @@ int	kb_interaction(int keycode, t_vars **vars)
 		clear_exit();
 	if (keycode == 119)
 	{
-		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
+		if (!is_movement_coliding(&(*vars)->p_vec->p_pos,
+				&scaled_dir_vec, vars))
 			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
 	}
 	else if (keycode == 97)
 	{
 		rotate_vec(&scaled_dir_vec, 90);
-		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
+		if (!is_movement_coliding(&(*vars)->p_vec->p_pos,
+				&scaled_dir_vec, vars))
 			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
 	}
 	else if (keycode == 115)
 	{
 		rotate_vec(&scaled_dir_vec, 180);
-		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
+		if (!is_movement_coliding(&(*vars)->p_vec->p_pos,
+				&scaled_dir_vec, vars))
 			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
 	}
 	else if (keycode == 100)
 	{
 		rotate_vec(&scaled_dir_vec, 270);
-		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, &scaled_dir_vec, vars))
+		if (!is_movement_coliding(&(*vars)->p_vec->p_pos,
+				&scaled_dir_vec, vars))
 			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
 	}
-	// printf("rotated scaled to add %lfx %lfx\n", scaled_dir_vec[0], scaled_dir_vec[1]);
-	// printf("final position vector in kb interaction %lfx %lfx\n", (*vars)->p_vec->p_pos[0], (*vars)->p_vec->p_pos[1]);
-
 	cast_rays(vars);
-	//printf("keycode = %d\n\n", keycode);
 	return (0);
 }
 
 int	mouse_aim(int x, int y, t_vars **vars)
 {
-	double		move_ammount;
+	double		move_amount;
 
 	(void)y;
-	if (x - W_W / 2 > (int)((int)W_W / 50)
-		|| x - W_W / 2  < -(int)((int)W_W / 50))
+	if (x - W_W / 2 > ((int)W_W / 50) || x - W_W / 2 < -((int)W_W / 50))
 	{
-		move_ammount = -2 * MOUSE_SENS;
+		move_amount = -2 * MOUSE_SENS;
 		if (x - W_W / 2 < 0)
-			move_ammount = -move_ammount;
-		rotate_vec(&(*vars)->p_vec->p_dir, move_ammount * MOUSE_SENS);	
+			move_amount = -move_amount;
+		rotate_vec(&(*vars)->p_vec->p_dir, move_amount * MOUSE_SENS);
 		cast_rays(vars);
 		mlx_mouse_move((*vars)->mlx, (*vars)->win, W_W / 2, W_H / 2);
 	}
 	return (1);
 }
 
-int	are_options_valid()
+int	are_options_valid(void)
 {
-	if (mm_s() + mm_b_s() * 2 + mm_spacer() > W_W || mm_s() + mm_b_s() * 2+ mm_spacer() < 0
-	|| mm_s() + mm_b_s() * 2+ mm_spacer() > W_W || mm_s() + mm_b_s() * 2 + mm_spacer() < 0)
+	if (mm_s() + mm_b_s() * 2 + mm_spacer() > W_W
+		|| mm_s() + mm_b_s() * 2 + mm_spacer() < 0
+		|| mm_s() + mm_b_s() * 2 + mm_spacer() > W_W
+		|| mm_s() + mm_b_s() * 2 + mm_spacer() < 0)
 		return (0);
 	if (MOUSE_SENS < 0 || CH_TYPE < 0 || CH_TYPE > 2
 		|| W_W / 2 - ((double)(CH_SIZE * 10) / W_W * W_W) - (CH_GAP * 5) - 1 < 0
@@ -129,28 +128,27 @@ int	are_options_valid()
 	return (1);
 }
 
-int	init_window()
+int	init_window(void)
 {
-	t_vars		**vars = get_vars();
+	t_vars	**vars;
 
-	(*vars)->win = mlx_new_window((*vars)->mlx,
-		W_W, W_H, "Cub3d");
+	vars = get_vars();
+	(*vars)->win = mlx_new_window((*vars)->mlx, W_W, W_H, "Cub3d");
 	(*vars)->render_buffer.img = mlx_new_image((*vars)->mlx, W_W, W_H);
 	(*vars)->render_buffer.addr = mlx_get_data_addr((*vars)->render_buffer.img,
-	&(*vars)->render_buffer.bits_per_pixel, &(*vars)->render_buffer.line_length,
-	&(*vars)->render_buffer.endian);
+			&(*vars)->render_buffer.bits_per_pixel,
+			&(*vars)->render_buffer.line_length,
+			&(*vars)->render_buffer.endian);
 	if (!set_starting_pdata(get_vars())
 		&& printf("Error in init data or FOV outside of range 1-179\n"))
 		return (0);
 	mlx_mouse_hide((*vars)->mlx, (*vars)->win);
 	cast_rays(get_vars());
-	//draw_minimap(get_vars());
-	mlx_hook((*vars)->win, 6, (1L<<6) ,&mouse_aim, vars);
+	mlx_hook((*vars)->win, 6, (1L << 6), &mouse_aim, vars);
 	mlx_hook((*vars)->win, ON_DESTROY, 0, &clear_exit, vars);
 	mlx_hook((*vars)->win, ON_KEYDOWN, (1L << 0), &kb_interaction, vars);
 	mlx_loop((*vars)->mlx);
 	return (1);
-
 }
 
 int	main(int argc, char **argv)
@@ -160,16 +158,11 @@ int	main(int argc, char **argv)
 	*get_vars() = malloc(sizeof(t_vars));
 	if (argc != 2 || !*get_vars())
 		return (b_putstr_fd("Error: Could not init\n", STDERR_FILENO) + 1);
-	// Initializes our MLX
 	*get_mlx_ptr() = mlx_init();
 	if (!*get_mlx_ptr())
 		return (b_putstr_fd("Error: MLX error\n", STDERR_FILENO) + 1);
-	// map will be a valid pointer on success, if any error this will be NULL
 	(*get_vars())->map = parse_map(argv[1], &(*get_vars())->tex_info);
 	if (!(*get_vars())->map)
 		return (b_putstr_fd("Error: Map error\n", STDERR_FILENO) + 1);
-	//print_map((*get_vars())->map);
-	//TODO: Raycasting & setting up MLX (hooks, window, etc...)
 	init_window();
-	// These are cleanup functions.
 }
