@@ -173,21 +173,23 @@ void	calc_rayds_to_face(t_vars **vars)
 {
 	if (!(*vars)->p_vec->ray.side)
 	{
-		(*vars)->p_vec->ray.wall_dist = (*vars)->p_vec->ray.side_dist[0] -
-			(*vars)->p_vec->ray.delta_dist[0];
+		(*vars)->p_vec->ray.wall_dist = (*vars)->p_vec->ray.side_dist[0]
+			- (*vars)->p_vec->ray.delta_dist[0];
 		(*vars)->p_vec->ray.face = 1;
 		if ((*vars)->p_vec->map_pos[0] < (*vars)->p_vec->p_pos[0])
 			(*vars)->p_vec->ray.face = 3;
-		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[1] + (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[1];
+		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[1]
+			+ (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[1];
 	}
 	else
 	{
-		(*vars)->p_vec->ray.wall_dist = (*vars)->p_vec->ray.side_dist[1] -
-			(*vars)->p_vec->ray.delta_dist[1];
+		(*vars)->p_vec->ray.wall_dist = (*vars)->p_vec->ray.side_dist[1]
+			- (*vars)->p_vec->ray.delta_dist[1];
 		(*vars)->p_vec->ray.face = 0;
 		if ((*vars)->p_vec->map_pos[1] > (*vars)->p_vec->p_pos[1])
 			(*vars)->p_vec->ray.face = 2;
-		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[0] + (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[0];
+		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[0]
+			+ (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[0];
 
 	}
 	(*vars)->p_vec->line_height = (int)(W_H / (*vars)->p_vec->ray.wall_dist);
@@ -196,7 +198,7 @@ void	calc_rayds_to_face(t_vars **vars)
 int	cast_rays(t_vars **vars)
 {
 	int	x_coord;
-	
+
 	set_screen_vect(&(*vars)->p_vec);
 	x_coord = -1;
 	while (++x_coord < W_W)
