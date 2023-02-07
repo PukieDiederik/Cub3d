@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/06 22:08:08 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:02:39 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,20 @@ int	mouse_aim(int x, int y, t_vars **vars)
 	return (1);
 }
 
+int	are_options_valid()
+{
+	if (MM_W + MM_B_W * 2 + MM_SPACER > W_W || MM_W + MM_B_W * 2+ MM_SPACER < 0
+	|| MM_H + MM_B_H * 2+ MM_SPACER > W_W || MM_H + MM_B_H * 2 + MM_SPACER < 0)
+		return (0);
+	if (MOUSE_SENS < 0 || CH_TYPE < 0 || CH_TYPE > 2
+		|| W_W / 2 - ((double)(CH_SIZE * 10) / W_W * W_W) - (CH_GAP * 5) - 1 < 0
+		|| W_H / 2 - ((double)(CH_SIZE * 10) / W_W * W_W) - (CH_GAP * 5) - 1 < 0
+		|| ((double)(CH_SIZE * 10) / W_W * W_W) + (CH_GAP * 5) > W_H / 2 - 1
+		|| ((double)(CH_SIZE * 10) / W_W * W_W) + (CH_GAP * 5) > W_W / 2 - 1)
+		return (0);
+	return (1);
+}
+
 int	init_window()
 {
 	t_vars		**vars = get_vars();
@@ -139,6 +153,8 @@ int	init_window()
 
 int	main(int argc, char **argv)
 {
+	if (!are_options_valid())
+		return (0);
 	*get_vars() = malloc(sizeof(t_vars));
 	if (argc != 2 || !*get_vars())
 		return (b_putstr_fd("Error: Could not init\n", STDERR_FILENO) + 1);

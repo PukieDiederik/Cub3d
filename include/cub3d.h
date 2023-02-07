@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/06 23:57:44 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:56:31 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,23 @@ typedef struct s_mlx_img
 }	t_mlx_img;
 
 //Constants
-# define W_H 1280
+# define W_H 720
 
-# define W_W 1600
+# define W_W 1280
 
-# define MM_W (int)(W_W / 7.0)
+# define MM_W (int)(W_W / 8)
 
-# define MM_H (int)(W_W / 7.0)
+# define MM_H (int)(W_W / 8)
 
 # define MM_B_H (double)MM_H / 20
 
 # define MM_B_W (double)MM_W / 20
 
-# define MM_WALL_C 0x775144
+# define MM_WALL_C 0x856548
 
 # define MM_SPACER_SCALE 20
 
-# define MM_SPACER (double)MM_W  / MM_SPACER_SCALE / W_W * W_W
+# define MM_SPACER ((double)MM_W  / ((double)MM_SPACER_SCALE / W_W * W_W))
 
 # define MOUSE_AIM_STEPS (int)((int)W_W / 50)
 
@@ -80,11 +80,11 @@ typedef struct s_mlx_img
 
 # define FOV (FOV_DEG * DEG_TO_RAD)
 
-# define MOUSE_SENS 1
+# define MOUSE_SENS 1.5
 
-# define CH_SIZE 1.0
+# define CH_SIZE 1
 
-# define CH_GAP 0.8
+# define CH_GAP 1
 
 # define CH_TYPE 1 // 0 - Just color 1 - Outlined 2 - Cross shape
 
@@ -174,8 +174,9 @@ void	**get_mlx_ptr(void);
 int		cast_rays(t_vars **vars);
 int		set_starting_pdata(t_vars **vars);
 void	draw_crosshair(t_mlx_img *img);
-//vector functions
+void	draw_minimap(t_mlx_img *img, t_vars	*vars);
 
+//vector functions
 void	add_vect(t_vec *sum_vect, t_vec vect_to_add);
 void	scale_vect(t_vec *vect, double scale);
 double	get_v_magnitude(t_vec vect);

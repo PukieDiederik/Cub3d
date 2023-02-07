@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:06:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/06 23:53:34 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/07 01:03:22 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	rotate_vec(t_vec *vec, double angle)
 	double	x;
 	double	y;
 	//printf("rotate vector called on vector %lfx %lfy\n", (*vec)[0], (*vec)[1]);
-//	angle += 180;
 	angle *= DEG_TO_RAD;
 	x = ((*vec)[0] * cos(angle)) + ((*vec)[1] * sin(angle));
 	y = ((*vec)[0] * -sin(angle)) + ((*vec)[1] * cos(angle));
