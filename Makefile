@@ -1,9 +1,14 @@
 ## File stuff
 SHELL		=/bin/zsh
 
-FNAMES 		=	cub3d.c parsing.c tex_info.c map.c is_map_enclosed.c utils.c map_utils.c read_map.c\
-				convert_color.c convert_tex.c raycasting.c vector_funcs.c	crosshair.c	minimap.c	\
-				constants.c vector_math.c vector_info.c vector_modify.c \
+FNAMES 		=	cub3d.c constants.c \
+				\
+ 				parsing.c tex_info.c map.c is_map_enclosed.c parsing_utils.c map_utils.c read_map.c \
+				convert_color.c convert_tex.c \
+				\
+				raycasting.c crosshair.c minimap.c \
+				\
+				vector_funcs.c vector_math.c vector_info.c vector_modify.c \
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.o)))
@@ -94,6 +99,7 @@ err_tests: $(NAME)
 
 vars:
 	@$(ECHO) "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
+	@$(ECHO) "$(GREEN)OFLAGS: $(WHITE)$(O_FLAGS)$(LO_FLAGS)$(RESET)"
 	@$(ECHO) "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
 	@$(ECHO) "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
 	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
