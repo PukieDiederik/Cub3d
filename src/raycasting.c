@@ -6,48 +6,13 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 22:22:09 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/08 15:58:59 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/08 16:18:38 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
 #include <time.h>
-
-void	set_starting_rdata(t_vars **vars)
-{
-	(*vars)->p_vec->ray.ray_dir[0] = 0;
-	(*vars)->p_vec->ray.ray_dir[1] = 0;
-	(*vars)->p_vec->ray.delta_dist[0] = 0;
-	(*vars)->p_vec->ray.delta_dist[1] = 0;
-	(*vars)->p_vec->ray.side_dist[0] = 0;
-	(*vars)->p_vec->ray.side_dist[1] = 0;
-}
-
-int	set_starting_pdata(t_vars **vars)
-{	
-	(*vars)->p_vec = malloc(sizeof(t_pos_v));
-	if (!(*vars)->p_vec || FOV_DEG > 179 || FOV_DEG < 1)
-	{
-		free((*vars)->p_vec);
-		return (0);
-	}
-	(*vars)->p_vec->p_pos[0] = (*vars)->map->player_spawn_x + 0.5;
-	(*vars)->p_vec->p_pos[1] = (*vars)->map->player_spawn_y + 0.5;
-	(*vars)->p_vec->p_dir[1] = 0;
-	(*vars)->p_vec->p_dir[0] = 0;
-	if ((*vars)->map->player_facing == 'N')
-		(*vars)->p_vec->p_dir[1] = -1;
-	else if ((*vars)->map->player_facing == 'S')
-		(*vars)->p_vec->p_dir[1] = 1;
-	else if (((*vars)->map->player_facing == 'W'))
-		(*vars)->p_vec->p_dir[0] = -1;
-	else if (((*vars)->map->player_facing == 'E'))
-		(*vars)->p_vec->p_dir[0] = 1;
-	(*vars)->p_vec->camera_x = 0;
-	set_starting_rdata(vars);
-	return (1);
-}
 
 void	calc_side_delta_dist(t_pos_v **pos)
 {
@@ -75,18 +40,6 @@ void	calc_side_delta_dist(t_pos_v **pos)
 		(*pos)->ray.side_d_nd[1] = (*pos)->map_pos[1] + 1 - (*pos)->p_pos[1];
 	(*pos)->ray.side_dist[1] = (*pos)->ray.side_d_nd[1]
 		* (*pos)->ray.delta_dist[1];
-}
-
-void	set_initial_x_rayd(t_vars **vars, int x_coord)
-{
-	(*vars)->p_vec->ray.hit_ = 0;
-	(*vars)->p_vec->map_pos[0] = (int)(*vars)->p_vec->p_pos[0];
-	(*vars)->p_vec->map_pos[1] = (int)(*vars)->p_vec->p_pos[1];
-	(*vars)->p_vec->camera_x = (2.0 * x_coord / (double)W_W) - 1;
-	(*vars)->p_vec->ray.ray_dir[0] = (*vars)->p_vec->p_dir[0]
-		+ -(*vars)->p_vec->screen[0] * (*vars)->p_vec->camera_x;
-	(*vars)->p_vec->ray.ray_dir[1] = (*vars)->p_vec->p_dir[1]
-		+ -(*vars)->p_vec->screen[1] * (*vars)->p_vec->camera_x;
 }
 
 void	check_screenp_x_y_move(t_vars **vars)
@@ -133,7 +86,6 @@ void	calc_rayds_to_face(t_vars **vars)
 			(*vars)->p_vec->ray.face = 2;
 		(*vars)->p_vec->ray.hit_pos = (*vars)->p_vec->p_pos[0]
 			+ (*vars)->p_vec->ray.wall_dist * (*vars)->p_vec->ray.ray_dir[0];
-
 	}
 	(*vars)->p_vec->line_height = (int)(W_H / (*vars)->p_vec->ray.wall_dist);
 }

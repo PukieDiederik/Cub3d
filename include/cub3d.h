@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/08 16:15:22 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/08 16:21:26 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,15 +128,16 @@ typedef struct s_vars {
 	t_pos_v		*p_vec;
 }	t_vars;
 
-// FUNCTIONS
-t_map			*parse_map(char *file, t_tex_info *ti);
+// Raycasting functions
 void			**get_mlx_ptr(void);
 int				cast_rays(t_vars **vars);
 int				set_starting_pdata(t_vars **vars);
 void			draw_crosshair(t_mlx_img *img);
 void			draw_minimap(t_mlx_img *img, t_vars	*vars);
 void			set_screen_vect(t_pos_v **pos);
-int				is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
+void			set_starting_rdata(t_vars **vars);
+int				set_starting_pdata(t_vars **vars);
+void			set_initial_x_rayd(t_vars **vars, int x_coord);
 
 //Constant functions
 double			mm_spacer(void);
@@ -153,14 +154,16 @@ int				convert_tex(char **s, t_tex_info *ti);
 t_list			*set_texture_info(t_tex_info *ti, t_list *f);
 
 // map functions
+t_map			*parse_map(char *file, t_tex_info *ti);
 t_map			*get_map(t_list *l);
 void			destroy_map(t_map *m);
 int				get_map_fd(char *file);
 t_list			*read_map(int fd);
 
-//Interaction
+//Interaction functions
 int				kb_interaction(int keycode, t_vars **vars);
 int				mouse_aim(int x, int y, t_vars **vars);
+int				is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
 
 // Utils
 int				is_player_char(char c);

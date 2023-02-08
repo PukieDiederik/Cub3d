@@ -1,7 +1,7 @@
 ## File stuff
 SHELL		=/bin/zsh
 
-FNAMES 		=	cub3d.c constants.c utils.c interaction.c view_drawing.c \
+FNAMES 		=	cub3d.c constants.c utils.c interaction.c view_drawing.c raycasting_inits.c \
 				\
  				parsing.c tex_info.c map.c is_map_enclosed.c parsing_utils.c map_utils.c read_map.c \
 				convert_color.c convert_tex.c \
