@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_info.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drobert- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:45:15 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/07 18:45:17 by drobert-         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:36:04 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	compate_vectors(t_vec *vect1, t_vec *vect2)
 			|| (int)(*vect1)[1] * 10000 > (int)(*vect2)[1] * 10000);
 }
 
+//Returns the angle between 2 vectors in degrees
 double	get_angle_between_vec(t_vec	*vec1, t_vec *vec2)
 {
 	double	angle;

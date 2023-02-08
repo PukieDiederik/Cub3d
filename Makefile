@@ -1,14 +1,15 @@
 ## File stuff
 SHELL		=/bin/zsh
 
-FNAMES 		=	cub3d.c constants.c \
+FNAMES 		=	cub3d.c constants.c utils.c interaction.c view_drawing.c \
 				\
  				parsing.c tex_info.c map.c is_map_enclosed.c parsing_utils.c map_utils.c read_map.c \
 				convert_color.c convert_tex.c \
 				\
 				raycasting.c crosshair.c minimap.c \
 				\
-				vector_funcs.c vector_math.c vector_info.c vector_modify.c \
+				vector_funcs.c vector_math.c vector_info.c vector_modify.c 
+				
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.o)))

@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:07:04 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/07 18:01:19 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/08 16:15:22 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,43 +129,52 @@ typedef struct s_vars {
 }	t_vars;
 
 // FUNCTIONS
-t_map	*parse_map(char *file, t_tex_info *ti);
-void	**get_mlx_ptr(void);
-int		cast_rays(t_vars **vars);
-int		set_starting_pdata(t_vars **vars);
-void	draw_crosshair(t_mlx_img *img);
-void	draw_minimap(t_mlx_img *img, t_vars	*vars);
-void	set_screen_vect(t_pos_v **pos);
-int		is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
+t_map			*parse_map(char *file, t_tex_info *ti);
+void			**get_mlx_ptr(void);
+int				cast_rays(t_vars **vars);
+int				set_starting_pdata(t_vars **vars);
+void			draw_crosshair(t_mlx_img *img);
+void			draw_minimap(t_mlx_img *img, t_vars	*vars);
+void			set_screen_vect(t_pos_v **pos);
+int				is_movement_coliding(t_vec *pos, t_vec *mov_vec, t_vars **vars);
 
 //Constant functions
-double	mm_spacer(void);
-double	mm_b_s(void);
-double	fov(void);
-int		mm_s(void);
-double	d_to_r(void);
+double			mm_spacer(void);
+double			mm_b_s(void);
+double			fov(void);
+int				mm_s(void);
+double			d_to_r(void);
 
 // t_tex_info & t_map functions
-void	init_tex_info(t_tex_info *t);
-void	destroy_tex_info(t_tex_info *t);
-int		convert_color(char **s, t_tex_info *ti);
-int		convert_tex(char **s, t_tex_info *ti);
-t_list	*set_texture_info(t_tex_info *ti, t_list *f);
+void			init_tex_info(t_tex_info *t);
+void			destroy_tex_info(t_tex_info *t);
+int				convert_color(char **s, t_tex_info *ti);
+int				convert_tex(char **s, t_tex_info *ti);
+t_list			*set_texture_info(t_tex_info *ti, t_list *f);
 
 // map functions
-t_map	*get_map(t_list *l);
-void	destroy_map(t_map *m);
-int		get_map_fd(char *file);
-t_list	*read_map(int fd);
+t_map			*get_map(t_list *l);
+void			destroy_map(t_map *m);
+int				get_map_fd(char *file);
+t_list			*read_map(int fd);
+
+//Interaction
+int				kb_interaction(int keycode, t_vars **vars);
+int				mouse_aim(int x, int y, t_vars **vars);
 
 // Utils
-int		is_player_char(char c);
-t_vars	**get_vars(void);
-void	**get_mlx_ptr(void);
-int		b_putstr_fd(char *str, int fd);
-void	my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color);
+int				is_player_char(char c);
+t_vars			**get_vars(void);
+void			**get_mlx_ptr(void);
+int				b_putstr_fd(char *str, int fd);
+int				clear_exit(void);
+int				are_options_valid(void);
 
+// View
+unsigned int	*get_img_color(t_mlx_img *img, int x, int y);
+void			my_mlx_pixel_put(t_mlx_img *r_buf, int x, int y, int color);
+void			draw_line(t_vars *vars, int x, double hit_x);
 // Debug
-void	print_map(t_map *m);
+void			print_map(t_map *m);
 
 #endif

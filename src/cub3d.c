@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/07 17:51:54 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:55:10 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,119 +14,6 @@
 #include "cub3d.h"
 #include "libft.h"
 #include <stdio.h>
-
-int	b_putstr_fd(char *str, int fd)
-{
-	int	d;
-
-	d = write(fd, str, ft_strlen(str));
-	(void)d;
-	return (0);
-}
-
-t_vars	**get_vars(void)
-{
-	static t_vars	*vars;
-
-	return (&vars);
-}
-
-void	**get_mlx_ptr(void)
-{
-	return (&(*get_vars())->mlx);
-}
-
-int	clear_exit(void)
-{
-	destroy_map((*get_vars())->map);
-	free((*get_vars())->map);
-	destroy_tex_info(&(*get_vars())->tex_info);
-	mlx_destroy_image((*get_vars())->mlx, (*get_vars())->render_buffer.img);
-	mlx_destroy_window((*get_vars())->mlx, (*get_vars())->win);
-	mlx_destroy_display((*get_vars())->mlx);
-	free((*get_vars())->mlx);
-	free((*get_vars())->p_vec);
-	free((*get_vars()));
-	exit(0);
-}
-
-int	kb_interaction(int keycode, t_vars **vars)
-{
-	t_vec	scaled_dir_vec;
-	double	move_speed;
-
-	move_speed = 0.1;
-	set_vect_to_vect(&scaled_dir_vec, &(*vars)->p_vec->p_dir);
-	scale_vect(&scaled_dir_vec, move_speed);
-	if (keycode == L_ARROW)
-		rotate_vec(&((*vars)->p_vec->p_dir), 2);
-	else if (keycode == R_ARROW)
-		rotate_vec(&((*vars)->p_vec->p_dir), -2);
-	if (keycode == ESC)
-		clear_exit();
-	if (keycode == 119)
-	{
-		if (!is_movement_coliding(&(*vars)->p_vec->p_pos,
-				&scaled_dir_vec, vars))
-			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
-	}
-	else if (keycode == 97)
-	{
-		rotate_vec(&scaled_dir_vec, 90);
-		if (!is_movement_coliding(&(*vars)->p_vec->p_pos,
-				&scaled_dir_vec, vars))
-			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
-	}
-	else if (keycode == 115)
-	{
-		rotate_vec(&scaled_dir_vec, 180);
-		if (!is_movement_coliding(&(*vars)->p_vec->p_pos,
-				&scaled_dir_vec, vars))
-			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
-	}
-	else if (keycode == 100)
-	{
-		rotate_vec(&scaled_dir_vec, 270);
-		if (!is_movement_coliding(&(*vars)->p_vec->p_pos,
-				&scaled_dir_vec, vars))
-			add_vect(&(*vars)->p_vec->p_pos, scaled_dir_vec);
-	}
-	cast_rays(vars);
-	return (0);
-}
-
-int	mouse_aim(int x, int y, t_vars **vars)
-{
-	double		move_amount;
-
-	(void)y;
-	if (x - W_W / 2 > ((int)W_W / 50) || x - W_W / 2 < -((int)W_W / 50))
-	{
-		move_amount = -2 * MOUSE_SENS;
-		if (x - W_W / 2 < 0)
-			move_amount = -move_amount;
-		rotate_vec(&(*vars)->p_vec->p_dir, move_amount * MOUSE_SENS);
-		cast_rays(vars);
-		mlx_mouse_move((*vars)->mlx, (*vars)->win, W_W / 2, W_H / 2);
-	}
-	return (1);
-}
-
-int	are_options_valid(void)
-{
-	if (mm_s() + mm_b_s() * 2 + mm_spacer() > W_W
-		|| mm_s() + mm_b_s() * 2 + mm_spacer() < 0
-		|| mm_s() + mm_b_s() * 2 + mm_spacer() > W_W
-		|| mm_s() + mm_b_s() * 2 + mm_spacer() < 0)
-		return (0);
-	if (MOUSE_SENS < 0 || CH_TYPE < 0 || CH_TYPE > 2
-		|| W_W / 2 - ((double)(CH_SIZE * 10) / W_W * W_W) - (CH_GAP * 5) - 1 < 0
-		|| W_H / 2 - ((double)(CH_SIZE * 10) / W_W * W_W) - (CH_GAP * 5) - 1 < 0
-		|| ((double)(CH_SIZE * 10) / W_W * W_W) + (CH_GAP * 5) > W_H / 2 - 1
-		|| ((double)(CH_SIZE * 10) / W_W * W_W) + (CH_GAP * 5) > W_W / 2 - 1)
-		return (0);
-	return (1);
-}
 
 int	init_window(void)
 {
