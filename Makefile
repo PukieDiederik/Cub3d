@@ -1,8 +1,15 @@
 ## File stuff
 SHELL		=/bin/zsh
 
-FNAMES 		=	cub3d.c parsing.c tex_info.c map.c is_map_enclosed.c utils.c map_utils.c read_map.c\
-				convert_color.c convert_tex.c
+FNAMES 		=	cub3d.c constants.c utils.c interaction.c view_drawing.c raycasting_inits.c \
+				\
+ 				parsing.c tex_info.c map.c is_map_enclosed.c parsing_utils.c map_utils.c read_map.c \
+				convert_color.c convert_tex.c \
+				\
+				raycasting.c crosshair.c minimap.c \
+				\
+				vector_funcs.c vector_math.c vector_info.c vector_modify.c 
+				
 
 SRCS		= 	$(addprefix $(SRCS_DIR)/,$(FNAMES))
 OBJS		= 	$(addprefix $(OBJS_DIR)/,$(notdir $(FNAMES:.c=.o)))
@@ -18,7 +25,9 @@ MLX			= mlx/libmlx_Linux.a
 ## Compilation
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra #-g -fsanitize=address
+O_FLAGS		= -O3 -march=native -ffast-math -funsafe-math-optimizations -ffinite-math-only 
+LO_FLAGS	= -flto
 INCLUDES	= -I $(INCLUDE_DIR) -I libft/include -I mlx
 LIBS		= -L libft -lft -L mlx -lmlx_Linux -lXext -lX11 -lm -lz
 ## Other
@@ -49,7 +58,7 @@ all: $(NAME)
 
 $(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
-	@gcc $(CFLAGS) -MMD -MP -c $(INCLUDES) $< -o $@
+	@gcc $(CFLAGS) $(O_FLAGS) -MMD -MP -c $(INCLUDES) $< -o $@
 
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
@@ -65,7 +74,7 @@ $(MLX):
 # regular targets
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@$(ECHO) "$(GREEN)>>>>> Linking <<<<<$(RESET)"
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(O_FLAGS) $(LO_FLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
 init:
 	@$(ECHO) "$(PURPLE)>>>>> Initializing this repository <<<<<$(RESET)"
@@ -91,6 +100,7 @@ err_tests: $(NAME)
 
 vars:
 	@$(ECHO) "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"
+	@$(ECHO) "$(GREEN)OFLAGS: $(WHITE)$(O_FLAGS)$(LO_FLAGS)$(RESET)"
 	@$(ECHO) "$(GREEN)CC: $(WHITE)$(CC)$(RESET)"
 	@$(ECHO) "$(GREEN)FNAMES: $(WHITE)$(FNAMES)$(RESET)"
 	@$(ECHO) "$(GREEN)SRCS: $(WHITE)$(SRCS)$(RESET)"
