@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:21:37 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/09 15:50:56 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:44:25 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ enum {
 # define W_W 1280
 
 //Minimap options
-# define MM_SCALE 8
+# define MM_SCALE 7
 # define MM_WALL_C 0x856548
 # define MM_SPACER_SCALE 20
 

@@ -32,7 +32,7 @@ INCLUDES	= -I $(INCLUDE_DIR) -I libft/include -I mlx
 LIBS		= -L libft -lft -L mlx -lmlx_Linux -lXext -lX11 -lm -lz
 ## Other
 
-NAME		= cub3d
+NAME		= cub3D
 RM			= rm -rf
 MAKE		= make -s
 
@@ -110,6 +110,8 @@ vars:
 norm:
 	@-norminette src include libft | sed /OK!/s//`printf "\033[32mOK!\033[0m"`/ \
 		| sed /^Error/s//`printf "\033[33mError\033[0m"`/  | sed /Error!/s//`printf "\033[31mError!\033[0m"`/
+
+bonus:	$(NAME)
 
 .PHONY: all clean fclean re vars err_tests
 

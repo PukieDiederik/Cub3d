@@ -6,11 +6,12 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:53:03 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/09 15:48:30 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:44:33 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
 static void	mov_interactions(int keycode, t_vars **vars, t_vec *s_d_v)
 {
@@ -44,6 +45,7 @@ int	kb_interaction(int keycode, t_vars **vars)
 	t_vec	s_d_v;
 	double	move_speed;
 
+	printf("keycode = %d\n", keycode);
 	move_speed = 0.1;
 	set_vect_to_vect(&s_d_v, &(*vars)->p_vec->p_dir);
 	scale_vect(&s_d_v, move_speed);
