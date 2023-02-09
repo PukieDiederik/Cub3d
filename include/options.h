@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:21:37 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/08 15:45:35 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:50:56 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ enum {
 # define FOV_DEG 80
 
 //Mouse options
-# define MOUSE_SENS 1
+# define MOUSE_SENS 1.5
 
 //Crosshair options
 # define CH_SIZE 1

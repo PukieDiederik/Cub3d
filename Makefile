@@ -25,7 +25,7 @@ MLX			= mlx/libmlx_Linux.a
 ## Compilation
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra #-g -fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra #-g -fsanitize=leak
 O_FLAGS		= -O3 -march=native -ffast-math -funsafe-math-optimizations -ffinite-math-only 
 LO_FLAGS	= -flto
 INCLUDES	= -I $(INCLUDE_DIR) -I libft/include -I mlx
@@ -58,7 +58,7 @@ all: $(NAME)
 
 $(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(ECHO) "$(GREEN)>>>>> Compiling $(RESET)$(notdir $<)$(GREEN) -> $(RESET)$(notdir $@)$(RESET)"
-	@gcc $(CFLAGS) $(O_FLAGS) -MMD -MP -c $(INCLUDES) $< -o $@
+	@$(CC) $(CFLAGS) $(O_FLAGS) -MMD -MP -c $(INCLUDES) $< -o $@
 
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
@@ -96,7 +96,7 @@ fclean: clean
 re: fclean all
 
 err_tests: $(NAME)
-	@$(foreach cmd,$(ERR_TEST_FILES),echo -n "$(GREEN)$(notdir $(cmd))$(RESET) | ";./$(NAME) $(cmd);)
+	@$(foreach cmd,$(ERR_TEST_FILES),echo -n "$(GREEN)$(notdir $(cmd))$(RESET) | ";valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(cmd);)
 
 vars:
 	@$(ECHO) "$(GREEN)CFLAGS: $(WHITE)$(CFLAGS)$(RESET)"

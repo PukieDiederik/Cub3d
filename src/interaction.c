@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:53:03 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/08 15:58:04 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:48:30 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 static void	mov_interactions(int keycode, t_vars **vars, t_vec *s_d_v)
 {
-	if (keycode == 119)
+	if (keycode == W_K)
 	{
 		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, s_d_v, vars))
 			add_vect(&(*vars)->p_vec->p_pos, *s_d_v);
 	}
-	else if (keycode == 97)
+	else if (keycode == D_K)
 	{
 		rotate_vec(s_d_v, 90);
 		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, s_d_v, vars))
 			add_vect(&(*vars)->p_vec->p_pos, *s_d_v);
 	}
-	else if (keycode == 115)
+	else if (keycode == S_K)
 	{
 		rotate_vec(s_d_v, 180);
 		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, s_d_v, vars))
 			add_vect(&(*vars)->p_vec->p_pos, *s_d_v);
 	}
-	else if (keycode == 100)
+	else if (keycode == A_K)
 	{
 		rotate_vec(s_d_v, 270);
 		if (!is_movement_coliding(&(*vars)->p_vec->p_pos, s_d_v, vars))
