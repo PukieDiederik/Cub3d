@@ -72,7 +72,7 @@ static void	paint_mm_pos(t_mlx_img *img, t_vec map, t_vars *vars, int c[2])
 		my_mlx_pixel_put(img,
 			c[0] + mm_b_s() + mm_spacer(), c[1] + mm_b_s() + mm_spacer(),
 			MM_WALL_C);
-	else if ((vars->map->map[(int)(map[1] * vars->map->width + map[0])] == '0'))
+	else if (vars->map->map[(int)(map[1] * vars->map->width + map[0])] == '0')
 		my_mlx_pixel_put(img,
 			c[0] + mm_b_s() + mm_spacer(), c[1] + mm_b_s() + mm_spacer(),
 			vars->tex_info.floor_color);

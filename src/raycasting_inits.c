@@ -38,9 +38,9 @@ int	set_starting_pdata(t_vars **vars)
 		(*vars)->p_vec->p_dir[1] = -1;
 	else if ((*vars)->map->player_facing == 'S')
 		(*vars)->p_vec->p_dir[1] = 1;
-	else if (((*vars)->map->player_facing == 'W'))
+	else if ((*vars)->map->player_facing == 'W')
 		(*vars)->p_vec->p_dir[0] = -1;
-	else if (((*vars)->map->player_facing == 'E'))
+	else if ((*vars)->map->player_facing == 'E')
 		(*vars)->p_vec->p_dir[0] = 1;
 	(*vars)->p_vec->camera_x = 0;
 	set_starting_rdata(vars);
