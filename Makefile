@@ -25,7 +25,7 @@ MLX			= mlx/libmlx_Linux.a
 ## Compilation
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra #-g -fsanitize=leak
+CFLAGS		= -Wall -Werror -Wextra -pedantic #-g -fsanitize=leak
 O_FLAGS		= -O3 -march=native -ffast-math -funsafe-math-optimizations -ffinite-math-only 
 LO_FLAGS	= -flto
 INCLUDES	= -I $(INCLUDE_DIR) -I libft/include -I mlx
