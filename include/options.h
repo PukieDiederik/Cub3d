@@ -24,7 +24,7 @@ enum {
 # define W_W 1280
 
 //Minimap options
-# define MM_SCALE 8
+# define MM_SCALE 7
 # define MM_WALL_C 0x856548
 # define MM_SPACER_SCALE 20
 
@@ -32,7 +32,7 @@ enum {
 # define FOV_DEG 80
 
 //Mouse options
-# define MOUSE_SENS 1
+# define MOUSE_SENS 1.5
 
 //Crosshair options
 # define CH_SIZE 1

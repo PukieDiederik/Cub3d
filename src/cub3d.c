@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:14:14 by drobert-          #+#    #+#             */
-/*   Updated: 2023/02/08 15:55:10 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:39:59 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,28 @@ int	init_window(void)
 int	main(int argc, char **argv)
 {
 	if (!are_options_valid())
-		return (0);
+		return (1);
 	*get_vars() = malloc(sizeof(t_vars));
-	if (argc != 2 || !*get_vars())
-		return (b_putstr_fd("Error: Could not init\n", STDERR_FILENO) + 1);
+	if ((argc != 2 || !*get_vars())
+		&& b_putstr_fd("Error: Could not init\n", STDERR_FILENO) + 1)
+	{
+		free(*get_vars());
+		return (1);
+	}
 	*get_mlx_ptr() = mlx_init();
-	if (!*get_mlx_ptr())
-		return (b_putstr_fd("Error: MLX error\n", STDERR_FILENO) + 1);
+	if (!*get_mlx_ptr() && b_putstr_fd("Error: MLX error\n", STDERR_FILENO) + 1)
+	{
+		free(*get_vars());
+		return (1);
+	}
 	(*get_vars())->map = parse_map(argv[1], &(*get_vars())->tex_info);
-	if (!(*get_vars())->map)
-		return (b_putstr_fd("Error: Map error\n", STDERR_FILENO) + 1);
+	if (!(*get_vars())->map
+		&& b_putstr_fd("Error: Map error\n", STDERR_FILENO) + 1)
+	{
+		mlx_destroy_display((*get_vars())->mlx);
+		free((*get_vars())->mlx);
+		free(*get_vars());
+		return (1);
+	}
 	init_window();
 }

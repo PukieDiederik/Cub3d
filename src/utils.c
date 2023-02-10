@@ -6,7 +6,7 @@
 /*   By: leferrei <leferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:55:14 by leferrei          #+#    #+#             */
-/*   Updated: 2023/02/08 15:55:25 by leferrei         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:44:03 by leferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	are_options_valid(void)
 {
 	if (mm_s() + mm_b_s() * 2 + mm_spacer() > W_W
 		|| mm_s() + mm_b_s() * 2 + mm_spacer() < 0
-		|| mm_s() + mm_b_s() * 2 + mm_spacer() > W_W
+		|| mm_s() + mm_b_s() * 2 + mm_spacer() > W_H
 		|| mm_s() + mm_b_s() * 2 + mm_spacer() < 0)
-		return (0);
+		return (b_putstr_fd("Incorrect minimap parameters\n", STDERR_FILENO));
 	if (MOUSE_SENS < 0 || CH_TYPE < 0 || CH_TYPE > 2
 		|| W_W / 2 - ((double)(CH_SIZE * 10) / W_W * W_W) - (CH_GAP * 5) - 1 < 0
 		|| W_H / 2 - ((double)(CH_SIZE * 10) / W_W * W_W) - (CH_GAP * 5) - 1 < 0
 		|| ((double)(CH_SIZE * 10) / W_W * W_W) + (CH_GAP * 5) > W_H / 2 - 1
 		|| ((double)(CH_SIZE * 10) / W_W * W_W) + (CH_GAP * 5) > W_W / 2 - 1)
-		return (0);
+		return (b_putstr_fd("Incorrect crosshair parameters\n", STDERR_FILENO));
 	return (1);
 }

@@ -5,6 +5,8 @@ obj
 # bin files
 cub3d
 
+cub3D
+
 #ignore editor files
 .code
 .vscode
