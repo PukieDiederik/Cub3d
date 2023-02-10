@@ -35,18 +35,16 @@ t_map	*parse_map(char *file, t_tex_info *ti)
 	if (fd < 0)
 		return (0);
 	l = read_map(fd);
-	if (ft_lstsize(l) <= 9)
+	if (!l || ft_lstsize(l) <= 9 || !set_texture_info(ti, l))
 	{
+		destroy_tex_info(ti);
 		ft_putstr_fd("Error: Invalid map size\n", 2);
 		ft_lstclear(&l, free);
 		return (0);
 	}
-	if (!set_texture_info(ti, l))
-	{
-		ft_lstclear(&l, free);
-		return (0);
-	}
 	m = get_map(l->next->next->next->next->next->next);
+	if (!m)
+		destroy_tex_info(ti);
 	ft_lstclear(&l, free);
 	close(fd);
 	return (m);
